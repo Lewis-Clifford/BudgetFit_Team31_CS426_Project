@@ -20,7 +20,7 @@ top:${({ isOpen }) => (isOpen ? '0%' : '-100%')};
 
 export const X = styled.div`
 position: absolute;
-top: 3rem;
+top: 1rem;
 right: 2.5rem;
 background: transparent;
 font-size: 4rem;
@@ -40,6 +40,8 @@ display: grid;
 grid-template-columns: 1fr;
 grid-template-rows: repeat(5, 160px);
 text-align: center;
+position:relative;
+top: 55px;
 
 `
 
@@ -73,7 +75,7 @@ export const ButtonNavigate = styled.div`
 display: flex;
 position: relative;
 left: 25px;
-top: -130px;
+top: -75px;
 justify-content: center;
 `
 
