@@ -1,8 +1,9 @@
 import React, {useState} from 'react'
-import MobileBar from "../components/navbar/mobilebar";
-import Navbar from '../components/navbar/navigationbar/index';
+import MobileBar from "../components/folders/mobilebar";
+import Navbar from '../components/folders/navigationbar/index';
+import HomeSection from '../components/folders/homesection';
 
-const HomePage = () => {
+const HomePage = ({isVisible}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => {
@@ -10,10 +11,11 @@ const HomePage = () => {
   };
 
   return (
-    <>
+    <div>
+
       <MobileBar isOpen ={isOpen} toggle ={toggle}/>
       <Navbar toggle={toggle}/>
-      </>
+      </div>
   );
 };
 
