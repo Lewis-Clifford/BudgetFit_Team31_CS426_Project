@@ -7,6 +7,7 @@ import AboutPage from "../BudgetFitPages/about";
 import LoginPage from "../BudgetFitPages/login";
 import {AnimatePresence} from 'framer-motion';
 import RealHome from '../BudgetFitPages/realhome';
+import SignUp from '../BudgetFitPages/signup';
 
 function Animation() {
 const location = useLocation();
@@ -14,6 +15,7 @@ const location = useLocation();
   return (
     <AnimatePresence>
     <Routes location={location} key={location.pathname}>
+          <Route path="/signup" element = {<SignUp/>}/>
           <Route path="/" element = {<RealHome/>}/>
           <Route path="/shop" element ={<ShopPage/>}/>
           <Route path="/diet" element ={<DietPage/>}/>

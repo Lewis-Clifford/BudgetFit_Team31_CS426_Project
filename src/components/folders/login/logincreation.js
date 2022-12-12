@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-
+import { Link as LinkRouter } from 'react-router-dom';
 import Logo from "../../../components/BF.png"
+
 
 
 export const StyledInput = styled.input`
@@ -19,7 +20,7 @@ outline: 0;
 margin: 5px auto 15px auto;
 transition: ease-in-out 0.5s;
 
-${(props) => props.invalid && `background-color: red; color: brown`}
+${(props) => props.invalid && `border-bottom-color: red; color: brown`}
 
 &:focus{
   border-bottom-color: #0951d9;
@@ -38,7 +39,6 @@ background-color: #fff;
 text-align: center;
 padding: 45px 55px;
 width: 500px;
-height: 500px;
 margin-left: auto;
 margin-right: auto;
 margin-top: 60px;
@@ -51,8 +51,6 @@ border-image-source: linear-gradient(#73b464 , #474b4f);
 
 
 `
-
-
 
 export const StyledFormButtom = styled.button`
 padding: 10px;
@@ -76,6 +74,32 @@ transition: ease-in-out 0.2s;
   color: #474b4f
 }
 `
+
+export const RegisterButton = styled(LinkRouter)`
+padding: 10px;
+width: 405px;
+background-color: #73b464;
+font-size: 16px;
+border: 4px solid #73b464;
+color: #fff;
+transition: ease-in-out 0.2s;
+text-decoration: none;
+
+
+&:hover{
+  background-color: #474b4f;
+  border: 4px solid #474b4f;
+  color: #fff;
+  cursor: pointer;
+}
+
+&:active {
+  background-color: #73b464;
+  border: 4px solid #73b464;
+  color: #474b4f
+}
+`
+
 
 export const Img = styled.div`
 width: 80px;
@@ -121,7 +145,9 @@ text-align: right;
 color: #474b4f;
 margin: -10px 40px -20px;
 cursor: pointer;
-text-decoration: underline;
+&:active{
+  text-decoration: underline;
+} 
 ` 
 export const Icon = styled.p`
 color: #474b4f;
@@ -131,3 +157,15 @@ top: -9.6px;
 left: 50px;
 ${(props) => props.right && `left: 420px; `}
 `
+
+export const YupError =  styled.div`
+font-size: 13px;
+color: red;
+margin-top: -5px;
+margin-bottom: 10px;
+text-align: left;
+margin-left: 35px;
+
+`
+
+
