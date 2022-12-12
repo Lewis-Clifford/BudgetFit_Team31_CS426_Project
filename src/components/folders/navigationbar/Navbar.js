@@ -1,5 +1,6 @@
 import styled from  'styled-components';
 import { Link as LinkRouter } from 'react-router-dom';
+import Logo from "../../../components/BF.png"
 
 
 export const Nav = styled.nav`
@@ -19,7 +20,7 @@ export const Nav = styled.nav`
 export const IconM = styled.div`
 display: none;
 
- @media screen and (max-width: 767px) {
+ @media screen and (max-width: 820px) {
   display: block;
   position: absolute;
   color: white;
@@ -35,7 +36,7 @@ display: flex;
 align-items: center;
 margin-right -24px;
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 820px) {
   display: none; 
 }
 `
@@ -82,7 +83,7 @@ display: flex;
 align-items: center;
 margin-right: 24px;
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 820px) {
   display: none;
 }
 `
@@ -102,6 +103,15 @@ text-decoration: none;
 &:hover {
   transition: all 0.5 ease-in-out;
   background: white;
-  color: darkblue;
+  color: #474b4f;
 }
+`
+export const Img = styled.div`
+width: 80px;
+height: 80px;
+background-image: url(${Logo});
+background-size: cover;
+background-position: center;
+margin: left;
+pointerEvents = none;
 `

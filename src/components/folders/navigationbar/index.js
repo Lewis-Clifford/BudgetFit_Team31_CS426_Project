@@ -1,12 +1,12 @@
 import React from 'react'
-import {Nav, IconM, Menu, NavLink, Btn, Btnl, Item} from './Navbar';
+import {Nav, IconM, Menu, NavLink, Btn, Btnl, Item, Img} from './Navbar';
 import {VscThreeBars} from 'react-icons/vsc'
 
 const Navbar = ({toggle}) => {
   return (
     <>
     <Nav>
-            <NavLink to = '/'><img className="BudgetFitLogo" src={`${process.env.PUBLIC_URL}/assets/images/BF.png`} alt="logo" width="80" pointerEvents="none"/></NavLink>
+            <NavLink to = '/'><Img/></NavLink>
             <IconM onClick = {toggle}>
                 <VscThreeBars />
             </IconM>

@@ -31,7 +31,7 @@ border-radius: 50px;
 background: white;
 white-space: nowrap;
 padding: 20px 80px;
-color: black;
+color: #474b4f;
 font-size: 40px;
 cursor: pointer;
 transition: all 0.2s ease-in-out;
@@ -42,8 +42,8 @@ text-decoration: none;
 
 &:hover {
   transition: all 0.5 ease-in-out;
-  background: white;
-  color: darkblue;
+  background: #474b4f;
+  color: #fff;
 }
 `
 
