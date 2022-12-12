@@ -1,5 +1,5 @@
 import {useField} from 'formik';
-import { StyledInput, Label, Icon} from './logincreation'
+import { StyledInput, Label, Icon, YupError} from './logincreation'
 import {FiEyeOff, FiEye} from 'react-icons/fi'
 import {useState} from 'react';
 
@@ -13,12 +13,14 @@ export const Input = ({icon, ...props}) => {
         {props.label}
     </Label>
     {props.type !== "password" &&<StyledInput
+        invalid = {meta.touched && meta.error}
         {...field}
         {...props}
     />}
 
     {props.type === "password" && 
     (<StyledInput 
+        invalid = {meta.touched && meta.error}
         {...field} 
         {...props}
         type={enable ? "text" : "password"}
@@ -28,10 +30,13 @@ export const Input = ({icon, ...props}) => {
         {icon}
     </Icon>
     {
-        props.type === "password" && <Icon onClick= {() => allowEnable(!enable)} right>
+        props.type === "password" && (<Icon onClick= {() => allowEnable(!enable)} right>
             {enable && <FiEye cursor="pointer"/> }
             {!enable && <FiEyeOff cursor="pointer"/> }
             </Icon>
-    }
-    </div>)
-}
+    )}
+
+  {meta.touched && meta.error ? (<YupError>{meta.error}</YupError>): (<YupError style={{visibility:"hidden"}}>.</YupError>)}
+    </div>
+    );
+};
