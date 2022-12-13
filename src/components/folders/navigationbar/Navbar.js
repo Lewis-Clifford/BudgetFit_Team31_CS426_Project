@@ -90,7 +90,7 @@ margin-right: 24px;
 
 export const Btnl = styled(LinkRouter)`
 border-radius: 50px;
-background: #73b464;
+background: #72b264;
 white-space: nowrap;
 padding: 16px 40px;
 color: white;

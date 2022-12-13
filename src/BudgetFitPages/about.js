@@ -1,9 +1,11 @@
 import React from 'react'
+import About from '../components/folders/about/index'
+
 
 const AboutPage = () => {
   return (
     <div>
-        <h1>We are in the about page.</h1>
+        <About/>
     </div>
   )
 }

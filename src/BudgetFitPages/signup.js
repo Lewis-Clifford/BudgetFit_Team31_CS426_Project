@@ -1,10 +1,11 @@
 import React from 'react'
 import LoginForm from '../components/folders/login'
+import Register from '../components/folders/signup'
 
 const SignUp = () => {
   return (
     <div>
-        <h1>Yo</h1>
+        <Register/>
     </div>
   )
 }
