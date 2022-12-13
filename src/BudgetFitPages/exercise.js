@@ -22,18 +22,22 @@ const ExercisePage = () => {
                         <h3 class="center1">Part 1</h3>
                         <div class="place-tile-text">
                             <span class="list-center">a. Maintain Weight</span>
+                        </div>
                         <div class="clear"></div>
                         <br />
                         <div class="place-tile-text">
                             <span class="list-center">b. Gain Healthy Weight</span>
+                        </div>
                         <div class="clear"></div>
                         <br />
                         <div class="place-tile-text">
                             <span class="list-center">c. Lose Healthy Weight</span>
+                        </div>
                         <div class="clear"></div>
                         <br />
                         <div class="place-tile-text">
                             <span class="list-center">d. Unsure</span>
+                        </div>
                         <div class="clear"></div>
                         <br />
                         <br />
@@ -44,6 +48,7 @@ const ExercisePage = () => {
                 </div>
             </div>
         </div>
+    </div>
     </div>
     </div>
   )
