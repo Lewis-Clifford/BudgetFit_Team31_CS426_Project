@@ -1,0 +1,87 @@
+.centered-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+@color-dark: rgba(71, 71, 71, 1); 
+
+.cus_pad {
+    padding: 4% 7%;
+}
+
+.cus_body {
+    height: 100%;
+    background: linear-gradient(to right, #8CDE52, #81E33B);
+}
+
+.cus_main {
+    height: 90%;
+    width: 100%;
+    background-color: #F2F2F2;
+}
+
+.btn-primary.custom-btn {
+    background-color: #99DCF2;
+    border-color: #80D7D9;
+    width: 100%;
+}
+
+.center1 {
+    text-align: center;
+}
+
+.box {
+    background-color: #FAFAFA;
+    width: 40%;
+    min-width: 390px;
+    height: auto;
+    left: 50%;
+    top: 45%;
+    padding: 20px 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+    margin: 10px;
+}
+
+.box input {
+    width: 100%;
+    margin: 4px 0;
+    padding: 10px;
+    outline: none;
+    border-radius: 5px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.list-center {
+    float: left;
+}
+
+.place-tile-text { 
+    height: 3rem;
+    .list-center {
+        height: 3rem;
+    }
+}
+
+.cus-list {
+    font-size: 16px;
+    text-rendering: optimizeLegibility;
+}
+
+.tile-group, .place-tile-text {
+    background-color: @color-dark;
+}
+
+.clear {
+    clear: both;
+    margin: 0px;
+    margin: 0px;
+}
