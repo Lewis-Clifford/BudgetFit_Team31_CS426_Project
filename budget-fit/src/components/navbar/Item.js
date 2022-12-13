@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
+import Bread from '../bread.png';
 
 class Item extends Component {
     state = { 
-        name: "",
-        imageUrl: "",
+        name: "Item Name",
+        imageUrl: null,
         cost: 0.00,
-        store: ""
+        store: "Store Name"
      };
 
-    constructor(name, imageUrl, cost, store) {
+    constructor(name, store, cost, imageUrl) {
+        super();
         this.name = name;
         this.imageUrl = imageUrl;
         this.cost = cost;
@@ -46,7 +48,13 @@ class Item extends Component {
         return this.store;
     }
     render() { 
-        return ;
+        return (
+            <div>
+                <text>{ this.state.name }</text>
+                <img src={ this.state.imageUrl } alt={ this.state.name } />
+                <text>${ this.state.cost } { this.state.store }</text>
+            </div>
+        );
     }
 }
  
