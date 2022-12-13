@@ -9,7 +9,7 @@ const DietPage = () => {
   return (
     <div>
     <MobileBar />
-    <NavBar />
+    <Navbar />
     <div className="centered-div">
         <div class="container">
             <div class="box ">
@@ -22,19 +22,19 @@ const DietPage = () => {
                         <form>
                             <input type="radio" id="keto" name="diet_type" value="keto-diet" />
                                 <label for="keto">Keto Diet (Low-no carbohydrates)</label>
-                                <br>
+                                <br/>
                             <input type="radio" id="veget" name="diet_type" value="veget-diet" />
                                 <label for="keto">Vegetarian Diet (No meat)</label>
-                                <br>
+                                <br/>
                             <input type="radio" id="vegab" name="diet_type" value="vegan-diet" />
                                 <label for="keto">Vegan Diet (No meat or dairy)</label>
-                                <br>
+                                <br/>
                             <input type="radio" id="carni" name="diet_type" value="carni-diet" />
                                 <label for="keto">Carnivore Diet (Strictly animal based)</label>
-                                <br>
+                                <br/>
                             <input type="radio" id="paleo" name="diet_type" value="paleo-diet" />
                                 <label for="keto">Paleo Diet (Strictly whole foods, avoid processed)</label>
-                                <br>
+                                <br/>
                             <input type="radio" id="none" name="diet_type" value="no-diet" />
                                 <label for="keto">I <strong>do not</strong> plan on eating any of these diets</label>
                                 <br />

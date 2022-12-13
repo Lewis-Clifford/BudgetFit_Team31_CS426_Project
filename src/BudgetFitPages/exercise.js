@@ -9,7 +9,7 @@ const ExercisePage = () => {
   return (
     <div>
     <MobileBar />
-    <NavBar />
+    <Navbar />
     <div className="centered-div">
         <div class="container">
             <div class="box ">
@@ -50,7 +50,7 @@ const ExercisePage = () => {
         </div>
     </div>
     </div>
-    </div>
+    
   )
 }
 

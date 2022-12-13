@@ -84,7 +84,17 @@ function ShopList()  {
         return (walmart === true) ? "Walmart" : "Smith's";
     }
 
-    
+    const avgPrice = (list) => {
+        let prevAvg = 19.65;
+        let sum = 0;
+        for(let i = 0; i < list.length; i++){
+            sum += list[i].price;
+        }
+        
+        let avg1 = ((sum + prevAvg)/2);
+        if(list.length === 0) return prevAvg;
+        return avg1.toFixed(2);
+    }
 
     return (
         <div className="grid-container">
@@ -158,8 +168,9 @@ function ShopList()  {
                     }}><img src={Bacon} alt="" height={100} width= {100}/></button1>
                     <h5>Great Value Bacon, 16 oz</h5>
                 </div>
-            <h1>Your Shopping List Cost: {priceSum(list)}</h1>
+            <h1>Your Shopping List Cost: ${priceSum(list)}</h1>
             <h1>Your Recommended Store: {storeRec(list)}</h1>
+            <h1>Your Average Spending: ${avgPrice(list)}</h1>
         </div>
     );
     
