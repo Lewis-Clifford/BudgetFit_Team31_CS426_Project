@@ -1,3 +1,6 @@
+//Author: Clifford Lewis
+//BudgetFit Shop Page Functionality
+
 import React, { Component } from 'react';
 import Bread from '../../../components/bread.png';
 import Eggs from '../../../components/eggs.jpeg';

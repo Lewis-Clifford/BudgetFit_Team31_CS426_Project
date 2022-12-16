@@ -8,8 +8,7 @@ import '../components/folders/diet/dietsection.css'
 const DietPage = () => {
   return (
     <div>
-    <MobileBar />
-    <Navbar />
+    
     <div className="centered-div">
         <div class="container">
             <div class="box ">

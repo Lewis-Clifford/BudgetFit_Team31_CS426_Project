@@ -8,8 +8,7 @@ import '../components/folders/exercise/exercisesection.css'
 const ExercisePage = () => {
   return (
     <div>
-    <MobileBar />
-    <Navbar />
+    
     <div className="centered-div">
         <div class="container">
             <div class="box ">

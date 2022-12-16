@@ -1,3 +1,8 @@
+/*
+Author: Clifford Lewis
+This file contains css data for the Shop Page.
+It is used by shoplist.js for configuring the page.
+*/
 .shoplist {
     width: 50%;
     height: 50vh;

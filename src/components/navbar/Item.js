@@ -1,5 +1,9 @@
+//Author: Clifford Lewis
+//This class encapsulates food item data
+//It is currently unused as react has several permission issues with state variables and failed to render changes when implemented with shoplist.js
+
 import React, { Component } from 'react';
-import Bread from '../bread.png';
+
 
 class Item extends Component {
     state = { 
