@@ -1,31 +1,40 @@
 from flask import Flask, jsonify, request
+from models import Item, ItemSchema
 
 app = Flask(__name__)
 
 items = [
-    {'name': 'eggs', 'price': 2.99}
+    Item("Bread", 3.99, "Smith's", "Starch"),
+    Item("Eggs", 6.99, "WalMart", "Protein")
     
 ]
 
 
 
-@app.route('/items')
+@app.route('/items') #router, defaults to GET method
 
 def getItems():
-    return jsonify(items)
+    
+    schema = ItemSchema(many=True) #defines schema object
+    itemList = schema.dump(items) #serializes list of items
 
-@app.route('/items', methods=['POST'])
+    return jsonify(itemList)
+
+@app.route('/items', methods=['POST']) #POST endpoint
 
 def addItem():
-    items.append(request.get_json())
-    return '', 204
+    newItem = ItemSchema().load(request.get_json())
+    items.append(newItem)
+    return 'Posted', 204
 
 @app.route('/items', methods=['DELETE'])
 
 def removeItem():
 
+    rItem:Item = ItemSchema().load(request.get_json())
+
     try:
-        items.remove(request.get_json())
+        items.remove(rItem)
         return 'Ok', 200
 
     except:
