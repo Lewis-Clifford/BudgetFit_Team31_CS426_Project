@@ -12,6 +12,9 @@ class Item(object):
 
         return '<Item(name={self.name!r}'.format(self=self)
 
+    def __eq__(self, other):
+        return ((self.name == other.name) and (self.store == other.store))
+
 class ItemSchema(Schema):
     name = fields.Str()
     price = fields.Number()
