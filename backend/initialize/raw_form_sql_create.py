@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 
 metadata = MetaData()
 
-engine = create_engine('please_add_correct_uri')
+engine = create_engine('localhost:5000/working_schema')
 metadata.create_all(engine)
 
 #with engine.connect() as con:
