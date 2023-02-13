@@ -1,11 +1,17 @@
 #endpoint to receive json data from register page
 
 from flask import Flask, jsonify, request
+from flask_cors import CORS, cross_origin
 
 register = Flask(__name__)
 
+cors = CORS(register)
+
+register.config['CORS_HEADERS'] = 'Content-Type'
+
 registerForm = []
 
+@cross_origin()
 
 @register.route('/register', methods=['GET'])
 
@@ -21,9 +27,9 @@ def registerGet():
 def registerPost():
     
     try:
-        registerForm.append(request.get_json)
+        registerForm = request.get_json()
         print(registerForm)
-        return 'Success', 200
+        return jsonify(registerForm)
 
     except:
         return 'Failed', 400
@@ -37,3 +43,6 @@ def registerDelete():
 
     except:
         return 'Failed', 400
+
+if __name__ == '__main__':
+    register.run(debug=True)

@@ -1,11 +1,17 @@
 #endpoint to receive json data from login page
 
 from flask import Flask, jsonify, request
+from flask_cors import CORS, cross_origin
 
 login = Flask(__name__)
 
+cors = CORS(login)
+
+login.config['CORS_HEADERS'] = 'Content-Type'
+
 loginForm = []
 
+@cross_origin()
 
 @login.route('/login', methods=['GET'])
 
@@ -21,9 +27,9 @@ def loginGet():
 def loginPost():
     
     try:
-        loginForm.append(request.get_json)
+        loginForm = request.get_json()
         print(loginForm)
-        return 'Success', 200
+        return jsonify(loginForm)
 
     except:
         return 'Failed', 400
@@ -37,3 +43,6 @@ def loginDelete():
 
     except:
         return 'Failed', 400
+    
+if __name__ == '__main__':
+    login.run(debug=True)
