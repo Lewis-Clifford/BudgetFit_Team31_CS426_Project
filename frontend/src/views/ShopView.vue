@@ -1,6 +1,17 @@
 <template>
-    <div class="shop">
-      <h1>This is a shop page</h1>
-    </div>
+    <ShopPage></ShopPage>
   </template>
+
+
+<script>
+import ShopPage from '@/components/ShopPage.vue';
+
+export default{
+  name: 'ShopView',
+  components: {
+    ShopPage
+  }
+}
+
+</script>
   

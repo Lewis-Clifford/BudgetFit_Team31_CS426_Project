@@ -56,29 +56,7 @@ border: 4px solid #474b4f;
 color: #474b4f
 }
 
-.LogButton{
-padding: 10px;
-width: 200px;
-background-color: #72b264;
-font-size: 16px;
-border: 4px solid #72b264;
-color: #fff;
-transition: ease-in-out 0.2s;
 
-}
-
-.LogButton:hover{
-background-color: #474b4f;
-border: 4px solid #474b4f;
-color: #fff;
-cursor: pointer;
-}
-
-.LogButton:active {
-background-color: #72b264;
-border: 4px solid #72b264;
-color: #474b4f
-}
 
 
 </style>

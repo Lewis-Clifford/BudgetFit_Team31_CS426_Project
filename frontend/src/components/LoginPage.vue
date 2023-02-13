@@ -11,19 +11,21 @@ const handleIconClick = (node, e) => {
 <div class="styledform">
     <div class="img"></div>
     <h2 class="Title">Login</h2>
+    <FormKit type="form" submit-label="Login" :submit-attrs="{wrapperClass: 'buttonWrap', inputClass:'RegButtonP'}" @submit="accountLogin()">
     <p class="enterDetails">Enter your details below to sign into your account</p>
 
-    <FormKit prefix-icon="people" type="text"  name="username" placeholder="Username"  
+    <FormKit prefix-icon="people" v-model="formData.username" type="text"  name="username" placeholder="Username"  
     validation="required|alphanumeric|length:4,14" />
 
-    <FormKit prefix-icon="password" suffix-icon="eyeClosed" @suffix-icon-click="handleIconClick" type="password" name="password" placeholder="Password" 
+    <p class="Forgot">Forgot Password?</p>
+    <FormKit prefix-icon="password" v-model="formData.password" suffix-icon="eyeClosed" @suffix-icon-click="handleIconClick" type="password" name="password" placeholder="Password" 
     validation="required|matches:/^[a-zA-Z0-9\$@]+$/|length:6,20" 
     :validation-messages="{matches: 'Password can only contain the special characters $ and @'}" />
 
-    <p class="Forgot">Forgot Password?</p>
-    <div class="ButtonGroup">
-        <button class="LogButton">Login</button>
-    </div>
+  
+
+  </FormKit>
+
     <p class="DontHave">Don't have an account? Register Below</p>
     <div class="ButtonGroup">
       <router-link to="/signup">
@@ -38,10 +40,31 @@ const handleIconClick = (node, e) => {
 </template>
 
 <script>
-
+import axios from 'axios'
 export default {
-
+  
   name: 'LoginPage',
+  data (){
+        return{
+
+          formData: {
+            username: '',
+            password: '',
+
+          }
+
+        }
+      },
+      methods: {
+        async accountLogin(){
+         axios.post('http://127.0.0.1:5000/login', this.formData)
+          .then(response => console.log(response))
+          .catch(error => console.log(error))
+          await new Promise((r) => setTimeout(r, 1000))
+
+        }, 
+
+      }
 
 }
 </script>
@@ -59,22 +82,51 @@ margin: -10px 40px -20px;
 cursor: pointer;
 }
 
-[data-type] .formkit-inner{
+[data-type=password] .formkit-inner{
 width: 430px;
 color: #474b4f;
-background-color: #ededed ;
+background-color: white ;
 outline: 0;
 transition: ease-in-out 0.5s;
 left: 34px;
 margin-top: 30px;
 }
 
-[data-type] .formkit-input{
+[data-type=text] .formkit-inner{
+width: 430px;
+color: #474b4f;
+background-color: white ;
+outline: 0;
+transition: ease-in-out 0.5s;
+left: 34px;
+margin-top: 30px;
+}
+
+[data-type="email"] .formkit-inner{
+width: 430px;
+color: #474b4f;
+background-color: white ;
+outline: 0;
+transition: ease-in-out 0.5s;
+left: 34px;
+margin-top: 30px;
+}
+
+[data-type="text"] .formkit-input{
   line-height: 25px;
 
+}
 
+[data-type="password"] .formkit-input{
+  line-height: 25px;
 
 }
+
+[data-type="email"] .formkit-input{
+  line-height: 25px;
+
+}
+
 
 [data-invalid] .formkit-inner {
   border-color: red;
@@ -88,10 +140,11 @@ margin-top: 30px;
 
 .RegButton{
 padding: 10px;
-width: 430px;
-background-color: #72b264;
+width: 395px;
+border-radius: var(--fk-border-radius);
+background-color: #72b264 ;
 font-size: 16px;
-border: 4px solid #72b264;
+border: 4px solid #72b264 ;
 color: #fff;
 transition: ease-in-out 0.2s;
 text-decoration: none;
@@ -112,7 +165,8 @@ text-decoration: none;
 
 .LogButton{
 padding: 10px;
-width: 430px;
+width: 395px;
+border-radius: var(--fk-border-radius);
 background-color: #72b264;
 font-size: 16px;
 border: 4px solid #72b264;
