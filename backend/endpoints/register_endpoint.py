@@ -2,8 +2,14 @@
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
+from sqlalchemy import URL
+from sqlalchemy import create_engine
 
 register = Flask(__name__)
+
+url = URL.create("mysql", username='cliff', password='PervertCamel21@@',host='localhost',database='db_budgetfit')   #Connection string. Will be different per local database.
+register.config['SQLALCHEMY_DATABASE_URI'] = url                                                                    #Connect SQLAlchemy to Database
+db_engine = create_engine(url)                                                                                      #Create Engine to Use Database
 
 cors = CORS(register)
 
@@ -26,13 +32,24 @@ def registerGet():
 
 def registerPost():
     
+    con = db_engine.engine.raw_connection()                     #Open database connection
+
     try:
         registerForm = request.get_json()
-        print(registerForm)
+
+        cursor = con.cursor()                                   #Create connection cursor
+        cursor.callproc('createUser', registerForm.values())    #This is the call to the stored procedure
+        cursor.close()                                          #Close connection cursor
+        con.commit()                                            #Commit changes to update database
+
+        
         return jsonify(registerForm)
 
     except:
-        return 'Failed', 400
+        return '', 400
+    
+    finally:
+        con.close()                                             #Close database connection
 
 @register.route('/register', methods=['DELETE'])
 
