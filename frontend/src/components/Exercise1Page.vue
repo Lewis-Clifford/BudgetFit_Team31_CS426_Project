@@ -1,63 +1,146 @@
 <template>
-    <div class="styledform">
-    <h1 class="titleE">Exercise and Weight Goal</h1>
-    <h3 style="border-bottom: 2px solid #000; padding-bottom: 30px; color: #474b4f">Select one exercise and one weight goal below</h3>
-    <FormKit type="select"  placeholder="Exercise Goal" 
-    :options="['Powerlifting', 'Hypertrophy Training', 'Athlete Training', 'Cardio']"></FormKit>
-    <FormKit type="select" placeholder="Weight Goal" :options="['Weight Loss', 'Weight Gain', 'Maintain Weight']"></FormKit>
-    
-    <div class="ButtonGroup">
-            <button class="LogButton">Finish</button>
-        </div>
+    <img class="backgroundmin" src="../assets/green.jpg">
+<div class="cont">
+<div class="container" style="max-width: 540px">
+        <header>Let us know your goals!</header>
+
+        <FormKit type="form" :actions="false" style="min-height: 550px;" @submit="createExerciseData()" >
+            <div class="form first">
+                <div class="details personal">
+                    <span class="title">This form is required to move forward towards your specialized workout plans.
+                        
+                    </span>
+                   <br>
+                    <span class="secondtitleReq">
+                    Exercise Goals 
+                    </span>
+                    
+                    
+                    <div class="fieldsReq">
+                        <div class="input-fieldReq">
+                          <FormKit validation="required"  v-model="formData.exercisepreference" inner-class="select" 
+                            type="select" label="Exercise Preference:" validation-label="Exercise Preference" placeholder="Enter Preference" 
+                            :options="['Free Weight (Barbell/Dumbbell)', 'Body Weight (Calisthenics)', 'Combination Of Both', ]" ></FormKit>
+                        </div>
+
+                        <div class="input-fieldReq">
+                            <FormKit validation="required"  v-model="formData.exercisetype" inner-class="select" 
+                            type="select" label="Exercise Type:" validation-label="Exercise Type" placeholder="Enter Type" 
+                            :options="['Powerlifting', 'Bodybuilding','Powerbuilding', 'Athlete', 'Cardio']" ></FormKit>
+                        </div>
+
+                      </div>
+                      <span class="secondtitleReq">
+                    Weight Goals 
+                    </span>
+                      <div class="fieldsReq">
+                        <div class="input-fieldReq">
+                          <FormKit validation="required"  v-model="formData.weightgoal" inner-class="select" 
+                            type="select" label="Weight Goal:" validation-label="Weight Goal" placeholder="Enter Goal" 
+                            :options="['Gain Weight', 'Lose Weight','Maintain Weight', 'Unsure']" ></FormKit>
+                        </div>
+
+                        <div class="input-fieldReq">
+                            <FormKit validation="required"  v-model="formData.weightplan" inner-class="select" 
+                            type="select" label="Weight Plan: (If Lose or Gain)" validation-label="Weight Type" placeholder="Enter Plan" 
+                            :options="['Fast Weight Change (1 month)', 'Medium Weight Change (3 months)', 
+                            'Slow Weight Change (6 months)', 'Very Slow Weight Change (1 year)', 'I Selected Maintain']" ></FormKit>
+                        </div>
+
+                      </div>
+
+                        
+                    
+                    
+                    
+                </div>
+
+                
+                <div class="ButtonGroup" >
+                    
+                    <button type="submit" class="nextBtn">
+                    <span class="btnText">Finish</span>
+                    </button>
+                </div> 
+            </div>
+        </FormKit>
+        
+        
     
     </div>
-    
+</div>
     
     </template>
     
     
     <script>
-    export default{
-        name: 'Exercise1Page',
-    }
+import axios from 'axios'
+
+
+export default{
+    name: 'Exercise1Page',
+    data (){
+        return{
+
+          formData: {
+            exercisepreference: '',
+            exercisetype: '',
+            weightgoal: '',
+            weightplan: '',
+          
+          }
+
+        }
+      },
+      methods: {
+        async createExerciseData(){
+         axios.post('http://127.0.0.1:5000/exerciseOPT', this.formData)
+          .then(response => console.log(response))
+          .catch(error => console.log(error))
+          await new Promise((r) => setTimeout(r, 1500))
+
+        }, 
+
+
+      }
+}
     
     </script>
      
     
     
-    <style scoped>
+    <style >
 
-  
+.container form .secondtitleReq{
+    display: block;
+    margin-bottom: 15px !important;
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 10px !important;
+    margin: 0;
+    color: black;
+    border-bottom: 3px solid #474b4f;
+    padding-bottom: 4px;
+}
+
+.container form .fieldsReq{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+   
+}
+
+form .fieldsReq .input-fieldReq{
+    display: flex;
+    width: calc(100% / 2 - 70px);
+    flex-direction: column;
+    margin: -5px 0;
+    margin-bottom: 15px;
+}
+
     
-    .titleE{
-    
-        font-size: 45px;
-        color:#474b4f
-    
-    }
-    
-    .LogButton{
-    padding: 10px;
-    width: 430px;
-    background-color: #4d4f47;
-    font-size: 16px;
-    border: 4px solid #474b4f;
-    color: #fff;
-    transition: ease-in-out 0.2s;
-    }
-    
-    .LogButton:hover{
-      background-color: #72b264;
-      border: 4px solid #72b264;
-      color: #fff;
-      cursor: pointer;
-    }
-    
-    .LogButton:active {
-      background-color: #474b4f;
-      border: 4px solid #474b4f;
-      color: #474b4f
-    }
-    
+   
     
     </style>

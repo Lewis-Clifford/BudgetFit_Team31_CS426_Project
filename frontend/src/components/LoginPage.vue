@@ -1,4 +1,5 @@
 <script setup>
+
 const handleIconClick = (node, e) => {
   node.props.suffixIcon = node.props.suffixIcon === 'eye' ? 'eyeClosed' : 'eye'
   node.props.type = node.props.type === 'password' ? 'text' : 'password'
@@ -14,13 +15,13 @@ const handleIconClick = (node, e) => {
     <FormKit type="form" submit-label="Login" :submit-attrs="{wrapperClass: 'buttonWrap', inputClass:'RegButtonP'}" @submit="accountLogin()">
     <p class="enterDetails">Enter your details below to sign into your account</p>
 
-    <FormKit prefix-icon="people" v-model="formData.username" type="text"  name="username" placeholder="Username"  
+    <FormKit prefix-icon="people" message-class="textlab" v-model="formData.username" type="text"  name="username" placeholder="Username"  
     validation="required|alphanumeric|length:4,14" />
 
     <p class="Forgot">Forgot Password?</p>
-    <FormKit prefix-icon="password" v-model="formData.password" suffix-icon="eyeClosed" @suffix-icon-click="handleIconClick" type="password" name="password" placeholder="Password" 
+    <FormKit prefix-icon="password" message-class="textlab" v-model="formData.password" suffix-icon="eyeClosed" @suffix-icon-click="handleIconClick" type="password" name="password" placeholder="Password" 
     validation="required|matches:/^[a-zA-Z0-9\$@]+$/|length:6,20" 
-    :validation-messages="{matches: 'Password can only contain the special characters $ and @'}" />
+    :validation-messages="{matches: 'Password can only contain the special characters $ and @'}"/>
 
   
 
@@ -73,6 +74,18 @@ export default {
 
 
 <style>
+
+.textlab{
+  position: relative !important;
+  right: -185px !important;
+
+}
+
+.textlabcon{
+  position: relative !important;
+  right: -150px !important;
+
+}
 
 .Forgot{
 font-size: 15px;

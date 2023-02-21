@@ -1,15 +1,24 @@
+
+
+
 <template>
-<h1>Create a grocery list</h1>
+
 
 </template>
 
 
 <script>
 
-export default{
 
+
+
+export default{
+    
     
     name: 'ShopPage',
+    
+
+
  
 }
 
@@ -18,5 +27,11 @@ export default{
 
 <style>
 
+
+
+
+</style>
+
+<style scoped>
 
 </style>

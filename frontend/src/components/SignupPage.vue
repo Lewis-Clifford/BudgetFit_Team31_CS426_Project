@@ -16,19 +16,20 @@ const handleIconClick = (node, e) => {
         <h2 class="Title">Register</h2>
         <FormKit type="form" submit-label="Register" :submit-attrs="{wrapperClass: 'buttonWrap', inputClass:'RegButtonP'}" @submit="createAccount()">
         <p class="enterDetails">Enter your details below to register a new account </p>
-        <FormKit  prefix-icon="people" type="text" v-model="formData.username" name="username" placeholder="Username"  
+        <FormKit  prefix-icon="people" message-class="textlab" type="text" v-model="formData.username" name="username" placeholder="Username"  
         validation="required|alphanumeric|length:6,18"/>
+        
 
-        <FormKit  prefix-icon="email" v-model="formData.email" type="email" placeholder="Email" name="email" validation="required|email" 
+        <FormKit  prefix-icon="email" message-class="textlab" v-model="formData.email" type="email" placeholder="Email" name="email" validation="required|email" 
         />
 
         <FormKit  type="group">
 
-        <FormKit prefix-icon="password" suffix-icon="eyeClosed" @suffix-icon-click="handleIconClick" type="password" name="password" v-model="formData.password" placeholder="Password" 
+        <FormKit prefix-icon="password" message-class="textlab" suffix-icon="eyeClosed" @suffix-icon-click="handleIconClick" type="password" name="password" v-model="formData.password" placeholder="Password" 
         validation="required|matches:/^[a-zA-Z0-9\$@]+$/|length:6,20" 
         :validation-messages="{matches: 'Password can only contain the special characters $ and @'}" />
         <p class="Forgot">Forgot Password?</p>
-        <FormKit prefix-icon="password" suffix-icon="eyeClosed" @suffix-icon-click="handleIconClick" type="password" name="password_confirm" placeholder="Confirm Password"
+        <FormKit prefix-icon="password" message-class="textlabcon" suffix-icon="eyeClosed" @suffix-icon-click="handleIconClick" type="password" name="password_confirm" placeholder="Confirm Password"
         validation="required|confirm|" validation-label="Password confirmation"/>
 
         
@@ -63,7 +64,6 @@ const handleIconClick = (node, e) => {
             username: '',
             email: '',
             password: '',
-
           }
 
         }

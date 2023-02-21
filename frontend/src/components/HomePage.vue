@@ -44,7 +44,7 @@ export default {
     z-index: -1;
 }
 
-@media screen and (max-width: 840px){
+@media screen and (max-width: 1280px){
       .background{
         display: none;
       }
