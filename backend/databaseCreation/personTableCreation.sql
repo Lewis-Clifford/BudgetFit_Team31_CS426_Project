@@ -6,9 +6,7 @@ CREATE TABLE
         createdDate date DEFAULT NULL,
         modifiedDate date DEFAULT NULL,
         PRIMARY KEY (personID)
-    ) ENGINE = INNODB,
-    CHARACTER SET utf8mb4,
-    COLLATE utf8mb4_0900_ai_ci;
+) ENGINE = INNODB, CHARACTER SET utf8mb4, COLLATE utf8mb4_0900_ai_ci;
 
 ALTER TABLE
     db_budgetfit.person

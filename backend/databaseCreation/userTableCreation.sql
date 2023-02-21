@@ -9,10 +9,10 @@ CREATE TABLE
         createdDate datetime DEFAULT NULL,
         PRIMARY KEY (userID),
         UNIQUE INDEX id (userID)
-    ) ENGINE = INNODB,
-    AUTO_INCREMENT = 2,
-    CHARACTER SET utf8mb4,
-    COLLATE utf8mb4_0900_ai_ci;
+) ENGINE = INNODB,
+AUTO_INCREMENT = 2,
+CHARACTER SET utf8mb4,
+COLLATE utf8mb4_0900_ai_ci;
 
 ALTER TABLE db_budgetfit.user ADD UNIQUE INDEX email (email);
 
