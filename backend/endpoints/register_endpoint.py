@@ -32,10 +32,10 @@ def registerGet():
 
 def registerPost():
     
-    con = db_engine.engine.raw_connection()                     #Open database connection
-
+    con = db_engine.engine.raw_connection()
+    registerForm = request.get_json()                     #Open database connection
     try:
-        registerForm = request.get_json()
+        
 
         cursor = con.cursor()                                   #Create connection cursor
         cursor.callproc('createUser', registerForm.values())    #This is the call to the stored procedure
@@ -43,13 +43,15 @@ def registerPost():
         con.commit()                                            #Commit changes to update database
 
         
-        return jsonify(registerForm)
+        
 
-    except:
-        return '', 400
+    except Exception as e: print(e)
     
     finally:
-        con.close()                                             #Close database connection
+        con.close()  
+        return jsonify(registerForm)
+    
+                                               #Close database connection
 
 @register.route('/register', methods=['DELETE'])
 
