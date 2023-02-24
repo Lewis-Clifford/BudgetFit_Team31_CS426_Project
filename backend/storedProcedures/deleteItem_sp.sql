@@ -1,50 +1,53 @@
 DELIMITER $$
 
-CREATE DEFINER = `CLIFF`@`%` PROCEDURE IF NOT EXISTS `DeleteItem`(
-IN @ItemId INT) BEGIN
-        -- 2 tables will be modified
+CREATE DEFINER = `CLIFF`@`%` PROCEDURE IF NOT EXISTS `DeleteItem`
+(
+    IN @ItemId INT
+)
+BEGIN
+    -- 2 tables will be modified
 
-        -- Query server clock for time point
-        DECLARE
-            currentTime DATETIME;
+    -- Query server clock for time point
+    DECLARE
+        currentTime DATETIME;
+    SET
+        currentTime = NOW();
+
+    -- Commence scope
+    START TRANSACTION;
+
+    -- Query 1
+    UPDATE
+    Items
         SET
-            currentTime = NOW();
+            isActive = 0,
+            modifiedDate = currentTime
+        WHERE
+            ItemId = @ItemId;
 
-        -- Commence scope
-        START TRANSACTION;
+    -- Query 2
+    UPDATE
+    PersonItems
+        SET
+            isActive = 0,
+            modifiedDate = currentTime
+        WHERE
+            ItemId = @ItemId;
 
-        -- Query 1
-        UPDATE
-        Items
-            SET
-                isActive = 0,
-                modifiedDate = currentTime
-            WHERE
-                ItemId = @ItemId;
+    -- Attempt synchronous execution
+    DECLARE
+        EXIT HANDLER FOR SQLEXCEPTION;
 
-        -- Query 2
-        UPDATE
-        PersonItems
-            SET
-                isActive = 0,
-                modifiedDate = currentTime
-            WHERE
-                ItemId = @ItemId;
+    -- Catch: Condition classified as SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        EXIT PROCEDURE;
+    END;
 
-        -- Attempt synchronous execution
-        DECLARE
-            EXIT HANDLER FOR SQLEXCEPTION;
+    -- Adjourn scope
+    COMMIT;
 
-            -- Catch: Condition classified as SQLEXCEPTION
-            BEGIN
-                ROLLBACK;
-                EXIT PROCEDURE;
-            END;
-
-        -- Adjourn scope
-        COMMIT;
-
-    END $$
+END $$
 
 DELIMITER ;
         
