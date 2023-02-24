@@ -14,7 +14,7 @@ BEGIN
             modifiedDate = NOW()
         WHERE
             userName = @userName
-        AND
+            AND
             email = @email;
 END $$
 
