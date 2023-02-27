@@ -7,6 +7,8 @@ import Exercise from '../views/ExerciseView.vue'
 import Login from '../views/LoginView.vue'
 import Signup from '../views/SignupView.vue'
 import Exercise1View from '../views/Exercise1View.vue'
+import EditView from '../views/EditProfileView.vue'
+import ViewShopView from '../views/ViewShopView'
 
 
 const routes = [
@@ -50,7 +52,19 @@ const routes = [
     name: 'exercise1',
     component: Exercise1View
 
+  },
+  {
+    path: '/edit',
+    name: 'edit',
+    component: EditView
+    },
+  
+  {
+    path: '/viewshop',
+    name: 'viewshop',
+    component: ViewShopView
   }
+     
 
 ]
 

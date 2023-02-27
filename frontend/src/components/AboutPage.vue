@@ -36,6 +36,7 @@ background-image: url('../assets/green.jpg');
 background-size: cover;
 background-position: center;
 background-repeat: no-repeat;
+
 }
 
 .image{
@@ -47,6 +48,7 @@ background-position: center;
 background-repeat: no-repeat;
 z-index: 2;
 margin-bottom: -20px;
+
 }
 
 .paragraph{
@@ -55,10 +57,13 @@ color: black;
 width: 70%;
 text-align: left;
 line-height: 40px;
+margin-top: 10px;
+
 }
 
 .Wrapper{
     display: flex;
+    
 
 }
 

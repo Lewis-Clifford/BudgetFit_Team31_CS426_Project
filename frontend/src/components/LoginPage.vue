@@ -8,7 +8,7 @@ const handleIconClick = (node, e) => {
 
 
 <template>
-
+<img class="backgroundmin" src="../assets/green.jpg">
 <div class="styledform">
     <div class="img"></div>
     <h2 class="Title">Login</h2>
@@ -65,7 +65,7 @@ export default {
 
         }, 
 
-      }
+      },
 
 }
 </script>
@@ -75,15 +75,20 @@ export default {
 
 <style>
 
+
+
+
 .textlab{
   position: relative !important;
-  right: -185px !important;
+  right: -35px !important;
+  box-sizing: initial !important;;
 
 }
 
 .textlabcon{
   position: relative !important;
   right: -150px !important;
+  box-sizing: initial !important;
 
 }
 
@@ -93,6 +98,7 @@ text-align: right;
 color: #474b4f;
 margin: -10px 40px -20px;
 cursor: pointer;
+box-sizing: initial !important;
 }
 
 [data-type=password] .formkit-inner{
@@ -103,6 +109,7 @@ outline: 0;
 transition: ease-in-out 0.5s;
 left: 34px;
 margin-top: 30px;
+box-sizing: initial !important;
 }
 
 [data-type=text] .formkit-inner{
@@ -113,6 +120,7 @@ outline: 0;
 transition: ease-in-out 0.5s;
 left: 34px;
 margin-top: 30px;
+box-sizing: initial !important;
 }
 
 [data-type="email"] .formkit-inner{
@@ -123,20 +131,24 @@ outline: 0;
 transition: ease-in-out 0.5s;
 left: 34px;
 margin-top: 30px;
+box-sizing: initial !important;
 }
 
 [data-type="text"] .formkit-input{
   line-height: 25px;
+  box-sizing: initial !important;
 
 }
 
 [data-type="password"] .formkit-input{
   line-height: 25px;
+  box-sizing: initial !important;
 
 }
 
 [data-type="email"] .formkit-input{
   line-height: 25px;
+  box-sizing: initial !important;
 
 }
 
@@ -144,11 +156,13 @@ margin-top: 30px;
 [data-invalid] .formkit-inner {
   border-color: red;
   box-shadow: 0 0 0 2px red;
+  box-sizing: initial !important;
 }
 
 [data-complete] .formkit-inner {
   border-color: #72b264;
   box-shadow: 0 0 0 2px #72b264;
+  box-sizing: initial !important;
 }
 
 .RegButton{
@@ -161,6 +175,7 @@ border: 4px solid #72b264 ;
 color: #fff;
 transition: ease-in-out 0.2s;
 text-decoration: none;
+box-sizing: border-box !important;
 }
 
 .RegButton:hover{
@@ -168,23 +183,27 @@ text-decoration: none;
   border: 4px solid #474b4f;
   color: #fff;
   cursor: pointer;
+  box-sizing: initial !important;
 }
 
 .RegButton:active {
   background-color: #72b264;
   border: 4px solid #72b264;
-  color: #474b4f
+  color: #474b4f;
+  
 }
 
 .LogButton{
-padding: 10px;
+  padding: 9px;
 width: 395px;
 border-radius: var(--fk-border-radius);
-background-color: #72b264;
+background-color: #72b264 ;
 font-size: 16px;
-border: 4px solid #72b264;
+border: 4px solid #72b264 ;
 color: #fff;
 transition: ease-in-out 0.2s;
+text-decoration: none;
+box-sizing: border-box !important;
 }
 
 .LogButton:hover{
@@ -206,6 +225,7 @@ justify-content: space-around;
 flex-direction: row;
 margin-top: 40px;
 margin-bottom: 25px;
+box-sizing: initial !important;
 }
 
 .DontHave{
@@ -213,6 +233,7 @@ font-size: 20px;
 text-align: center;
 color: #474b4f;
 margin: -10px 80px -20px;
+box-sizing: initial !important;
 }
 
 .styledform{
@@ -225,11 +246,10 @@ margin-left: auto;
 margin-right: auto;
 margin-top: 60px;
 display: block;
-border: solid;
-border-color: #72b264;
-border-width: 100px;
-border-image-slice: 1;
-border-image-source: linear-gradient(#72b264 , #474b4f);
+border-radius: 10px;
+overflow: auto;
+box-sizing: initial !important;
+
 }
 
 .img{
@@ -239,10 +259,12 @@ background-image: url('../assets/BF.png');
 background-size: cover;
 background-position: center;
 margin: left;
+border-radius: 10px;
+
 }
 
 .Title{
-    font-size: 45px;
+font-size: 45px;
 text-align: center;
 color: #72b264;
 margin-top: -25px;
@@ -252,7 +274,7 @@ margin-top: -25px;
 font-size: 20px;
 text-align: center;
 color: #474b4f;
-margin: -25px 145px 20px;
+margin: 10px 150px 20px;
 }
 
 .ForgotPass{
@@ -267,3 +289,4 @@ margin-bottom: 25px;
 
 
 </style>
+
