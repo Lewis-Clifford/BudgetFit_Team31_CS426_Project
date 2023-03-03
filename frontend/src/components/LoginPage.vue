@@ -183,7 +183,7 @@ box-sizing: border-box !important;
   border: 4px solid #474b4f;
   color: #fff;
   cursor: pointer;
-  box-sizing: initial !important;
+  box-sizing: border-box !important;
 }
 
 .RegButton:active {
