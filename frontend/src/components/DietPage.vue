@@ -1,5 +1,5 @@
 <template>
-
+<img class="backgroundmin" src="../assets/green.jpg">
 <div class="styledform">
 <h1 class="titleE">Select Diet Plan</h1>
 <h3 style="border-bottom: 2px solid #000; padding-bottom: 30px; color: #474b4f">Select a diet if applicable, otherwise skip to next page</h3>

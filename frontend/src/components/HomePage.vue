@@ -14,7 +14,9 @@
 </template>
 
 <script>
+
 export default {
+  
   name: 'HomePage',
 
 }
@@ -35,7 +37,7 @@ export default {
 
 .backgroundmin{
   display: none;
-  position: fixed;
+  position: fixed ;
     top: 0;
     bottom:0;
     left:0;
@@ -54,14 +56,19 @@ export default {
     }
 
 .textwrap{
-display: flex;
-flex-direction: column;
-align-items: center;
-object-fit: contain;
-color: white;
+display: flex ;
+flex-direction: column ;
+align-items: center ;
+object-fit: contain ;
+color: white; 
 font-size: 30px;
 z-index: 1;
 margin: 100px;
+}
+
+.textwrap h1{
+  font-size: 60px;
+  margin: 50px;
 }
 
 button{
@@ -90,3 +97,4 @@ button:hover {
 }
 
 </style>
+

@@ -1,9 +1,9 @@
 <template>
 <img class="backgroundmin" src="../assets/green.jpg">
-<div class="container"  v-if="!isHidden">
+<div class="container" style="max-width: 540px" v-if="!isHidden">
         <header>In need of a personally tailored workout?</header>
 
-        <FormKit type="form" :actions="false" @submit="createExerciseData(), invis()" >
+        <FormKit message-class="message" type="form" :actions="false" @submit="createExerciseData(), invis()" >
             <div class="form first">
                 <div class="details personal">
                     <span class="title">This is an optional form. Choosing to complete it will allow us
@@ -70,11 +70,11 @@
                     <div class="fields">
                         <div class="input-fieldTwo">
                             <div class="range-slider-container">
-                        <div class="range-slider-value">{{ formData.experience }}</div>
-                        <div class="range-slider">
-                        <FormKit type="range"  label="What is your workout experience? (1-10)" :floating-label="false"
+                              <div class="range-slider-value">{{ formData.experience }}</div>
+                              <div class="range-slider">
+                                <FormKit type="range"  label="What is your workout experience? (1-10)" :floating-label="false"
                          v-model="formData.experience" min="0" max="10" step="1" validation="required" :validation-messages="{required: 'Experience is required.'}" />
-                        </div>
+                              </div>
                             </div>
 
                             <div class="range-slider-container2">
@@ -167,6 +167,10 @@ export default{
 
 <style>
 
+.message{
+  display: none;
+  position: absolute;
+}
 
 [data-type=range] .formkit-label{
 position: relative;
@@ -179,7 +183,7 @@ top: -30px;
 .range-slider-container {
   display: flex;
   align-items: center;
-  justify-content: center; 
+  justify-content: space-between; 
   margin-top: 50px;
   
 }
@@ -197,6 +201,7 @@ top: -30px;
   margin-right: 10px;
   font-size: 24px;
   font-weight: bold;
+  min-width: 30px;
   color: #72b264;
 }
 
@@ -294,9 +299,6 @@ margin-top: 30px;
 
 }
 
-.message{
-    display: none;
-}
 
 .texIn{
 width: 170px !important;
@@ -310,22 +312,6 @@ height: 50px
 }
 
 
-[data-type= number] .formkit-messages{
-    position: absolute;
-}
-
-
-[data-type= range] .formkit-messages{
-    position: absolute;
-}
-
-[data-type= select] .formkit-messages{
-    position: absolute;
-}
-
-[data-type= date] .formkit-messages{
-    position: absolute;
-}
 
 [data-type] .formkit-messages{
     position: absolute;
@@ -349,8 +335,7 @@ height: 50px
 
 .container{
     position: relative;
-    max-width: 900px;
-    width: auto;
+    min-width: 900px;
     border-radius: 10px;
     padding: 30px;
     margin: auto;
@@ -358,9 +343,16 @@ height: 50px
     box-shadow: 0 5px 10px rgba(0,0,0,0.1);
     top: 50%;
     transform: translateY(10%);
+    min-height: 680px;
 
 }
 .container header{
+    position: relative;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+}
+.container2 header{
     position: relative;
     font-size: 20px;
     font-weight: 600;
