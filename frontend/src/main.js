@@ -11,13 +11,13 @@ import 'bootstrap/dist/js/bootstrap.js'
 import { createPopper } from '@popperjs/core'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faArrowLeft, faArrowRight, faMagnifyingGlass, faShoppingCart, faPlus, faArrowUp,
-faMinus, faCheck } from '@fortawesome/free-solid-svg-icons'
+faMinus, faCheck, faTrash, faCircleCheck, faPenToSquare, faFilePdf  } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import 'hover.css/css/hover-min.css';
 
 
 library.add(faArrowLeft, faArrowRight, faMagnifyingGlass, faShoppingCart, faPlus, faArrowUp,
-    faMinus, faCheck)
+    faMinus, faCheck, faTrash, faCircleCheck, faPenToSquare, faFilePdf)
 
 
 

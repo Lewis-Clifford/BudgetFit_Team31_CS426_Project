@@ -5,7 +5,7 @@
         <div class="form-group">
           <div class="input-field">
                             <FormKit :floating-label="false" placeholder="Enter Grocery List"
-                             inner-class="texInGroc" v-model="formData.name"
+                             inner-class="texInGroc" v-model="listname" id="listname"
                              validation="required|length:1,30" validation-label="Grocery List Name"
                               type="text" label="Grocery List Name (Required):" 
                               label-class="labelSize"></FormKit>
@@ -16,16 +16,16 @@
           <label for="priority" class="labelSize">Priority (Optional):</label>
           <div class="radio-buttons">
             <br>
-            <label :class="{ 'low-priority': formData.priority === 'low' }">
-              <input type="radio" name="priority" value="low" v-model="formData.priority">
+            <label :class="{ 'low-priority': priority === 'low' }">
+              <input type="radio" name="priority" value="low" v-model="priority">
               Low
             </label>
-            <label :class="{ 'medium-priority': formData.priority === 'medium' }">
-              <input type="radio" name="priority" value="medium" v-model="formData.priority">
+            <label :class="{ 'medium-priority': priority === 'medium' }">
+              <input type="radio" name="priority" value="medium" v-model="priority">
               Medium
             </label>
-            <label :class="{ 'high-priority': formData.priority === 'high' }">
-              <input type="radio" name="priority" value="high" v-model="formData.priority">
+            <label :class="{ 'high-priority': priority === 'high' }">
+              <input type="radio" name="priority" value="high" v-model="priority">
               High
             </label>
           </div>
@@ -33,7 +33,7 @@
         <div class="form-group">
           <label for="description" class="labelSize">Description (Optional):</label>
           <br>
-          <textarea  id="description" v-model="formData.description"></textarea>
+          <textarea id="description" v-model="description"></textarea>
         </div>
         <button class="nextBtn" type="submit">Save</button>
     </FormKit>
@@ -41,27 +41,28 @@
   </template>
   
   <script>
-  import router from '@/router'
+import router from '@/router'
 import axios from 'axios'
   export default {
     name: 'ShopPage',
+
     data() {
       return {
-        
-        
-        
-        formData: {
 
-        name: '',
+        listname: '',
         priority: '',
         description: ''
 
-        }
+        
       }
     },
     methods: {
         async createGroceryList(){
-          axios.post('http://127.0.0.1:5000/login', this.formData)
+          axios.post('http://127.0.0.1:5000/login', {
+          listname: this.listname,
+          priority: this.priority,
+          description: this.description,
+         } )
           .then(response => console.log(response))
           .catch(error => console.log(error))
           await new Promise((r) => setTimeout(r, 1500))
@@ -70,7 +71,7 @@ import axios from 'axios'
         }, 
 
         nextPage(){
-          router.push('/viewshop')
+         router.push('/viewshop')
 
         }
 

@@ -2,13 +2,16 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import About from '../views/AboutView.vue'
 import Diet from '../views/DietView.vue'
-import Shop from '../views/ShopView.vue'
+import ShopView from '../views/ShopView.vue'
 import Exercise from '../views/ExerciseView.vue'
 import Login from '../views/LoginView.vue'
 import Signup from '../views/SignupView.vue'
 import Exercise1View from '../views/Exercise1View.vue'
 import EditView from '../views/EditProfileView.vue'
 import ViewShopView from '../views/ViewShopView'
+import CartView from '../views/CartView'
+import FinalListView from '../views/FinalListView'
+
 
 
 const routes = [
@@ -30,7 +33,8 @@ const routes = [
   {
     path: '/shop',
     name: 'shop',
-    component: Shop
+    component: ShopView,
+    props: true
   },
   {
     path: '/exercise',
@@ -56,13 +60,29 @@ const routes = [
   {
     path: '/edit',
     name: 'edit',
-    component: EditView
+    component: EditView,
+    props: true
     },
   
   {
     path: '/viewshop',
     name: 'viewshop',
-    component: ViewShopView
+    component: ViewShopView,
+    props: true
+  },
+
+  {
+    path: '/cart',
+    name: 'cart',
+    component: CartView,
+    props: true
+  },
+
+  {
+    path: '/finallist',
+    name: 'finallist',
+    component: FinalListView,
+    props: true
   }
      
 

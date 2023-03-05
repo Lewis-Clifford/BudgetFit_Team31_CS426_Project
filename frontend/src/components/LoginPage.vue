@@ -166,8 +166,8 @@ box-sizing: initial !important;
 }
 
 .RegButton{
-padding: 10px;
-width: 395px;
+padding: 8px;
+width: 393px;
 border-radius: var(--fk-border-radius);
 background-color: #72b264 ;
 font-size: 16px;

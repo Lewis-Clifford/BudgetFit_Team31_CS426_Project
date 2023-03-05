@@ -1,6 +1,6 @@
 <template>
 <img class="backgroundmin" src="../assets/green.jpg">
-<div class="container" style="max-width: 540px" v-if="!isHidden">
+<div class="containere" style="max-width: 540px" v-if="!isHidden">
         <header>In need of a personally tailored workout?</header>
 
         <FormKit message-class="message" type="form" :actions="false" @submit="createExerciseData(), invis()" >
@@ -69,7 +69,7 @@
                     <br>
                     <div class="fields">
                         <div class="input-fieldTwo">
-                            <div class="range-slider-container">
+                            <div class="range-slider-containere">
                               <div class="range-slider-value">{{ formData.experience }}</div>
                               <div class="range-slider">
                                 <FormKit type="range"  label="What is your workout experience? (1-10)" :floating-label="false"
@@ -180,7 +180,7 @@ top: -30px;
 }
 
 
-.range-slider-container {
+.range-slider-containere {
   display: flex;
   align-items: center;
   justify-content: space-between; 
@@ -333,7 +333,7 @@ height: 50px
 
 
 
-.container{
+.containere{
     position: relative;
     min-width: 900px;
     border-radius: 10px;
@@ -346,7 +346,7 @@ height: 50px
     min-height: 680px;
 
 }
-.container header{
+.containere header{
     position: relative;
     font-size: 20px;
     font-weight: 600;
@@ -358,7 +358,7 @@ height: 50px
     font-weight: 600;
     color: #333;
 }
-.container header::before{
+.containere header::before{
     content: "";
     position: absolute;
     left: 0;
@@ -368,21 +368,21 @@ height: 50px
     border-radius: 8px;
     background-color: #72b264;
 }
-.container form{
+.containere form{
     position: relative;
     margin-top: 16px;
     min-height: 650px;
     background-color: #fff;
     overflow: hidden;
 }
-.container form .form{
+.containere form .form{
     position: absolute;
     background-color: #fff;
     transition: 0.3s ease;
     
 }
 
-.container form .title{
+.containere form .title{
     display: block;
     margin-bottom: 8px;
     font-size: 16px;
@@ -391,7 +391,7 @@ height: 50px
     color: #333;
 }
 
-.container form .secondtitle{
+.containere form .secondtitle{
     display: block;
     margin-bottom: 8px;
     font-size: 18px;
@@ -403,7 +403,7 @@ height: 50px
 }
 
 
-.container form .fields{
+.containere form .fields{
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -448,7 +448,7 @@ form .fields .input-fieldTwo{
 .input-field input[type="date"]:valid{
     color: #333;
 }
-.container form button, .backBtn{
+.containere form button, .backBtn{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -500,7 +500,7 @@ form .fields .input-fieldTwo{
     background-color: #72b264;
 }
 
-.container form .btnText{
+.containere form .btnText{
     font-size: 18px;
     font-weight: 500;
 }
