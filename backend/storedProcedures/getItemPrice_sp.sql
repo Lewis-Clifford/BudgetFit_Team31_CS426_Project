@@ -2,8 +2,8 @@ DELIMITER $$
 
 CREATE DEFINER = `CLIFF`@`%` PROCEDURE IF NOT EXISTS `GetItemPrice`
 (
-    IN @ItemId INT,
-    OUT @Price VARCHAR(20)
+    IN _ItemId INT,
+    OUT _Price VARCHAR(20)
 )
 BEGIN
     SELECT
@@ -11,9 +11,9 @@ BEGIN
         FROM
             Item
         INTO
-            @Price
+            _Price
         WHERE
-            ItemId = @ItemId,
+            ItemId = _ItemId,
             isActive = 1
         FOR SHARE;
 END $$

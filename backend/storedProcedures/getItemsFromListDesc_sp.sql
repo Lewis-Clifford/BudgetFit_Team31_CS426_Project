@@ -2,9 +2,9 @@ DELIMITER $$
 
 CREATE DEFINER = `CLIFF`@`%` PROCEDURE IF NOT EXISTS `GetItemsFromListDesc`
 (
-    IN @PersonID INT,
-    IN @displayCount INT,
-    IN @displayOffset INT,
+    IN _PersonID INT,
+    IN _displayCount INT,
+    IN _displayOffset INT,
 )
 BEGIN
     SELECT -- INNER JOIN
@@ -17,7 +17,7 @@ BEGIN
         ON
             p.ItemID = i.ItemID
         WHERE
-            p.PersonID = @PersonID,
+            p.PersonID = _PersonID,
             p.isActive = 1
         GROUP BY
             i.Price
@@ -26,9 +26,9 @@ BEGIN
             i.Price
             DESC
         LIMIT
-            @displayCount
+            _displayCount
         OFFSET
-            @displayOffset
+            _displayOffset
         FOR SHARE;
 END $$
 

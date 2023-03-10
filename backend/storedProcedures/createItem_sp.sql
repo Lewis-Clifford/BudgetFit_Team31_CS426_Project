@@ -2,10 +2,10 @@ DELIMITER $$
 
 CREATE DEFINER =`CLIFF`@`%` PROCEDURE IF NOT EXISTS `CreateItem`
 (
-    IN @Name VARCHAR(100),
-    IN @Price VARCHAR(20),
-    IN @TypeID INT,
-    IN @CaloricCount INT
+    IN _Name VARCHAR(100),
+    IN _Price VARCHAR(20),
+    IN _TypeID INT,
+    IN _CaloricCount INT
 )
 BEGIN
     INSERT INTO
@@ -19,10 +19,10 @@ BEGIN
             modifiedDate
         )
         VALUES (
-            @Name,
-            @Price,
-            @TypeID,
-            @CaloricCount,
+            _Name,
+            _Price,
+            _TypeID,
+            _CaloricCount,
             1,
             NOW(),
             NOW()

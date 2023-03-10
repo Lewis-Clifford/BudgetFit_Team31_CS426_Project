@@ -2,17 +2,17 @@ DELIMITER $$
 
 CREATE DEFINER = `CLIFF`@`%` PROCEDURE IF NOT EXISTS `UpdateItemCaloricCount`
 (
-    IN @CaloricCount INT,
-    IN @ItemId INT
+    IN _CaloricCount INT,
+    IN _ItemId INT
 )
 BEGIN
     UPDATE
     Items
         SET
-            CaloricCount = @CaloricCount
-            modifiedDate = @modifiedDate
+            CaloricCount = _CaloricCount
+            modifiedDate = _modifiedDate
         WHERE
-            ItemId = @ItemId;
+            ItemId = _ItemId;
 END $$
 
 DELIMITER ;

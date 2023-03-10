@@ -2,17 +2,17 @@ DELIMITER $$
 
 CREATE DEFINER = `CLIFF`@`%` PROCEDURE IF NOT EXISTS `UpdateItemName`
 (
-    IN @Name VARCHAR(100),
+    IN _Name VARCHAR(100),
     IN ItemId INT
 )
 BEGIN
     UPDATE
     Items
         SET
-            Name = @Name
+            Name = _Name
             modifiedDate = NOW()
         WHERE
-            ItemId = @ItemId;
+            ItemId = _ItemId;
 END $$
 
 DELIMITER ;

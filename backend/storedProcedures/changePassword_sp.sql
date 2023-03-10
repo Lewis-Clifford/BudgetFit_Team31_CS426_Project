@@ -2,20 +2,20 @@ DELIMITER $$
 
 CREATE DEFINER = `CLIFF`@`%` PROCEDURE IF NOT EXISTS `ChangePassword`
 (
-    IN @userName VARCHAR(100),
-    IN @password VARBINARY(100),
-    IN @email VARCHAR(100)
+    IN _userName VARCHAR(100),
+    IN _password VARBINARY(100),
+    IN _email VARCHAR(100)
 )
 BEGIN
     UPDATE
     USER
         SET
-            password = @password,
+            password = _password,
             modifiedDate = NOW()
         WHERE
-            userName = @userName
+            userName = _userName
             AND
-            email = @email;
+            email = _email;
 END $$
 
 DELIMITER ;

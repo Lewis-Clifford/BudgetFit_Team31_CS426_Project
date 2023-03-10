@@ -2,8 +2,8 @@ DELIMITER $$
 
 CREATE DEFINER = `CLIFF`@`%` PROCEDURE IF NOT EXISTS `GetItemTypeID`
 (
-    IN @ItemId INT,
-    OUT @TypeID INT
+    IN _ItemId INT,
+    OUT _TypeID INT
 )
 BEGIN
     SELECT
@@ -11,9 +11,9 @@ BEGIN
         FROM
             Item
         INTO
-            @TypeID
+            _TypeID
         WHERE
-            ItemId = @ItemId,
+            ItemId = _ItemId,
             isActive = 1
         FOR SHARE;
 END $$

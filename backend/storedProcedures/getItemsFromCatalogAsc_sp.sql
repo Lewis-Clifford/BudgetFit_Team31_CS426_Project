@@ -2,8 +2,8 @@ DELIMITER $$
 
 CREATE DEFINER = `CLIFF`@`%` PROCEDURE IF NOT EXISTS `GetItemsFromCatalogAsc`
 (
-    IN @displayCount INT,
-    IN @displayOffset INT,
+    IN _displayCount INT,
+    IN _displayOffset INT,
 )
 BEGIN
     SELECT
@@ -19,9 +19,9 @@ BEGIN
             Price
             ASC
         LIMIT
-            @displayCount
+            _displayCount
         OFFSET
-            @displayOffset
+            _displayOffset
         FOR SHARE;
 END $$
 

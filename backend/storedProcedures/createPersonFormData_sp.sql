@@ -2,7 +2,7 @@ DELIMITER $$
 
 CREATE DEFINER =`CLIFF`@`%` PROCEDURE IF NOT EXISTS `CreatePersonFormData`
 (
-    IN @PersonID INT
+    IN _PersonID INT
 )
 BEGIN
     INSERT INTO
@@ -13,7 +13,7 @@ BEGIN
             modifiedDate
         )
         VALUES (
-            @PersonID,
+            _PersonID,
             1,
             NOW(),
             NOW()

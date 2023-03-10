@@ -2,8 +2,8 @@ DELIMITER $$
 
 CREATE DEFINER = `CLIFF`@`%` PROCEDURE IF NOT EXISTS `GetPersonName`
 (
-    IN @PersonId INT,
-    OUT @Name VARCHAR(100)
+    IN _PersonId INT,
+    OUT _Name VARCHAR(100)
 )
 BEGIN
     SELECT
@@ -11,9 +11,9 @@ BEGIN
         FROM
             Person
         INTO
-            @Name
+            _Name
         WHERE
-            PersonId = @PersonID,
+            PersonId = _PersonID,
             isActive = 1
         FOR SHARE;
 END $$

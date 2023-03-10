@@ -2,7 +2,7 @@ DELIMITER $$
 
 CREATE DEFINER = `CLIFF`@`%` PROCEDURE IF NOT EXISTS `DeleteUser`
 (
-    IN @userName VARCHAR(100)
+    IN _userName VARCHAR(100)
 )
 BEGIN
     UPDATE
@@ -11,7 +11,7 @@ BEGIN
             isActive = 0,
             modifiedDate = NOW()
         WHERE
-            userName = @userName;
+            userName = _userName;
 END $$
 
 DELIMITER ;

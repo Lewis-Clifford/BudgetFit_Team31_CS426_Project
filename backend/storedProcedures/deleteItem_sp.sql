@@ -2,7 +2,7 @@ DELIMITER $$
 
 CREATE DEFINER = `CLIFF`@`%` PROCEDURE IF NOT EXISTS `DeleteItem`
 (
-    IN @ItemId INT
+    IN _ItemId INT
 )
 BEGIN
     -- 2 tables will be modified
@@ -23,7 +23,7 @@ BEGIN
             isActive = 0,
             modifiedDate = currentTime
         WHERE
-            ItemId = @ItemId;
+            ItemId = _ItemId;
 
     -- Query 2
     UPDATE
@@ -32,7 +32,7 @@ BEGIN
             isActive = 0,
             modifiedDate = currentTime
         WHERE
-            ItemId = @ItemId;
+            ItemId = _ItemId;
 
     -- Attempt synchronous execution
     DECLARE

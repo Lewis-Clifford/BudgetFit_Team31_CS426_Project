@@ -2,9 +2,9 @@ DELIMITER $$
 
 CREATE DEFINER = `CLIFF`@`%` PROCEDURE IF NOT EXISTS `AddItemToList`
 (
-    IN @PersonID INT,
-    IN @ItemID INT,
-    IN @ItemListTypeID INT
+    IN _PersonID INT,
+    IN _ItemID INT,
+    IN _ItemListTypeID INT
 )
 BEGIN
     INSERT INTO
@@ -17,9 +17,9 @@ BEGIN
             modifiedDate
         )
         VALUES (
-            @PersonID,
-            @ItemID,
-            @ItemListTypeID,
+            _PersonID,
+            _ItemID,
+            _ItemListTypeID,
             1,
             NOW(),
             NOW()

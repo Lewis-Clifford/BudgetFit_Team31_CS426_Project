@@ -2,17 +2,17 @@ DELIMITER $$
 
 CREATE DEFINER = `CLIFF`@`%` PROCEDURE IF NOT EXISTS `UpdateEmail`
 (
-    IN @userName VARCHAR(100),
-    IN @email VARCHAR(100)
+    IN _userName VARCHAR(100),
+    IN _email VARCHAR(100)
 )
 BEGIN
     UPDATE
     USER
         SET
-            email = @email,
+            email = _email,
             modifiedDate = NOW()
         WHERE
-            userName = @userName;
+            userName = _userName;
 END $$
 
 DELIMITER ;
