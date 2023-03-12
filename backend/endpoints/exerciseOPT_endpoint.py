@@ -8,7 +8,7 @@ from sqlalchemy import create_engine
 exerciseOPT = Flask(__name__)
 
 url = URL.create("mysql", username='cliff', password='PervertCamel21@@',host='localhost',database='db_budgetfit')   #Connection string. Will be different per local database.
-register.config['SQLALCHEMY_DATABASE_URI'] = url                                                                    #Connect SQLAlchemy to Database
+exerciseOPT.config['SQLALCHEMY_DATABASE_URI'] = url                                                                    #Connect SQLAlchemy to Database
 db_engine = create_engine(url)     
 
 cors = CORS(exerciseOPT)

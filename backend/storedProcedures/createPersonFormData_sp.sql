@@ -1,23 +1,49 @@
-DELIMITER $$
+DELIMITER 
 
-CREATE DEFINER =`CLIFF`@`%` PROCEDURE IF NOT EXISTS `CreatePersonFormData`
-(
-    IN _PersonID INT
-)
+CREATE DEFINER =`ROOT`@`%` PROCEDURE `CREATEPERSONFORMDATA` 
+	(
+	    IN name VARCHAR(100),
+	    IN gender VARCHAR(100),
+	    IN phoneNumber VARCHAR(20),
+	    IN weight DECIMAL(8, 2),
+	    IN birthday DATE,
+	    IN heightFeet INT,
+	    IN heightInches INT,
+	    IN workoutExp INT,
+	    IN fitnessLevel INT
+	)
+
 BEGIN
-    INSERT INTO
-        PersonFormData (
-            PersonID,
-            isActive,
-            createdDate,
-            modifiedDate
-        )
-        VALUES (
-            _PersonID,
-            1,
-            NOW(),
-            NOW()
-        );
-END $$
+INSERT INTO
+    personform (
+        name,
+        gender,
+        phoneNumber,
+        weight,
+        birthday,
+        heightFeet,
+        heightInches,
+        workoutExp,
+        fitnessLevel,
+        isActive,
+        createdDate,
+        modifiedDate
+    )
+VALUES (
+        name,
+        gender,
+        phoneNumber,
+        weight,
+        birthday,
+        heightFeet,
+        heightInches,
+        workoutExp,
+        fitnessLevel,
+        1,
+        NOW(),
+        NOW()
+    );
 
-DELIMITER ;
+END 
+
+DELIMITER
