@@ -1,9 +1,7 @@
 #Needs to be tested -Cliff 
 
 CREATE DEFINER =`CLIFF`@`%` PROCEDURE `PAGINATION`(
-IN PG_NUMBER INT, IN RECORDS_PER_PAGE INT) BEGIN 
-	DECLARE offset_value int;
-	SET offset_value = records_per_page * pg_number;
+IN offset_value INT, IN records_per_page INT) BEGIN 
 	SELECT
 item_name,
 brand_name,
