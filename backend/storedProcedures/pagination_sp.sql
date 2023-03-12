@@ -1,7 +1,11 @@
 #Needs to be tested -Cliff 
-
+DELIMITER
 CREATE DEFINER =`CLIFF`@`%` PROCEDURE `PAGINATION`(
-IN offset_value INT, IN records_per_page INT) BEGIN 
+IN records_per_page INT,
+IN page_number INT
+) BEGIN DECLARE offset_value int DEFAULT 0;
+
+set offset_value = record_per_page*(page_number-1);
 	SELECT
 item_name,
 brand_name,
@@ -36,3 +40,4 @@ FROM products
 	LIMIT records_per_page
 	OFFSET offset_value;
 	END 
+DELIMITER ;
