@@ -467,7 +467,7 @@ form .fields .input-fieldTwo{
 .skipBtn{
     height: 45px;
     max-width: 400px;
-    width: 20%;
+    width: 40%;
     border: none;
     outline: none;
     color: #fff;
@@ -481,7 +481,7 @@ form .fields .input-fieldTwo{
 .nextBtn{
     height: 45px;
     max-width: 400px ;
-    width: 10%;
+    width: 40%;
     border: none;
     outline: none;
     color: #fff ;
@@ -500,10 +500,7 @@ form .fields .input-fieldTwo{
     background-color: #72b264;
 }
 
-.containere form .btnText{
-    font-size: 18px;
-    font-weight: 500;
-}
+
 
 .btnText{
     font-size: 18px;

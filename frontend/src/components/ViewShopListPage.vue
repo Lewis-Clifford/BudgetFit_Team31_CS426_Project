@@ -1,3 +1,4 @@
+
 <template>
 <div class="container p-5" >
               <div class="row">
@@ -7,12 +8,12 @@
                       <div class="col-12">
                         <div class="dropdown text-md-start text-center float-md-start mb-3 mt-3 mt-md-0 mb-md-0">
                           <label class="me-2">Sort by:</label>
-                          <button class="btn btn-lg btn-light dropdown-toggle hvr-shrink"  id="dropdownMenuButton1" data-bs-toggle="dropdown" type="button" aria-expanded="false">Relevance <span class="caret"></span></button>
+                          <button class="btn btn-lg btn-light dropdown-toggle hvr-shrink"  id="dropdownMenuButton1" data-bs-toggle="dropdown" type="button" aria-expanded="false">{{ selectedSort }}</button>
                           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <a class="dropdown-item" href="#">Relevance</a>
-                            <a class="dropdown-item" href="#">Price Descending</a>
-                            <a class="dropdown-item" href="#">Price Ascending</a>
-                            <a class="dropdown-item" href="#">Best Selling</a>
+                            <!-- <a class="dropdown-item" href="#">Relevance</a> -->
+                            <a class="dropdown-item" @click="setSort('price_dec')">Price Descending</a>
+                            <a class="dropdown-item" @click="setSort('price_asc')">Price Ascending</a>
+                            <!-- <a class="dropdown-item">Best Selling</a> -->
                           </div>
                         </div>
                         <div class="btn-group float-md-end ms-3">
@@ -24,176 +25,23 @@
                           <button type="button" class="btn btn-lg hvr-shrink me-4 btn-light">
                             <font-awesome-icon icon="fa-solid fa-shopping-cart"></font-awesome-icon>
 
-                            <span class="badge bg-primary rounded-pill">{{ itemCount }}</span>
+                            <span class="badge bg-primary rounded-pill">{{ totalItems }}</span>
                           </button>
                         </router-link>
                           <label class="me-2">View:</label>
-                          <button class="btn btn-lg btn-light dropdown-toggle hvr-shrink" data-bs-toggle="dropdown" id="dropdownMenuButton2" type="button" aria-expanded="false">9 <span class="caret"></span></button>
+                          <button class="btn btn-lg btn-light dropdown-toggle hvr-shrink" data-bs-toggle="dropdown" id="dropdownMenuButton2" type="button"  aria-expanded="false" :value="selectedView">{{ selectedView }}</button>
                           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" x-placement="bottom-end" style="will-change: transform; position: absolute; transform: translate3d(120px, 48px, 0px); top: 0px; left: 0px;">
-                            <a class="dropdown-item" href="#">12</a>
-                            <a class="dropdown-item" href="#">24</a>
-                            <a class="dropdown-item" href="#">48</a>
-                            <a class="dropdown-item" href="#">96</a>
+                            <a class="dropdown-item" @click="setView(9)">9</a>
+                            <a class="dropdown-item" @click="setView(18)">18</a>
+                            <a class="dropdown-item" @click="setView(27)">27</a>
+                            <a class="dropdown-item" @click="setView(36)">36</a>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-12 col-md-6 col-lg-4 mb-3">
-                        <div class="card h-100 w-85 border-0">
-                          <div class="card-img-top position-relative">
-                            <img src="../assets/240.png" class="img-fluid mx-auto d-block " 
-                            @click="showPopup = true" alt="Card image cap">
-                            <ButtonComponent :item="item" :cartItems="cartItems"/>
-                        </div>
-                          <div class="card-body text-center">
-                            <h4 class="card-title">
-                              <a href="product.html" class=" text-decoration-none text-dark small"> Product name</a>
-                            </h4>
-                            <h5 class="card-price small font-weight-bold mb-3">
-                              <i>
-                                 $99</i>
-                            </h5>
-                          </div>
-                        </div>
-                        <PopupComponent v-if="showPopup" @close="showPopup = false"/>
-                      </div>
-                      <div class="col-6 col-md-6 col-lg-4 mb-3">
-                        <div class="card h-100 border-0">
-                          <div class="card-img-top position-relative">
-                            <img src="../assets/240.png" class="img-fluid mx-auto d-block" alt="Card image cap">
-                            <ButtonComponent :item="item" :cartItems="cartItems"/>
-                        </div>
-                          <div class="card-body text-center">
-                            <h4 class="card-title">
-                              <a href="product.html" class=" text-decoration-none text-dark small"> Product name</a>
-                            </h4>
-                            <h5 class="card-price small font-weight-bold mb-3">
-                              <i>
-                                 $99</i>
-                            </h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-6 col-md-6 col-lg-4 mb-3">
-                        <div class="card h-100 border-0">
-                          <div class="card-img-top position-relative">
-                            <img src="../assets/240.png" class="img-fluid mx-auto d-block" alt="Card image cap">
-                            <ButtonComponent :item="item" :cartItems="cartItems"/>
-                        </div>
-                          <div class="card-body text-center">
-                            <h4 class="card-title">
-                              <a href="product.html" class=" text-decoration-none text-dark small"> Product name</a>
-                            </h4>
-                            <h5 class="card-price small font-weight-bold mb-3">
-                              <i>
-                                 $99</i>
-                            </h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-6 col-md-6 col-lg-4 mb-3">
-                        <div class="card h-100 border-0">
-                          <div class="card-img-top position-relative">
-                            <img src="../assets/240.png" class="img-fluid mx-auto d-block" alt="Card image cap">
-                            <ButtonComponent :item="item" :cartItems="cartItems"/>
-                        </div>
-                          <div class="card-body text-center">
-                            <h4 class="card-title">
-                              <a href="product.html" class=" text-decoration-none text-dark small"> Product name</a>
-                            </h4>
-                            <h5 class="card-price small font-weight-bold mb-3">
-                              <i>
-                                 $99</i>
-                            </h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-6 col-md-6 col-lg-4 mb-3">
-                        <div class="card h-100 border-0">
-                          <div class="card-img-top position-relative">
-                            <img src="../assets/240.png" class="img-fluid mx-auto d-block" alt="Card image cap">
-                            <ButtonComponent :item="item" :cartItems="cartItems"/>
-                        </div>
-                          <div class="card-body text-center">
-                            <h4 class="card-title">
-                              <a href="product.html" class=" text-decoration-none text-dark small"> Product name</a>
-                            </h4>
-                            <h5 class="card-price small font-weight-bold mb-3">
-                              <i>
-                                 $99</i>
-                            </h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-6 col-md-6 col-lg-4 mb-3">
-                        <div class="card h-100 border-0">
-                          <div class="card-img-top position-relative">
-                            <img src="../assets/240.png" class="img-fluid mx-auto d-block" alt="Card image cap">
-                            <ButtonComponent :item="item" :cartItems="cartItems"/>
-                        </div>
-                          <div class="card-body text-center">
-                            <h4 class="card-title">
-                              <a href="product.html" class=" text-decoration-none text-dark small"> Product name</a>
-                            </h4>
-                            <h5 class="card-price small font-weight-bold mb-3">
-                              <i>
-                                 $99</i>
-                            </h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-6 col-md-6 col-lg-4 mb-3">
-                        <div class="card h-100 border-0">
-                          <div class="card-img-top position-relative">
-                            <img src="../assets/240.png" class="img-fluid mx-auto d-block" alt="Card image cap">
-                            <ButtonComponent :item="item" :cartItems="cartItems"/>
-                        </div>
-                          <div class="card-body text-center">
-                            <h4 class="card-title">
-                              <a href="product.html" class=" text-decoration-none text-dark small"> Product name</a>
-                            </h4>
-                            <h5 class="card-price small font-weight-bold mb-3">
-                              <i>
-                                 $99</i>
-                            </h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-6 col-md-6 col-lg-4 mb-3">
-                        <div class="card h-100 border-0">
-                          <div class="card-img-top position-relative">
-                            <img src="../assets/240.png" class="img-fluid mx-auto d-block" alt="Card image cap">
-                            <ButtonComponent :item="item" :cartItems="cartItems"/>
-                        </div>
-                          <div class="card-body text-center">
-                            <h4 class="card-title">
-                              <a href="product.html" class=" text-decoration-none text-dark small"> Product name</a>
-                            </h4>
-                            <h5 class="card-price small font-weight-bold mb-3">
-                              <i>
-                                 $99</i>
-                            </h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-6 col-md-6 col-lg-4 mb-3">
-                        <div class="card h-100 border-0">
-                          <div class="card-img-top position-relative">
-                            <img src="../assets/240.png" class="img-fluid mx-auto d-block" alt="Card image cap">
-                            <ButtonComponent :item="item" :cartItems="cartItems" />
-                        </div>
-                          <div class="card-body text-center">
-                            <h4 class="card-title">
-                              <a href="#" class="text-decoration-none text-dark small  "> Product name</a>
-                            </h4>
-                            <h5 class="card-price small font-weight-bold mb-3">
-                              <i>
-                                 $99</i>
-                            </h5>
-                          </div>
-                        </div>
-                      </div>
+                      <Products :cartItems="cartItems" :list="list"/>
+                      <Pagination :current-page="page" :total-pages="totalPages" @page-changed="fetchProducts" />
                     </div>
                     <div class="row mb-5 mt-5">
                       <div class="col-12">
@@ -203,15 +51,9 @@
                           <button type="button" class="btn btn-lg btn-light hvr-shrink"> <font-awesome-icon icon="fa-solid fa-arrow-left" /> </button>
                           <button type="button" class="btn btn-lg btn-light hvr-shrink"> <font-awesome-icon icon="fa-solid fa-arrow-right" /> </button>
                         </div>
-                        <div class="dropdown float-md-end">
-                          <label class="me-2">View:</label>
-                          <a class="btn btn-light btn-lg dropdown-toggle hvr-shrink" data-bs-toggle="dropdown" role="button" aria-expanded="false">12 <span class="caret"></span></a>
-                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">12</a>
-                            <a class="dropdown-item" href="#">24</a>
-                            <a class="dropdown-item" href="#">48</a>
-                            <a class="dropdown-item" href="#">96</a>
-                          </div>
+                        <div class="float-md-end">
+                          <label class="me-2">Page:</label>
+                          <a class="btn btn-light btn-lg hvr-shrink disabled" role="button" aria-expanded="false">1</a>
                         </div>
                       </div>
                     </div>
@@ -259,19 +101,7 @@
                   <div class="mt-2 mb-2 pl-2">
                     <div class="form-check">
                       <input type="checkbox" class="form-check-input shadow-none" id="category-6">
-                      <label class="form-check-label" for="category-6">Fruits</label>
-                    </div>
-                  </div>
-                  <div class="mt-2 mb-2 pl-2">
-                    <div class="form-check">
-                      <input type="checkbox" class="form-check-input shadow-none" id="category-6">
                       <label class="form-check-label" for="category-6">Meats</label>
-                    </div>
-                  </div>
-                  <div class="mt-2 mb-2 pl-2">
-                    <div class="form-check">
-                      <input type="checkbox" class="form-check-input shadow-none" id="category-6">
-                      <label class="form-check-label" for="category-6">Pasta &amp; Rice</label>
                     </div>
                   </div>
                   <div class="mt-2 mb-2 pl-2">
@@ -327,58 +157,100 @@
 </template>
 
 <script>
-import ButtonComponent from './Buttons&Widgets/AddButtonShop.vue'
-import FavoriteComponent from './Buttons&Widgets/AddFavoriteShop.vue'
-import ShopPage from './ShopPage.vue'
-import PopupComponent from './Buttons&Widgets/ProductPopUp.vue'
+import Pagination from './Buttons&Widgets/Pagination.vue'
+import Products from './Buttons&Widgets/Products.vue'
+import { mapGetters } from 'vuex';
+import axios from 'axios';
 
-export default{
-    name: 'ViewShopPage',
-    components: {
-        ButtonComponent,
-        FavoriteComponent,
-        ShopPage,
-        PopupComponent,
-        
-    },
-    data(){
-      return{
-      cartItems: [],
-      showPopup: false,
-      }
-    },
 
-    computed: {
-      itemCount() {
-      if (!this.cartItems) {
-        return 0;
-      }
-        return this.cartItems.length;
-      },
-    },
-    methods: {
-    scrollToTop() {
-      const scrollHeight = window.scrollY;
-      const scrollStep = Math.PI / (500 / 15);
-      const cosParameter = scrollHeight / 2;
 
-      let scrollCount = 0;
-      let scrollMargin;
 
-      const scrollInterval = setInterval(() => {
-        if (window.scrollY !== 0) {
-          scrollCount += 1;
-          scrollMargin = cosParameter - cosParameter * Math.cos(scrollCount * scrollStep);
-          window.scrollTo(0, scrollHeight - scrollMargin);
-        } else {
-          clearInterval(scrollInterval);
-        }
-      }, 15);
-    },
+export default {
+  name: 'ViewShopPage',
+  created() {
+    this.$store.commit('initializeCartFromStorage');
+    this.fetchProducts();
   },
+  components: {
+    Products,
+    Pagination
+  },
+  data() {
+    return {
+      cartItems: [],
+      selectedView: '',
+      selectedSort: '',
+      page: 1,
+      limit: 0,
+      totalProducts: 0,
+      products: [] ,
+      list: [],
+    }
+  },
+  computed: {
+    ...mapGetters(['totalItems']),
+    totalPages(){
+      return Math.ceil(this.totalProducts / this.limit);
+    }
+  },
+  methods: {
+    scrollToTop() {
+      const rootElement = document.documentElement;
+      const scrollDuration = 250; // milliseconds
+      const scrollStep = -rootElement.scrollTop / (scrollDuration / 15);
 
+      rootElement.style.scrollBehavior = "smooth";
+      rootElement.style.transition = `scrollTop ${scrollDuration}ms linear`;
+      rootElement.scrollTop = 0;
+
+      setTimeout(() => {
+        rootElement.style.scrollBehavior = "";
+        rootElement.style.transition = "";
+      }, scrollDuration);
+    },
+    setView(viewnum) {
+      var temp = {query:{page:1, limit:viewnum}};
+      console.log(temp)
+      this.selectedView = viewnum;
+      this.$router.push(temp);
+      this.fetchProducts(viewnum, 1);
+
+
+
+},
+    setSort(sortType) {
+      if(sortType == 'price_dec'){
+        this.selectedSort = 'Price Descending';
+      }
+      else if (sortType == 'price_asc'){
+        this.selectedSort = 'Price Ascending';
+      }
+    },
+    fetchProducts(limit, page) {
+      // const params = this.$route.query;
+      // this.page = parseInt(params.page) ;
+      // this.limit = parseInt(params.limit) ;
+
+      console.log(`limit: ${limit}`); 
+      console.log(`page: ${page}`); 
+
+
+      axios.get(`http://localhost:5000/products?page=${page}&limit=${limit}`)
+      .then(response => {
+        this.list = response.data;
+
+        this.totalProducts = this.products.length;
+        
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    }
+  },
+  mounted() {
+    
+  }
 }
-
 </script>
 
 <style >
@@ -389,6 +261,7 @@ export default{
 
 .card-img-top{
   height: 240px;
+  position: relative;
 }
 
 .card{
@@ -415,6 +288,10 @@ export default{
 
 .btn.btn-lg.custom-button-cart{
   background-color: rgb(255, 255, 255);
+}
+
+.dropdown-menu a{
+  cursor: pointer;
 }
 
 

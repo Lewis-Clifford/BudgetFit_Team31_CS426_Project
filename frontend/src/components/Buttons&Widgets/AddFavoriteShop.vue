@@ -1,10 +1,12 @@
 <template>
-    <button class="btn btn-primary btn-circle position-absolute top-100 start-50 translate-middle"
-            :class="{ active : isActive }"
-            @click="toggle"
-            type="button">
-      <font-awesome-icon :icon="isActive ? 'fa-solid fa-check' : 'fa-solid fa-plus'" />
+  <div class="position-absolute top-0 end-0 mt-3 me-3">
+    <button class="btn fav-button"
+    :class="{'text-warning' : isActive, 'text-dark' : !isActive}"
+    @click="toggle()">
+    <font-awesome-icon :icon="isActive ? ' fa-star' : 'fa-regular fa-star'"></font-awesome-icon>
+
     </button>
+  </div>
   </template>
   
   <script>
@@ -24,17 +26,21 @@
   </script>
 
   <style>
-.btn.btn-primary.btn-circle{
-    width: 40px;
-    height: 40px;
+.btn.fav-button {
     border-radius: 50%;
-    background-color: rgb(0, 89, 255);
-    border: none;
+    width: 32px;
+    height: 32px;
+    font-size: 1.7rem;
+    line-height: 1.5;
+    padding: 0; /* Remove default button padding */
+    background-color: transparent; /* Remove default button background */
+    border: none; /* Remove default button border */
+  }
 
-}
 
-.btn.btn-primary.btn-circle.active {
-  background-color: rgb(206, 217, 82);
-}
+
+
+
+
 
 </style>

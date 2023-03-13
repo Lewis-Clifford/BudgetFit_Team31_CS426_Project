@@ -2,20 +2,69 @@
 <div class="popup-overlay" @click.self="$emit('close')">
 <div class="popup-container">
     <div class="popup-content">
-<img src="@/assets/240.png" alt="Placeholder image">
-  <p>Nutritional values: ...</p>
-  <button class="popup-close" @click="$emit('close')">X</button>
+  
+<img :src="product.images_front_full_url" style="max-width: 240px; max-height: 240px" alt="Placeholder image">
+  <p>{{ product.item_name }}</p>
+  <p>{{product.brand_name}}</p>
+  <p>${{product.item_price}}</p>
+  <button class="popup-close" @click="$emit('close')">
+    <font-awesome-icon icon="fa-solid fa-x"/></button>
+    <button class="btn btn-primary "
+    :class="{active : isActive}"
+    :key="itemCount"
+    @click="toggle">
+    <i v-if="isActive">Item added to List</i>
+    <i v-if="!isActive">Add Item to List</i>
+    </button>
   </div>
 </div>
 </div>
 
 </template>
 <script>
+import { mapState, mapMutations } from 'vuex';
+import FavoriteComponent from './AddFavoriteShop.vue';
 export default {
-    name: 'PopupComponent'
+    name: 'PopupComponent',
+    components: {
+      FavoriteComponent
+    },
+    props:['product'],
+
+    computed: {
+      ...mapState(['cart']),
+    itemCount() {
+      const product = this.cart.find(i => i.item_name === this.product.item_name);
+      return product ? product.quantity : 0;
+    },
+    isActive() {
+      return this.itemCount > 0
+    }
+    },
+    methods: {
+    ...mapMutations(['addToCart', 'removeFromCart']),
+    toggle() {
+      const isInCart = this.isActive;
+      if (isInCart) {
+        this.removeFromCart(this.product);
+      } else {
+        this.addToCart(this.product);
+      }
+    },
+  }
+
 }
 </script>
-<style>
+<style scoped>
+
+i {
+font-style: normal;
+}
+
+.btn.btn-primary.active {
+  background-color: rgb(206, 217, 82);
+  border-color: rgb(206, 217, 82);
+}
     .popup-container {
   position: fixed;
   top: 50%;
@@ -28,7 +77,7 @@ export default {
   max-height: 600px;
   background-color: white;
   padding: 20px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 
 }
 
@@ -38,11 +87,11 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.05);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2;
+  z-index: 3;
 }
 
 .popup-close {
