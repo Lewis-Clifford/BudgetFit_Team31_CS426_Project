@@ -1,103 +1,54 @@
 #endpoint to receive json data from login page
 
-from flask import Flask, jsonify, request, make_response
-from flask_cors import CORS, cross_origin
-from sqlalchemy import URL
-from sqlalchemy import create_engine
-from werkzeug.security import generate_password_hash, check_password_hash
-from functools import wraps
-import jwt
-import datetime
-import uuid
+from flask import Flask, jsonify, request
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
+from sqlalchemy import create_engine, URL
 
-login = Flask(__name__)
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'super-secret-key'
 
-url = URL.create("mysql", username='cliff', password='PervertCamel21@@',host='localhost',database='db_budgetfit')   #Connection string. Will be different per local database.
-login.config['SQLALCHEMY_DATABASE_URI'] = url                                                                    #Connect SQLAlchemy to Database
+url = URL.create('mysql', username='cliff', password='PervertCamel21@@', host='localhost', database='db_budgetfit')
+app.config['SQLALCHEMY_DATABASE_URI'] = url
 db_engine = create_engine(url)
 
-cors = CORS(login)
+jwt = JWTManager(app)
 
-login.config['CORS_HEADERS'] = 'Content-Type'
+@app.route('/login', methods=['POST'])
+def login():
+    login_form = request.json
+    if not login_form or not login_form.get('userName') or not login_form.get('password'):
+        return jsonify({'msg': 'Invalid login credentials'}), 401
 
-loginForm = []
+    username = login_form['userName']
+    password = login_form['password']
 
-@cross_origin()
+    conn = db_engine.engine.raw_connection()
+    cursor = conn.cursor()
+    cursor.callproc('userAuth', [username])
+    user = cursor.fetchone()
 
-def token_required(f):
-    @wraps(f)
-    def decorator(*args, **kwargs):
-        token = None
-        if 'x-access-tokens' in request.headers:
-            token = request.headers['x-access-tokens']
+    print(user)
 
-        if not token:
-            return jsonify({'message': 'token missing'})
-        
-        con = db_engine.engine.raw_connection()
-        loginForm = request.get_json()
-
-        try:
-            data = jwt.decode(token, login.config['SECRET_KEY'], algorithms = ['HS256'])
-            #Insert Stored procedure to select user from table
-            cursor = con.cursor()                                                           #Create connection cursor
-            currentUser = cursor.callproc('userAuth', data['userID'])      #Change Stored Procedure
-            cursor.close()                                                                  #Close connection cursor
-            con.commit() #Not sure if this line is needed if not changing the database. Should ask Vinh
-
-        except Exception as e:
-            print(e)
-            #return jsonify({'message': 'token is invalid'}) #Not sure if will cause errors
-
-        finally:
-            con.close()
-            return f(currentUser, *args, **kwargs)
-    return decorator
-
-
-
-
-@login.route('/login', methods=['POST'])
-
-def loginUser():
-    auth = request.authorization
-    if not auth or auth.username or not auth.password:
-        return make_response('could not verify', 401, {'Authentication': '"login required"'})
+    if user == None:
+        return jsonify({'message': 'User not found'})
     
-    con = db_engine.engine.raw_connection()
-    loginForm = request.get_json()
+    storedPassword = user[0].decode('utf-8')
 
-    try:
-        cursor = con.cursor()                                   #Create connection cursor
-        currentUser = cursor.callproc('checkUserNamePassword', loginForm.values())    #This is the call to the stored procedure
-        cursor.close()                                          #Close connection cursor
-        con.commit()
+    cursor.close()
+    conn.close()
 
-    except Exception as e:
-        print(e)
+    if storedPassword == password:
+        access_token = create_access_token(identity=user[2], expires_delta=False)
+        return jsonify({'access_token': access_token}), 200
 
-    finally:
-        con.close()
+    return jsonify({'msg': 'Invalid login credentials'}), 401
 
-    if check_password_hash(currentUser.password, auth.password):
-        token = jwt.encode({'public_id': currentUser.userID, 'exp':  datetime.datetime.utcnow() + datetime.timedelta(minutes=45)}, login.config['SECRET_KEY'], "HS256")
+@app.route('/protected')
+@jwt_required()
+def protected():
+    user_id = get_jwt_identity()
+    return jsonify({'user_id': user_id}), 200
 
-        return jsonify({'token': token})
 
-    return make_response('could not verify',  401, {'Authentication': '"login required"'})
-    
-
-    
-
-@login.route('/login', methods=['DELETE'])
-
-def loginDelete():
-    try:
-        loginForm.clear()
-        return 'Deleted', 200
-
-    except:
-        return 'Failed', 400
-    
 if __name__ == '__main__':
-    login.run(debug=True)
+    app.run(debug=True)
