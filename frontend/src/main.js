@@ -25,8 +25,16 @@ library.add(faArrowLeft, faArrowRight, faMagnifyingGlass, faShoppingCart, faPlus
     faMinus, faCheck, faTrash, faCircleCheck, faPenToSquare, faFilePdf, faX, faHeart, farHeart, 
     farStar, faStar, farBookmark, faBookmark)
 
+    const app = createApp(App);
+const root = document.documentElement;
 
-createApp(App).use(store).use(router).use(createPopper).use(library).use(plugin, defaultConfig({
+// Set the initial zoom level based on the screen size
+if (window.screen.width <= 1920) {
+  root.style.zoom = "0.70";
+}
+
+
+app.use(store).use(router).use(createPopper).use(library).use(plugin, defaultConfig({
     plugins: [
         createAutoAnimatePlugin({
             useAsDefault: true

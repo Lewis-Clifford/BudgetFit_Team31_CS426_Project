@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row">
-    <div class="col-12 col-md-6 col-lg-4 mb-3" v-for="product in list" :key="product.item_name">
+    <div class="col-12 col-md-6 col-lg-4 mb-3" v-for="product in list" :key="product.productsID">
       <div class="card h-100 border-0" style="max-width: 240px">
         <div class="card-img-top position-relative">
           <img :src="product.images_front_full_url" class="img-fluid mx-auto d-block" @click="showPopup(product)" alt="Card image cap">

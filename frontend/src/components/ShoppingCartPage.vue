@@ -8,7 +8,7 @@
             You have no products in your list
           </p>
           <p v-else-if="cart.length==1" class="mb-5 text-center">
-            You have <i class="text-success">1</i> products in your list
+            You have <i class="text-success">1</i> product in your list
           </p>
           <p v-else class="mb-5 text-center">
              You have <i class=" text-success ">{{ cart.length }}</i> products in your list
