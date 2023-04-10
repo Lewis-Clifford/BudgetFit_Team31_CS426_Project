@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 from sqlalchemy import create_engine
-from sqlalchemy import text
+import math
 
 products = Flask(__name__)
 
@@ -13,24 +13,26 @@ cors = CORS(products)
 
 products.config['CORS_HEADERS'] = 'Content-Type'
 
-
-
 @cross_origin()
 
 @products.route('/products', methods=['GET'])
 def get_products():
-    limit = request.args.get('limit', default=9, type=int)
-    page_number = request.args.get('page', default=1, type=int)
-    print('working')
-    con = db_engine.engine.raw_connection()
-    cursor = con.cursor()                                   #Create connection cursor
-    cursor.callproc('pagination', [limit, page_number])    #This is the call to the stored procedure
+    limit = request.args.get('limit', type=int)
+    page_number = request.args.get('page', type=int)
+    sort_order = request.args.get('sort', type=str)
+    min_price = request.args.get('min', type=float)
+    max_price = request.args.get('max', type=float)
+    categories = request.args.get('categories', default='', type=str)
+    search_term = request.args.get('search', default='', type=str)
 
+    con = db_engine.engine.raw_connection()
+    cursor = con.cursor()
+    out_params = cursor.callproc('pagination', [sort_order, limit, page_number, min_price, max_price, categories, search_term])
+    total_records = out_params[4]
     productsForm = []
     rs = cursor.fetchall()
 
     field_names = [d[0] for d in cursor.description]
-
     for row in rs:
         row_dict = {}
         for i, value in enumerate(row):
@@ -40,10 +42,16 @@ def get_products():
         product = {'brand_name': brand_name,'item_name': item_name, 'item_price': item_price, 'images_front_full_url': images_front_full_url}
         productsForm.append(product)
 
-    cursor.close()                                          #Close connection cursor
-    con.commit()                                            #Commit changes to update database
+    cursor.execute('SELECT @total_records')
+    total_records = cursor.fetchone()[0]
+    total_products = math.ceil(total_records / limit)
+
+    cursor.close()
+    con.commit()
     con.close()
-    return jsonify(productsForm)
+
+    response = jsonify({'totalPages': total_products, 'data': productsForm})
+    return response
 
 if __name__ == '__main__':
     products.run(debug=True)
