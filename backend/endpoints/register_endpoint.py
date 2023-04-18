@@ -38,7 +38,7 @@ def registerPost():
         
 
         cursor = con.cursor()                                   #Create connection cursor
-        cursor.callproc('createUser', registerForm.values())    #This is the call to the stored procedure
+        cursor.callproc('createUser2', registerForm.values())    #This is the call to the stored procedure
         cursor.close()                                          #Close connection cursor
         con.commit()                                            #Commit changes to update database
 
