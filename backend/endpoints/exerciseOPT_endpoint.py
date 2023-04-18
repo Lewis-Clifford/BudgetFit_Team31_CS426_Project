@@ -34,7 +34,8 @@ def exerciseOPTPost():
         cursor.close()                                                          #Close connection cursor
         con.commit()                                                            #Commit changes to update database
 
-    except Exception as e: print(e)
+    except Exception as e:
+        print(e)
     
     finally:
         con.close()                                                #Close database connection
