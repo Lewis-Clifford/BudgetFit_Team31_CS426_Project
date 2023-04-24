@@ -30,7 +30,7 @@ def dietPost():
         
 
         cursor = con.cursor()                                                   #Create connection cursor
-        cursor.callproc('addDietFormData', dietForm.values())       #This is the call to the stored procedure
+        cursor.callproc('updateDiet', dietForm.values())       #This is the call to the stored procedure
         cursor.close()                                                          #Close connection cursor
         con.commit()                                                            #Commit changes to update database
 

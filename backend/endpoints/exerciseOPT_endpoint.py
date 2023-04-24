@@ -30,7 +30,7 @@ def exerciseOPTPost():
         
 
         cursor = con.cursor()                                                   #Create connection cursor
-        cursor.callproc('createPersonFormData', exerciseOPTForm.values())       #This is the call to the stored procedure
+        cursor.callproc('updateExercise', exerciseOPTForm.values())       #This is the call to the stored procedure
         cursor.close()                                                          #Close connection cursor
         con.commit()                                                            #Commit changes to update database
 

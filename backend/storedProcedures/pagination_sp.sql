@@ -5,7 +5,7 @@ IN records_per_page INT,
 IN page_number INT
 ) BEGIN DECLARE offset_value int DEFAULT 0;
 
-set offset_value = record_per_page*(page_number-1);
+set offset_value = records_per_page*(page_number-1);
 	SELECT
 item_name,
 brand_name,
