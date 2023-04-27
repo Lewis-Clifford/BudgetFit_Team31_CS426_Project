@@ -33,15 +33,17 @@ SELECT
     products.nf_serving_size_unit,
     products.nf_serving_weight_grams,
     products.metric_qty,
-products.metric_uom,
-l.priority,
-l.description,
-l.listName,
-l.quantity
+    products.metric_uom,
+    l.priority,
+    l.description,
+    l.listName,
+    l.quantity
 FROM lists l
     INNER JOIN products ON l.productsID = products.productsID
-WHERE l.listName = _listName AND l.userID = _userID;
+WHERE
+    l.listName = _listName
+    AND l.userID = _userID
+    AND l.quantity > 0;
 
 COMMIT;
-
 END 
