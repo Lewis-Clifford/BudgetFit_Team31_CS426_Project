@@ -108,5 +108,69 @@ def listReturn():
         print(jsonify(listsForm))                                       #Close database connection
         return jsonify(listsForm) 
     
+@lists.route('/newList', methods=['POST'])
+def createList():
+    
+    listsForm = []
+    con = db_engine.engine.raw_connection()
+    listsForm = request.get_json()                     #Open database connection
+    print(listsForm)
+    
+
+    try:
+        
+        cursor = con.cursor()                                                   #Create connection cursor
+        cursor.callproc('createList', listsForm.values())       #This is the call to the stored procedure
+        cursor.close()                                                          #Close connection cursor
+        con.commit()                                                            #Commit changes to update database
+
+    except Exception as e:
+        print(e)
+    
+    finally:
+        con.close()                                                #Close database connection
+        return jsonify(listsForm)
+
+@lists.route('/newList', methods=['GET'])
+def getListNames():
+    
+    userID = request.args.get('userID', type=int)
+    
+
+
+    listsForm = []
+    con = db_engine.engine.raw_connection()          #Open database connection
+    print(listsForm)
+    
+
+    try:
+        
+        cursor = con.cursor()                                                   #Create connection cursor
+        cursor.callproc('getListNames', [userID])       #This is the call to the stored procedure
+
+        rs = cursor.fetchall()
+        
+        
+        field_names = [d[0] for d in cursor.description]
+        for row in rs:
+            row_dict = {}
+            for i, value in enumerate(row):
+                row_dict[field_names[i]] = value
+        
+            listName, priority, description = row_dict['listName'], row_dict['priority'], row_dict['description']
+
+            list = {'listName': listName, 'priority': priority, 'description': description}
+            listsForm.append(list)
+
+        cursor.close()                                                          #Close connection cursor
+        con.commit()                                                            #Commit changes to update database
+
+    except Exception as e:
+        print(e)
+    
+    finally:
+        con.close()                                                #Close database connection
+        return jsonify(listsForm)
+
 if __name__ == '__main__':
     lists.run(debug=True)
