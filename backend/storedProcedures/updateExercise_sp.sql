@@ -18,6 +18,6 @@ INT, IN WORKOUTEXP INT, IN FITNESSLEVEL INT) BEGIN
 	    p.isActive = 1,
 	    p.modifiedDate = NOW()
 	WHERE
-	    p.personFormID = userID;
+p.userID = userID;
 	COMMIT;
 	END 

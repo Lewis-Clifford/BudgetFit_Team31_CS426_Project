@@ -9,6 +9,6 @@ VARCHAR(255)) BEGIN
 	    p.isActive = 1,
 	    p.modifiedDate = NOW()
 	WHERE
-	    p.personFormID = _userID;
+p.userID = _userID;
 	COMMIT;
 	END 
