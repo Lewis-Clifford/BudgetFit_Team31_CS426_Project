@@ -37,7 +37,7 @@ SELECT
     l.priority,
     l.description,
     l.listName,
-    l.quantity
+l.quantity, l.allergy, l.diet 
 FROM lists l
     INNER JOIN products ON l.productsID = products.productsID
 WHERE
