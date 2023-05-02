@@ -11,6 +11,15 @@ export default{
   },
   created() {
     this.$store.commit('initializeCartFromStorage');
+
+    if (localStorage.getItem("access_token")) {
+    this.$store.commit("setLoggedIn", true);
+
+  }
+  if (localStorage.getItem("username")) {
+    this.$store.commit("setUsername", localStorage.getItem("username"));
+  }
+  this.$store.commit('hideBanner');
   },
 }
 </script>

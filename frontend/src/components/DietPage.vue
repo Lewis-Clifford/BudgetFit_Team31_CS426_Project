@@ -1,10 +1,13 @@
 <template>
-<img class="backgroundmin" src="../assets/green.jpg">
-<div class="cont">
-<div class="container2">
+    
+<div class="cont" >
+    <template v-if="dietFilledout === 0">
+<div class="container2" >
+    
         <header>Let us know about any dietary restrictions & preferences.</header>
 
-        <FormKit  message-class="message" type="form" :actions="false" @submit="createDietData()">
+        <FormKit message-class="message" type="form" :actions="false" @submit="onFormSubmit">
+
             <div class="form first">
                 
               <span class="title">This form is required to assure proper shopping and diet information.
@@ -24,10 +27,9 @@
                             help="Based on your selection, we will warn or indicate if you have chosen an item that contains
                             food products that your diet prohibits" validation="required"
                             :options="['Keto Diet (Low-no carbohydrates)', 'Vegetarian Diet (No meat)', 
-                            'Vegan Diet (No meat or dairy)', 'Carnivore Diet (Strictly animal based)', 'Pescatarian (Vegetarian but can consume fish)'
-                            ,'Paleo Diet (No processed foods)']"></FormKit>
+                            'Vegan Diet (No meat or dairy)', 'Pescatarian (Vegetarian but can consume fish)'
+                            ,'Low-Sodium Diet']"></FormKit>
                         </div>
-
                       </div>
                       <span class="dietTitleReq">
                     Allergy Information 
@@ -39,13 +41,14 @@
                             help="Based on your selection, indicate from a scale of 1-5 how serious your allergy is, 1 being very mild and 5 being deadly.
                             We will provide hazard warnings if food contain an allergy item."
                             :options="['Peanut', 'Dairy', 'Gluten', 'Eggs', 'Crustaceans', 'Soy', 'Fish' ]"></FormKit>
+                            <div class="form-group">
+								  	<help>Custom allergy:</help>
+								  	<input type="text" class="form-control" v-model="email">
+								</div>
                          </div>
-
                       </div>
-                    
                 </div>
 
-                
                 <div class="ButtonGroup" >
                     
                     <button type="submit" class="nextBtn">
@@ -56,9 +59,16 @@
             </div>
         </FormKit>
         
-        
+    
     
     </div>
+</template>
+<template v-else>
+            <div class="completed-form">
+                <span>Diet form completed, click below to edit.</span>
+                <button @click="onEditClick()">Edit</button>
+            </div>
+        </template>
 </div>
 
 </template>
@@ -73,23 +83,112 @@ export default{
             formData: {
             diet: '',
             allergy: '',
-            }
+            },
+            dietFilledout: 0,
+            profileImage: null
+            
         }
     },
     methods: {
         async createDietData(){
-         axios.post('http://127.0.0.1:5000/exerciseOPT', this.formData)
+            const data = {
+                userID: localStorage.getItem('userID'),
+                diet: this.formData.diet.join(","),
+                allergy: this.formData.allergy.join(",")
+            }
+         axios.post('http://127.0.0.1:5000/diet', data)
           .then(response => console.log(response))
           .catch(error => console.log(error))
           await new Promise((r) => setTimeout(r, 1500))
 
-        }
+        },
+        onEditClick(){
+        this.dietFilledout = 0;
+
+        },
+        async updateFormStatus(userID) {
+             axios.post(`http://localhost:5000/updateStatus?userID=${userID}`)
+                .then(response => {
+
+                })
+                .catch(error => {console.log(error);
+                }) 
+                await new Promise((r) => setTimeout(r, 1500));
+        },
+        async getFormStatus(userID) {
+            axios.get(`http://localhost:5000/status?userID=${userID}`)
+                .then(response => {
+                const data = response.data[0];
+                this.dietFilledout = data.dietFilledout;
+                console.log(this.dietFilledout)
+
+                })
+                .catch(error => {
+                console.log(error);
+                });
+            await new Promise((r) => setTimeout(r, 1500));
+            },
+        async onFormSubmit() {
+            this.createDietData();
+            this.updateFormStatus(localStorage.getItem('userID'));
+            this.$router.push({ name: "home" });
+            await new Promise((r) => setTimeout(r, 1500));
+        },
+     },
+     created(){
+        this.getFormStatus(localStorage.getItem('userID'));
      }
+
 }
 </script>
 
 <style scoped>
 
+
+
+.searchA {
+    width: 60%;
+    box-sizing: border-box;
+    padding: 6px 11px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 12px;
+    background-color: white;
+    resize: vertical;
+  }
+
+.completed-form {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+  padding: 20px;
+  z-index: 4;
+}
+
+.completed-form span {
+  display: block;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.completed-form button {
+  display: block;
+  margin: 0 auto;
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.completed-form button:hover {
+  background-color: #3e8e41;
+}
 .ButtonGroup{
     margin-top: -45px;
 }
@@ -126,7 +225,7 @@ margin-bottom: -40px !important;
 
 
 
-.containerd{
+.container{
     position: relative;
     min-width: 900px;
     border-radius: 10px;

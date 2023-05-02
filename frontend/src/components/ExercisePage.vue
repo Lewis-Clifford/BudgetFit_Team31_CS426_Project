@@ -1,9 +1,9 @@
 <template>
-<img class="backgroundmin" src="../assets/green.jpg">
-<div class="containere" style="max-width: 540px" v-if="!isHidden">
+  <template v-if="exerciseOPTfilledout === 0">
+<div class="containere" style="max-width: 540px">
         <header>In need of a personally tailored workout?</header>
 
-        <FormKit message-class="message" type="form" :actions="false" @submit="createExerciseData(), invis()" >
+        <FormKit message-class="message" type="form" :actions="false" @submit="onFormSubmit" >
             <div class="form first">
                 <div class="details personal">
                     <span class="title">This is an optional form. Choosing to complete it will allow us
@@ -91,7 +91,7 @@
                         
                     </div>
                     <div class="ButtonGroup">
-                    <button type="button" v-on:click="isHidden = true " class="skipBtn"  >
+                    <button type="button" class="skipBtn" @click="onFormSubmit2" >
                    <span class="btnText">Skip Form</span>
                     </button>
                     <button type="submit" class="nextBtn">
@@ -107,8 +107,13 @@
     
     </div>
 
-    <Exercise1Page v-if="isHidden"/>
-
+  </template>
+  <template v-else>
+            <div class="completed-form">
+                <span>Optional form completed, click below to edit.</span>
+                <button @click="onEditClick()">Edit</button>
+            </div>
+        </template>
 </template>
 
 
@@ -135,26 +140,76 @@ export default{
             experience: '',
             level: '',
 
-          }
+          },
+          exerciseOPTfilledout: 0,
 
         }
       },
       methods: {
         async createExerciseData(){
-         axios.post('http://127.0.0.1:5000/exerciseOPT', this.formData)
+          const data = {
+            userID: localStorage.getItem('userID'),
+            firstname: this.formData.firstname,
+            gender: this.formData.gender,
+            phone: this.formData.phone,
+            weight: this.formData.weight,
+            birth: this.formData.birth,
+            heightFeet: this.formData.heightFeet,
+            heightInch: this.formData.heightInch,
+            experience: this.formData.experience,
+            level: this.formData.level
+          }
+         axios.post('http://127.0.0.1:5000/exerciseOPT', data)
           .then(response => console.log(response))
           .catch(error => console.log(error))
           await new Promise((r) => setTimeout(r, 1500))
 
-        }, 
+        },
+        async updateFormStatus(userID) {
+             axios.post(`http://localhost:5000/updateStatus?userID=${userID}`)
+                .then(response => {
+
+                })
+                .catch(error => {console.log(error);
+                }) 
+                await new Promise((r) => setTimeout(r, 1500));
+        },
+        async getFormStatus(userID) {
+            axios.get(`http://localhost:5000/status?userID=${userID}`)
+                .then(response => {
+                const data = response.data[0];
+                this.exerciseOPTfilledout = data.exerciseOPTfilledout;
+                })
+                .catch(error => {
+                console.log(error);
+                });
+            await new Promise((r) => setTimeout(r, 1500));
+            },
 
 
-        invis(){
-          this.isHidden = true
-        }
+
+        async onFormSubmit() {
+            this.createExerciseData();
+            this.updateFormStatus(localStorage.getItem('userID'));
+            this.$router.push({ name: "exercise1" });
+            await new Promise((r) => setTimeout(r, 1500));
+        },
+        onEditClick(){
+        this.exerciseOPTfilledout = 0;
+
+        },
+
+        async onFormSubmit2() {
+            this.updateFormStatus(localStorage.getItem('userID'));
+            this.$router.push({ name: "exercise1" });
+            await new Promise((r) => setTimeout(r, 1500));
+        },
         
 
       },
+      created(){
+        this.getFormStatus(localStorage.getItem('userID'));
+     },
 
       components: {
         Exercise1Page,
@@ -166,6 +221,44 @@ export default{
 
 
 <style>
+
+[data-type=checkbox] .formkit-fieldset{
+border: none !important;
+}
+
+
+.completed-form {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+  padding: 20px;
+  z-index: 4;
+}
+
+.completed-form span {
+  display: block;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.completed-form button {
+  display: block;
+  margin: 0 auto;
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.completed-form button:hover {
+  background-color: #3e8e41;
+}
 
 .message{
   display: none;
@@ -340,7 +433,7 @@ height: 50px
     padding: 30px;
     margin: auto;
     background-color: #fff;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 3px 15px rgba(0,0,0,0.2);
     top: 50%;
     transform: translateY(10%);
     min-height: 680px;

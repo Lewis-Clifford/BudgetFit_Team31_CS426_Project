@@ -1,75 +1,93 @@
 <template>
-  <nav class="navbar">
-    <router-link class="iconlink" to="/"><img class="icon" src="../assets/BF.png"></router-link> 
-    <div class="menu">
-    <router-link active-class="underline" class="pages" to="/shop">Shop</router-link> 
-    <router-link active-class="underline" class="pages" to="/diet">Diet</router-link> 
-    <router-link active-class="underline" class="pages" to="exercise">Exercise</router-link> 
-    <router-link active-class="underline" class="pages" to="/about">About</router-link> 
-    <nav class="buttonnav">
-    
-    <router-link v-if="!buttonPressed" v-on:click="changeState" class="button" to="/login">Login
-    </router-link>
-    <img class="profile" :class="{'highlight': isMenuOpen }"   v-else src="../assets/icon.jpg" @click="toggleMenu">
-    <div class="sub-menu-wrap" :class="{'open-menu': isMenuOpen}" id="subMenu">
-        <div class="sub-menu" v-if="buttonPressed">
-            <div class="user-info">
-                <img src="../assets/icon.jpg">
-                <h2>Username</h2>
-            </div>
-            <hr>
-            <router-link to="/edit" class="sub-menu-link">
+    <nav class="navbar">
+      <router-link class="iconlink" to="/">
+        <img class="icon" src="../assets/BF.png">
+      </router-link>
+      <div class="menu">
+        <router-link active-class="underline" class="pages" to="/shop">Shop</router-link>
+        <router-link active-class="underline" class="pages" to="/diet">Diet</router-link>
+        <router-link active-class="underline" class="pages" to="exercise">Exercise</router-link>
+        <router-link active-class="underline" class="pages" to="/about">About</router-link>
+        <nav class="buttonnav">
+          <router-link v-if="!isLoggedIn"  class="button" to="/login">Login</router-link>
+          <img class="profile" :class="{'highlight': isMenuOpen }" v-else :src="profileImage || defaultprofileImage" @click="toggleMenu">
+          <div class="sub-menu-wrap" :class="{'open-menu': isMenuOpen}" id="subMenu">
+            <div class="sub-menu" v-if="isLoggedIn">
+              <div class="user-info">
+                <img class="profiled" :src="profileImage || defaultprofileImage">
+                <h2>{{ username }}</h2>
+              </div>
+              <hr>
+              <router-link to="/edit" class="sub-menu-link" @click="toggleMenu">
                 <img src="../assets/profile.png">
                 <p>Edit Profile</p>
                 <span>></span>
-            </router-link>
-            <a href="#" class="sub-menu-link">
-                <img src="../assets/setting.png">
-                <p>Profile Settings</p>
-                <span>></span>
-            </a>
-            <a class="sub-menu-link" @click="handleLogout">
+              </router-link>
+              <a class="sub-menu-link" @click="handleLogout">
                 <img src="../assets/logout.png">
                 <p>Logout</p>
                 <span>></span>
-            </a>
-        </div>
-    </div>
+              </a>
+            </div>
+          </div>
+        </nav>
+      </div>
     </nav>
-  </div>
-    
-  </nav>
-  <router-view/>
-
-</template>
-
-
-<script>
-
-
-export default{
-    name: 'Navbar',
+    <router-view/>
+  </template>
+  
+  <script>
+  import profileImage from '../assets/icon.jpg';
+  import axios from 'axios';
+  import { mapState } from 'vuex';
+  export default {
+    name: "Navbar",
     data() {
-        return {
-        buttonPressed: false,
+      return {
         isMenuOpen: false,
-        loggedIn: false,
-    }
+        defaultprofileImage: profileImage,
+        
+      };
+    },
+    computed: {
+      ...mapState(['profileImage']),
+      isLoggedIn() {
+        return this.$store.state.isLoggedIn;
+      },
+      username() {
+        return this.$store.state.username;
+      },
     },
     methods: {
-        changeState: function(){
-            this.buttonPressed = true;
-        },
-        toggleMenu(){
-            this.isMenuOpen = !this.isMenuOpen
-        },
-        handleLogout(){
-            this.buttonPressed = false;
-        }
-    }
-}
+      toggleMenu() {
+        this.isMenuOpen = !this.isMenuOpen;
+      },
+      
 
-</script>
+
+      async handleLogout() {
+      try {
+        const response = await axios.get(
+          "http://127.0.0.1:5000/logout",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            },
+          }
+        );
+        console.log(response);
+        localStorage.removeItem("access_token");
+        this.$store.commit("setLoggedIn", false);
+        this.$router.push({ name: "login" });
+        this.isMenuOpen = !this.isMenuOpen;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    },
+  };
+  </script>
 
 <style scoped>
 
@@ -170,7 +188,7 @@ font-weight:600;
 }
 
 .navbar{
-    background: #474b4f;
+    background: #343836;
     padding: 10px;
     display: flex;
     align-items: center;
@@ -195,6 +213,14 @@ background-position: center;
 border-radius: 50%;
 cursor: pointer;
 box-sizing:border-box !important;
+}
+
+.profiled{
+width: 60px;
+height: 60px;
+background-size: cover;
+background-position: center;
+border-radius: 50%;
 }
 
 .menu{

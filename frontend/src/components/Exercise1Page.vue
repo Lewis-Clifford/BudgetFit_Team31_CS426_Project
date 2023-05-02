@@ -1,10 +1,10 @@
 <template>
-    <img class="backgroundmin" src="../assets/green.jpg">
 <div class="cont">
+    <template v-if="exerciseREQfilledout === 0">
 <div class="container2">
         <header>Let us know your goals!</header>
 
-        <FormKit  message-class="message" type="form" :actions="false" style="min-height: 550px;" @submit="createExerciseData()" >
+        <FormKit  message-class="message" type="form" :actions="false" style="min-height: 550px;" @submit="onFormSubmit" >
             <div class="form first">
                 
               <span class="title">This form is required to move forward towards your specialized workout plans.
@@ -69,6 +69,13 @@
         
     
     </div>
+</template>
+<template v-else>
+            <div class="completed-form">
+                <span>Required form completed, click below to edit.</span>
+                <button @click="onEditClick()">Edit</button>
+            </div>
+        </template>
 </div>
     
     </template>
@@ -89,21 +96,61 @@ export default{
             weightgoal: '',
             weightplan: '',
           
-          }
+          },
+          exerciseREQfilledout: 0
 
         }
       },
       methods: {
-        async createExerciseData(){
-         axios.post('http://127.0.0.1:5000/exerciseOPT', this.formData)
+        async createExerciseData1(){
+            const data = {
+            userID: localStorage.getItem('userID'),
+            exercisepreference: this.formData.exercisepreference,
+            exercisetype:  this.formData.exercisetype,
+            weightgoal: this.formData.weightgoal,
+            weightplan: this.formData.weightplan
+          }
+         axios.post('http://127.0.0.1:5000/exerciseREQ', data)
           .then(response => console.log(response))
           .catch(error => console.log(error))
-          await new Promise((r) => setTimeout(r, 1500))
 
         }, 
+        async updateFormStatus(userID) {
+             axios.post(`http://localhost:5000/updateStatus?userID=${userID}`)
+                .then(response => {
+
+                })
+                .catch(error => {console.log(error);
+                }) 
+                await new Promise((r) => setTimeout(r, 1500));
+            },
+            async onFormSubmit() {
+            this.createExerciseData1();
+            this.updateFormStatus(localStorage.getItem('userID'));
+            this.$router.push({ name: "home" });
+            await new Promise((r) => setTimeout(r, 1500));
+        },
+        async getFormStatus(userID) {
+            axios.get(`http://localhost:5000/status?userID=${userID}`)
+                .then(response => {
+                const data = response.data[0];
+                this.exerciseREQfilledout = data.exerciseREQfilledout;
+                })
+                .catch(error => {
+                console.log(error);
+                });
+            await new Promise((r) => setTimeout(r, 1500));
+            },
+            onEditClick(){
+        this.exerciseREQfilledout = 0;
+
+        },
 
 
-      }
+      },
+      created(){
+        this.getFormStatus(localStorage.getItem('userID'));
+     },
 }
     
     </script>
@@ -111,6 +158,39 @@ export default{
     
     
     <style >
+
+.completed-form {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+  padding: 20px;
+  z-index: 4;
+}
+
+.completed-form span {
+  display: block;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.completed-form button {
+  display: block;
+  margin: 0 auto;
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.completed-form button:hover {
+  background-color: #3e8e41;
+}
 
 
 .detailspersonal{
@@ -125,7 +205,7 @@ export default{
     padding: 25px;
     margin: auto;
     background-color: #fff;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 3px 15px rgba(0,0,0,0.2);
     top: 50%;
     min-height: 690px;
     transform: translateY(10.4%);

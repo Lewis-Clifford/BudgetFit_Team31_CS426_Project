@@ -4,14 +4,14 @@
     <div class="col-12 col-md-6 col-lg-4 mb-3" v-for="product in list" :key="product.productsID">
       <div class="card h-100 border-0" style="max-width: 240px">
         <div class="card-img-top position-relative">
-          <img :src="product.images_front_full_url" class="img-fluid mx-auto d-block" @click="showPopup(product)" alt="Card image cap">
+          <img :src="product.images_front_full_url" class="img-fluid mx-auto d-block" @click="showPopup(product)" style="cursor: pointer;">
           <FavoriteComponent :item="product"/>
           <ButtonComponent :disabled="isActive" @click="toggleCart(product)" :item="product" />
 
         </div>
         <div class="card-body text-center">
           <h4 class="card-title">
-            <a href="product.html" class="text-decoration-none text-dark small">{{ product.item_name }}</a>
+            <a @click="showPopup(product)" style="cursor: pointer;" class="text-decoration-none text-dark small">{{ product.item_name }}</a>
           </h4>
           <h5 class="card-price small font-weight-bold mb-3">
             <p>{{ product.brand_name }}</p>
@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import ButtonComponent from './AddButtonShop.vue';
 import FavoriteComponent from './AddFavoriteShop.vue';
 import PopupComponent from './ProductPopUp.vue';

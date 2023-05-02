@@ -5,7 +5,7 @@ import Diet from '../views/DietView.vue'
 import ShopView from '../views/ShopView.vue'
 import Exercise from '../views/ExerciseView.vue'
 import Login from '../views/LoginView.vue'
-import Signup from '../views/SignupView.vue'
+import Register from '../views/RegisterView.vue'
 import Exercise1View from '../views/Exercise1View.vue'
 import EditView from '../views/EditProfileView.vue'
 import ViewShopView from '../views/ViewShopView'
@@ -47,9 +47,9 @@ const routes = [
     component: Login
   },
   {
-    path: '/signup',
-    name: 'signup',
-    component: Signup
+    path: '/register',
+    name: 'register',
+    component: Register
   },
   {
     path: '/exercise1',
