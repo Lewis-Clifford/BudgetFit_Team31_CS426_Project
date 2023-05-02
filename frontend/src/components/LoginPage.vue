@@ -8,13 +8,20 @@ const handleIconClick = (node, e) => {
 
 
 <template>
-<img class="backgroundmin" src="../assets/green.jpg">
-<div class="styledform">
+
+<div v-if="loggedIn" class="logged-in-box">
+  <p>You are already logged in as <b>{{ $store.state.username }}</b>.</p>
+  <button @click="handleLogout">Click here to logout</button>
+</div>
+
+<div v-else class="styledform">
     <div class="img"></div>
     <h2 class="Title">Login</h2>
     <FormKit type="form" submit-label="Login" :submit-attrs="{wrapperClass: 'buttonWrap', inputClass:'RegButtonP'}" @submit="accountLogin()">
+      
     <p class="enterDetails">Enter your details below to sign into your account</p>
-
+    <div v-if="error" class="error">{{ error }}</div>
+    
     <FormKit prefix-icon="people" message-class="textlab" v-model="formData.username" type="text"  name="username" placeholder="Username"  
     validation="required|alphanumeric|length:4,14" />
 
@@ -23,13 +30,13 @@ const handleIconClick = (node, e) => {
     validation="required|matches:/^[a-zA-Z0-9\$@]+$/|length:6,20" 
     :validation-messages="{matches: 'Password can only contain the special characters $ and @'}"/>
 
-  
+
 
   </FormKit>
 
     <p class="DontHave">Don't have an account? Register Below</p>
     <div class="ButtonGroup">
-      <router-link to="/signup">
+      <router-link to="/register">
         <button class="RegButton">Register</button>
       </router-link>
     </div> 
@@ -41,33 +48,70 @@ const handleIconClick = (node, e) => {
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 export default {
-  
-  name: 'LoginPage',
-  data (){
-        return{
-
-          formData: {
-            username: '',
-            password: '',
-
-          }
-
+  name: "LoginPage",
+  data() {
+    return {
+      formData: {
+        username: "",
+        password: "",
+      },
+      error: null,
+    };
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.isLoggedIn;
+    },
+  },
+  methods: {
+    
+    async accountLogin() {
+      try {
+        const response = await axios.post(
+          "http://127.0.0.1:5000/login",
+          this.formData
+        );
+        console.log(response);
+        await new Promise((r) => setTimeout(r, 1000));
+        const userID = response.data.userID;
+        localStorage.setItem('userID', userID);
+        localStorage.setItem('access_token', response.data.access_token);
+        this.$store.commit('setLoggedIn', true);
+        this.$store.commit('setBannerShown', false)
+        this.$store.commit('setUsername', this.formData.username);
+        localStorage.setItem('username', this.formData.username);
+        this.$router.push({ name: "home" });
+        
+      } catch (error) {
+        console.log(error);
+        if (error.response.status === 401) {
+          this.error = "Username or password incorrect.";
         }
-      },
-      methods: {
-        async accountLogin(){
-         axios.post('http://127.0.0.1:5000/login', this.formData)
-          .then(response => console.log(response))
-          .catch(error => console.log(error))
-          await new Promise((r) => setTimeout(r, 1000))
-
-        }, 
-
-      },
-
-}
+      }
+    },
+    async handleLogout() {
+      try {
+        const response = await axios.get(
+          "http://127.0.0.1:5000/logout",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            },
+          }
+        );
+        console.log(response);
+        localStorage.removeItem("access_token");
+        this.$store.commit("setLoggedIn", false);
+        this.$router.push({ name: "login" });
+        this.isMenuOpen = !this.isMenuOpen;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
+};
 </script>
 
 
@@ -75,7 +119,51 @@ export default {
 
 <style>
 
+.logged-in-box {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  width: 330px;
+  margin: 60px auto;
+  text-align: center;
+  border-radius: 10px;
+  overflow: auto;
+}
 
+.logged-in-box p {
+  font-size: 1.2rem;
+  color: #333333;
+  margin-bottom: 20px;
+}
+
+.logged-in-box button {
+  background-color: #72b264;
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 10px 20px;
+}
+
+.logged-in-box button:hover {
+  background-color: #474b4f;
+}
+
+.error {
+  color: red;
+  position: absolute;
+  right: 0;
+  font-size: 15px;
+  left: 0;
+  top: 246px;
+}
 
 
 .textlab{
@@ -237,7 +325,7 @@ box-sizing: initial !important;
 }
 
 .styledform{
-background-color: #fff;
+background: #f3f3f3;
 text-align: center;
 padding: 45px 55px;
 width: 500px;
@@ -249,7 +337,6 @@ display: block;
 border-radius: 10px;
 overflow: auto;
 box-sizing: initial !important;
-
 }
 
 .img{
@@ -274,7 +361,7 @@ margin-top: -25px;
 font-size: 20px;
 text-align: center;
 color: #474b4f;
-margin: 10px 150px 20px;
+margin: 15px 120px 20px;
 }
 
 .ForgotPass{

@@ -1,7 +1,7 @@
 <template>
     <div class="containergrocery">
       <h1 class="groceryTitle">Grocery List</h1>
-      <FormKit type="form" :actions="false" @submit="createGroceryList(), nextPage()">
+      <FormKit type="form" :actions="false" @submit="together()">
         <div class="form-group">
           <div class="input-field">
                             <FormKit :floating-label="false" placeholder="Enter Grocery List"
@@ -36,6 +36,7 @@
           <textarea id="description" v-model="description"></textarea>
         </div>
         <button class="nextBtn" type="submit">Save</button>
+        <button class="skipBtn2" @click="nextPage">Skip</button>
     </FormKit>
     </div>
   </template>
@@ -51,37 +52,86 @@ import axios from 'axios'
 
         listname: '',
         priority: '',
-        description: ''
-
+        description: '',
+        listNames: [],
+        listPriorities: [],
+        listDescriptions: []
         
       }
     },
     methods: {
         async createGroceryList(){
-          axios.post('http://127.0.0.1:5000/login', {
-          listname: this.listname,
-          priority: this.priority,
-          description: this.description,
-         } )
+          const data = {
+                userID: localStorage.getItem('userID'),
+                listname: this.listname,
+                priority: this.priority,
+                description: this.description
+            }
+          axios.post('http://127.0.0.1:5000/newList', data)
           .then(response => console.log(response))
           .catch(error => console.log(error))
           await new Promise((r) => setTimeout(r, 1500))
     
 
         }, 
+        async names(userID) {
+        axios.get(`http://localhost:5000/newList?userID=${userID}`)
+                .then(response => {
+                  const data = response.data;
+                  this.listNames = data.map(list => list.listName);
+                  this.listPriorities = data.map(list => list.priority)
+                  this.listDescriptions = data.map(list => list.description)
+                  localStorage.removeItem("activeList");
+                  localStorage.setItem('activeList', this.listNames[0]);
+                  localStorage.setItem('activePriority', this.listPriorities[0]);
+                  localStorage.setItem('activeDescription', this.listDescriptions[0]);
+                })
+                .catch(error => {
+                console.log(error);
+                });
+            },
+          
+            
 
         nextPage(){
          router.push('/viewshop')
 
-        }
+        },
 
-      }
+        together(){
+          this.createGroceryList().then(() => {
+            this.names(localStorage.getItem('userID'));
+            this.nextPage();
+          }).catch(error => {
+            console.log(error);
+          });
+        }
+    
+      },
+
   }
   </script>
   
   <style >
 
+.skipBtn2{
+    height: 45px;
+    max-width: 400px;
+    width: 40%;
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 5px;
+    background-color: #474b4f;
+    transition: all 0.3s linear;
+    cursor: pointer;
+    margin-left: 40px;
+    
+}
 
+.skipBtn2:hover{
+    background-color: #72b264;
+}
 
   .labelSize{
     font-size: 18px !important;

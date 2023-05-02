@@ -3,7 +3,7 @@
   <div class="container p-5">
     <div class="row w-100">
         <div id="pdf-content" class="col-lg-12 col-md-12 col-12">
-            <h3 class="display-5 mb-2 text-center">"Grocery List Name"</h3>
+            <h3 class="display-5 mb-2 text-center">List1</h3>
             <h5 class="mb-5 text-center">
                 You have <i class="text-info font-weight-bold">{{ cart.length }}</i> products in your list
             </h5>
@@ -23,7 +23,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="product in cart" :key="product.item_name">
+                    <tr v-for="product in items" :key="product.item_name">
                         <td data-th="Product">
                             <div class="row">
                                 <div class="col-md-3 text-start">
@@ -32,6 +32,7 @@
                                 <div class="col-md-9 text-start mt-sm-2">
                                     <h4>{{ product.item_name }}</h4>
                                     <p class="font-weight-light">{{product.brand_name}}</p>
+                                    <!-- <p class="alert alert-danger" role="alert">Hazard: Remove item, contains ingredient(s) that will cause you an allergic reaction.</p> -->
                                 </div>
                             </div>
                         </td>
@@ -61,14 +62,34 @@
 </template>
 <script>
 import html2pdf from 'html2pdf.js'
+import axios from 'axios';
 import { mapGetters } from 'vuex'
 export default {
     name: 'FinalList',
+    mounted(){
+      this.getList(localStorage.getItem('userID'), localStorage.getItem('activeList'));
+    },
     props: ['cartItems'],
+
+    data() {
+        return{
+            items: []
+            
+        }
+    },
     methods: {
     goBack() {
       this.$router.back()
     },
+    async getList(userID, listName) {
+        axios.get(`http://localhost:5000/lists?userID=${userID}&listName=${listName}`)
+                .then(response => {
+                  this.items = response.data;
+                })
+                .catch(error => {
+                console.log(error);
+                });
+            },
     async createPdf() {
       const element = document.getElementById('pdf-content')
       const clonedElement = element.cloneNode(true)

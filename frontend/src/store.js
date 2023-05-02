@@ -5,6 +5,17 @@ const store = createStore({
     cart: [],
     cartInitialized: false,
     subtotal: 0,
+    isLoggedIn: false,
+    username: '',
+    bannerShown: false,
+    firstLogin: false
+    
+    
+  },
+  actions: {
+    updateProfileImage({ commit }, profileImage) {
+      commit('SET_PROFILE_IMAGE', profileImage);
+    },
   },
   mutations: {
     addToCart(state, product) {
@@ -15,6 +26,33 @@ const store = createStore({
         state.cart.push({ ...product, quantity: 1 });
       }
       localStorage.setItem('cartItems', JSON.stringify(state.cart));
+    },
+    SET_PROFILE_IMAGE(state, profileImage) {
+      state.profileImage = profileImage;
+    },
+
+    setUsername(state, username) {
+      state.username = username;
+      localStorage.setItem("username", username);
+    },
+    setLoggedIn(state, status) {
+      state.isLoggedIn = status;
+      state.firstLogin = true;
+      if (!status) {
+        state.bannerShown = false;
+        state.username = null;
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("username");
+      } else {
+        state.username = localStorage.getItem("username");
+        state.bannerShown = true;
+      }
+    },
+    setUsername(state, username) {
+      state.username = username;
+    },
+    setBannerShown(state, banner){
+      state.bannerShown = banner;
     },
     removeFromCart(state, product) {
       const existingItem = state.cart.find(item => item.item_name === product.item_name);

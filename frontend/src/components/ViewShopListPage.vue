@@ -93,22 +93,13 @@
                     <button class="btn btn-lg btn-block btn-primary mt-4 custom-button" @click="updateResults">Update Results</button>
                   </div>
                   <div class="divider mt-5 mb-5 border-bottom border-secondary"></div>
-                   <p>Current List & Others:</p>
-                   <div class="mt-2 mb-2 pl-2">
-                   <a href="#" class="list">List1</a> (Current)
-                  </div>
-                  <div class="mt-2 mb-2 pl-2">
-                   <a href="#" class="list">List2</a>
-                  </div>
-                  <div class="mt-2 mb-2 pl-2">
-                   <a href="#" class="list">List3</a>
-                  </div>
-                  <div class="mt-2 mb-2 pl-2">
-                   <a href="#" class="list">List4</a>
-                  </div>
+                  <p style="margin-bottom: -2px; color: #72b264; font-weight: bold;">Your Lists:</p>
+                  <div v-for="(list, index) in listNames" :key="index" class="mt-2 mb-2 pl-2">
+                  <a :class="{ 'list': true, 'active': activeList === list }" @click="setActiveList(listNames[index], listPriorities[index], listDescriptions[index]), scrollToTop()" style="cursor: pointer;">{{ list }}</a>
+                </div>
                   <div class="mt-2 mb-2 pl-2">
                     
-                    <a href="#" class="btn btn-md btn-block btn-primary custom-button">Create New List</a>
+                    <div style="margin-top: 8px;" @click="backPage()" class="btn btn-md btn-block btn-primary custom-button">Create New List</div>
                   </div>
             
                 </div>
@@ -122,6 +113,7 @@
 import Products from './Buttons&Widgets/Products.vue'
 import { mapGetters } from 'vuex';
 import axios from 'axios';
+import router from '@/router'
 
 export default {
   name: 'ViewShopPage',
@@ -129,6 +121,10 @@ export default {
     this.$store.commit('initializeCartFromStorage');
     this.fetchProducts();
     this.setView(9);
+   
+  },
+  mounted(){
+    this.names(localStorage.getItem('userID'));
   },
   components: {
     Products,
@@ -144,7 +140,9 @@ export default {
       sort: 'def',
       min: 0,
       max: 500,
-      search: ''
+      search: '',
+      listNames: [],
+      activeList: localStorage.getItem('activeList')
     }
   },
   computed: {
@@ -156,6 +154,10 @@ export default {
     },
   },
   methods: {
+    backPage(){
+         router.push('/shop')
+
+        },
     scrollToTop() {
       const rootElement = document.documentElement;
       const scrollDuration = 250; // milliseconds
@@ -194,12 +196,34 @@ export default {
           this.list = response.data.data;
           this.total = response.data.totalPages;
           this.page = page;
-           this.sort = sort;
+          this.sort = sort;
+          this.activeList = localStorage.getItem('activeList')
     })
     .catch(error => {
       console.log(error);
     });
 },
+async names(userID) {
+        axios.get(`http://localhost:5000/newList?userID=${userID}`)
+                .then(response => {
+                  const data = response.data;
+                  this.listNames = data.map(list => list.listName);
+                  this.listPriorities = data.map(list => list.priority)
+                  this.listDescriptions = data.map(list => list.description)
+                  console.log(this.listNames)
+                })
+                .catch(error => {
+                console.log(error);
+                });
+            await new Promise((r) => setTimeout(r, 1500));
+            },
+    setActiveList(name, priority, description) {
+      localStorage.setItem('activeList', name);
+      localStorage.setItem('activePriority', priority);
+      localStorage.setItem('activeDescription', description);
+      this.activeList = name;
+
+    },
     updateResults() {
       this.fetchProducts(this.selectedView, 1, this.sort, this.selectedCategories.join(","), this.search);
     },
@@ -223,8 +247,20 @@ searchProducts(){
 <style >
 
 .list {
- color: black !important;
+    text-decoration: none;
+    color: black;
+  }
+
+  .list:hover {
+
+    color: black;
+  }
+
+  .list.active {
+    border-bottom: 3px solid #72b264;
+  padding-bottom: 2px;
 }
+
 
 .card-img-top{
   height: 240px;
