@@ -24,7 +24,7 @@ def listsPost():
     listsForm = []
     con = db_engine.engine.raw_connection()
     listsForm = request.get_json()                     #Open database connection
-    print(listsForm)
+    
     '''
     Expected argument order to store records: (userID, productsID, listName, priority, description, quantity)
     '''

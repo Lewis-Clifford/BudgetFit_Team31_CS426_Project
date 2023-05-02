@@ -3,8 +3,9 @@ CREATE DEFINER =`CLIFF`@`%` PROCEDURE `INSERTTOUSERLIST`
 VARCHAR(100), IN _PRIORITY VARCHAR(20), IN _DESCRIPTION 
 VARCHAR(255), IN _QUANTITY INT) BEGIN 
 	DECLARE productExists INT;
-	START TRANSACTION;
 
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+START TRANSACTION;
 SET foreign_key_checks = 0;
 SELECT
     quantity INTO productExists
@@ -14,7 +15,7 @@ WHERE
     AND lists.productsID = _productsID FOR
 UPDATE;
 
-IF productExists IS NOT NULL THEN
+IF productExists IS NOT NULL THEN 
 UPDATE lists
 SET
     lists.quantity = _quantity,
@@ -23,7 +24,7 @@ WHERE
     lists.userID = _userID
     AND lists.productsID = _productsID;
 
-ELSE
+ELSE 
 INSERT INTO
     lists (
         userID,
@@ -47,7 +48,8 @@ VALUES (
     );
 
 END IF;
-
 SET foreign_key_checks = 1;
+CALL allergyQuery(_userID, _productsID);
 COMMIT;
+
 END 

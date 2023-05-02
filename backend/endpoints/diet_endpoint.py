@@ -24,13 +24,43 @@ dietForm = []
 def dietPost():
     
     con = db_engine.engine.raw_connection()
-    dietForm = request.get_json()                     #Open database connection
+    dietForm = request.get_json()   
+    userID = dietForm.get('userID')
+    values = list(dietForm.values())                  #Open database connection
+    allergyList = []
+    dietList = []
+    if 'Peanut' in values[2]:
+        allergyList.append('Peanut')
+    if 'Dairy' in values[2]:
+        allergyList.append('Dairy')
+    if 'Gluten' in values[2]:
+        allergyList.append('Gluten')
+    if 'Eggs' in values[2]:
+        allergyList.append('Eggs')
+    if 'Soy' in values[2]:
+        allergyList.append('Soy')
+    if 'Fish' in values[2]:
+        allergyList.append('Fish')
+    if 'Crustaceans' in values[2]:
+        allergyList.append('Crustaceans')
+
+
+    if 'Keto' in values[1]:
+        dietList.append('Keto')
+    if 'Vegetarian' in values[1]:
+        dietList.append('Vegetarian')
+    if 'Vegan' in values[1]:
+        dietList.append('Vegan')
+    if 'Pescatarian' in values[1]:
+        dietList.append('Pescatarian')
+    if 'Low Sodium' in values[1]:
+        dietList.append('Low Sodium')
 
     try:
         
 
         cursor = con.cursor()                                                   #Create connection cursor
-        cursor.callproc('updateDiet', dietForm.values())       #This is the call to the stored procedure
+        cursor.callproc('updateDiet', [userID, ', '.join(str(e) for e in dietList), ', '.join(str(e) for e in allergyList)])       #This is the call to the stored procedure
         cursor.close()                                                          #Close connection cursor
         con.commit()                                                            #Commit changes to update database
 
