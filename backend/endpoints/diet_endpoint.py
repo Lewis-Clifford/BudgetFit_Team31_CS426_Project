@@ -56,11 +56,26 @@ def dietPost():
     if 'Low Sodium' in values[1]:
         dietList.append('Low Sodium')
 
+    userAllergy = values[2].replace(',', '')
+    userAllergy = userAllergy.replace('Peanut', '')
+    userAllergy = userAllergy.replace('Dairy', '')
+    userAllergy = userAllergy.replace('Gluten','')
+    userAllergy = userAllergy.replace('Eggs', '')
+    userAllergy = userAllergy.replace('Soy', '')
+    userAllergy = userAllergy.replace('Fish', '')
+    userAllergy = userAllergy.replace('Crustaceans', '')
+    if userAllergy[0] == '':
+        userAllergy = userAllergy[1:]
+    
+    print(userAllergy)
+    if userAllergy == '':
+        userAllergy = None;
+
     try:
         
 
         cursor = con.cursor()                                                   #Create connection cursor
-        cursor.callproc('updateDiet', [userID, ', '.join(str(e) for e in dietList), ', '.join(str(e) for e in allergyList)])       #This is the call to the stored procedure
+        cursor.callproc('updateDiet', [userID, ', '.join(str(e) for e in dietList), ', '.join(str(e) for e in allergyList), userAllergy])       #This is the call to the stored procedure
         cursor.close()                                                          #Close connection cursor
         con.commit()                                                            #Commit changes to update database
 
