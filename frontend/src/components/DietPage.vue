@@ -6,7 +6,7 @@
     
         <header>Let us know about any dietary restrictions & preferences.</header>
 
-        <FormKit message-class="message" type="form" :actions="false" @submit="onFormSubmit">
+        <FormKit message-class="message" type="form" :actions="false" @submit="onFormSubmit(formData)">
 
             <div class="form first">
                 
@@ -42,9 +42,9 @@
                             We will provide hazard warnings if food contain an allergy item."
                             :options="['Peanut', 'Dairy', 'Gluten', 'Eggs', 'Crustaceans', 'Soy', 'Fish' ]"></FormKit>
                             <div class="form-group">
-								  	<help>Custom allergy:</help>
-								  	<input type="text" class="form-control" v-model="email">
-								</div>
+                              <help>Custom allergy:</help>
+                              <input type="text" class="form-control" v-model="formData.customAllergy" name="customAllergy">
+                          </div>
                          </div>
                       </div>
                 </div>
@@ -52,7 +52,7 @@
                 <div class="ButtonGroup" >
                     
                     <button type="submit" class="nextBtn">
-                    <span class="btnText">Finish</span>
+                    <span class="nes">Finish</span>
                     </button>
                 </div> 
                 
@@ -66,7 +66,7 @@
 <template v-else>
             <div class="completed-form">
                 <span>Diet form completed, click below to edit.</span>
-                <button @click="onEditClick()">Edit</button>
+                <button class="nextBtn" @click="onEditClick()">Edit</button>
             </div>
         </template>
 </div>
@@ -75,7 +75,7 @@
 
 <script>
 import axios from 'axios'
-
+import store from '../store';
 export default{
     name: 'DietPage',
     data() {
@@ -83,6 +83,7 @@ export default{
             formData: {
             diet: '',
             allergy: '',
+            customAllergy: ''
             },
             dietFilledout: 0,
             profileImage: null
@@ -94,7 +95,8 @@ export default{
             const data = {
                 userID: localStorage.getItem('userID'),
                 diet: this.formData.diet.join(","),
-                allergy: this.formData.allergy.join(",")
+                allergy: this.formData.allergy.join(","),
+                customAllergy: this.formData.customAllergy
             }
          axios.post('http://127.0.0.1:5000/diet', data)
           .then(response => console.log(response))
@@ -102,6 +104,19 @@ export default{
           await new Promise((r) => setTimeout(r, 1500))
 
         },
+        async getUserProfile(userID) {
+  axios.get(`http://localhost:5000/profile?userID=${userID}`)
+    .then(response => {
+      const data = response.data[0];
+      this.profileImage = data.profileImage;
+
+      store.dispatch('updateProfileImage', data.profileImage);
+
+    })
+    .catch(error => {
+      console.log(error);
+    });
+},
         onEditClick(){
         this.dietFilledout = 0;
 
@@ -128,15 +143,18 @@ export default{
                 });
             await new Promise((r) => setTimeout(r, 1500));
             },
-        async onFormSubmit() {
+        async onFormSubmit(formData) {
             this.createDietData();
             this.updateFormStatus(localStorage.getItem('userID'));
             this.$router.push({ name: "home" });
+            formData.customAllergy = this.formData.customAllergy;
+            console.log(formData);
             await new Promise((r) => setTimeout(r, 1500));
         },
      },
      created(){
         this.getFormStatus(localStorage.getItem('userID'));
+        this.getUserProfile(localStorage.getItem('userID'));
      }
 
 }

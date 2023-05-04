@@ -11,7 +11,7 @@ import EditView from '../views/EditProfileView.vue'
 import ViewShopView from '../views/ViewShopView'
 import CartView from '../views/CartView'
 import FinalListView from '../views/FinalListView'
-
+import StatsView from '../views/StatsView'
 
 
 const routes = [
@@ -82,6 +82,13 @@ const routes = [
     path: '/finallist',
     name: 'finallist',
     component: FinalListView,
+    props: true
+  },
+
+  {
+    path: '/stats',
+    name: 'stats',
+    component: StatsView,
     props: true
   }
      

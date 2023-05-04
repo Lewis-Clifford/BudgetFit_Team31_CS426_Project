@@ -4,6 +4,7 @@ const store = createStore({
   state: {
     cart: [],
     cartInitialized: false,
+    subtotalCals: 0,
     subtotal: 0,
     isLoggedIn: false,
     username: '',
@@ -93,14 +94,23 @@ const store = createStore({
         return total + item.quantity;
       }, 0);
     },
-    subtotal: (state) => {
+    subtotalCals: (state) => {
+        let sum = 0;
+        for (const item of state.cart) {
+          sum += item.nf_calories * item.quantity;
+        }
+        return sum;
+        
+      },
+      subtotal: (state) =>{
         let sum = 0;
         for (const item of state.cart) {
           sum += item.item_price * item.quantity;
         }
-        return sum.toFixed(2);
+        return sum.toFixed(2)
       }
   },
+    
 });
 
 export default store

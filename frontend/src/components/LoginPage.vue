@@ -25,7 +25,7 @@ const handleIconClick = (node, e) => {
     <FormKit prefix-icon="people" message-class="textlab" v-model="formData.username" type="text"  name="username" placeholder="Username"  
     validation="required|alphanumeric|length:4,14" />
 
-    <p class="Forgot">Forgot Password?</p>
+
     <FormKit prefix-icon="password" message-class="textlab" v-model="formData.password" suffix-icon="eyeClosed" @suffix-icon-click="handleIconClick" type="password" name="password" placeholder="Password" 
     validation="required|matches:/^[a-zA-Z0-9\$@]+$/|length:6,20" 
     :validation-messages="{matches: 'Password can only contain the special characters $ and @'}"/>
@@ -48,6 +48,7 @@ const handleIconClick = (node, e) => {
 </template>
 
 <script>
+import store from '../store';
 import axios from "axios";
 export default {
   name: "LoginPage",
@@ -58,12 +59,16 @@ export default {
         password: "",
       },
       error: null,
+      profileImage: null,
     };
   },
   computed: {
     loggedIn() {
       return this.$store.state.isLoggedIn;
     },
+  },
+  created(){
+    this.getUserProfile(localStorage.getItem('userID'));
   },
   methods: {
     
@@ -91,6 +96,23 @@ export default {
         }
       }
     },
+    emptyCart() {
+      this.$store.commit('clearCart');
+      this.cart = [];
+    },
+    async getUserProfile(userID) {
+  axios.get(`http://localhost:5000/profile?userID=${userID}`)
+    .then(response => {
+      const data = response.data[0];
+      this.profileImage = data.profileImage;
+
+      store.dispatch('updateProfileImage', data.profileImage);
+
+    })
+    .catch(error => {
+      console.log(error);
+    });
+},
     async handleLogout() {
       try {
         const response = await axios.get(
@@ -103,9 +125,13 @@ export default {
         );
         console.log(response);
         localStorage.removeItem("access_token");
+        localStorage.removeItem("phone");
+        this.emptyCart();
         this.$store.commit("setLoggedIn", false);
         this.$router.push({ name: "login" });
         this.isMenuOpen = !this.isMenuOpen;
+        
+        
       } catch (error) {
         console.log(error);
       }

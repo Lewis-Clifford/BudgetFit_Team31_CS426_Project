@@ -63,7 +63,10 @@
         this.isMenuOpen = !this.isMenuOpen;
       },
       
-
+      emptyCart() {
+      this.$store.commit('clearCart');
+      this.cart = [];
+    },
 
       async handleLogout() {
       try {
@@ -77,6 +80,11 @@
         );
         console.log(response);
         localStorage.removeItem("access_token");
+        localStorage.removeItem("phone");
+        localStorage.removeItem('userID');
+        localStorage.removeItem('activeList')
+        localStorage.removeItem('name')
+        this.emptyCart();
         this.$store.commit("setLoggedIn", false);
         this.$router.push({ name: "login" });
         this.isMenuOpen = !this.isMenuOpen;

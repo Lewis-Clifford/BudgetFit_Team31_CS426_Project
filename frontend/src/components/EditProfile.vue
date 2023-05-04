@@ -71,7 +71,7 @@
                 <p>Are you sure you want to update your profile?</p>
               </div>
               <div class="confirmation-buttons">
-                <button class="btn btn-confirm" @click="updateUserProfile">Confirm</button>
+                <button class="btn btn-confirm" @click="sendFormsTogether">Confirm</button>
                 <button class="btn btn-cancel" @click="showConfirmationBox = false">Cancel</button>
               </div>
             </div>
@@ -91,40 +91,39 @@
 							<div class="col-md-6">
 								<div class="form-group">
 								  	<label>New password</label>
-								  	<input type="password" class="form-control">
+								  	<input type="password" class="form-control"  v-model="password">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 								  	<label>Confirm new password</label>
-								  	<input type="password" class="form-control">
+								  	<input type="password" class="form-control"  v-model="password">
 								</div>
 							</div>
 						</div>
 						<div>
-							<button class="btn btn-custom">Update</button>
-						</div>
+              <button class="btn btn-custom" @click="showConfirmationBox = true">Update</button>
+            </div>
+            <div class="confirmation-box" v-if="showConfirmationBox">
+              <div class="confirmation-message">
+                <p>Are you sure you want to update your profile?</p>
+              </div>
+              <div class="confirmation-buttons">
+                <button class="btn btn-confirm" @click="updatePassword">Confirm</button>
+                <button class="btn btn-cancel" @click="showConfirmationBox = false">Cancel</button>
+              </div>
+            </div>
 					</div>
+          <div class="updatedMessage" v-if="showMessage2">Password Updated!</div>
 					<div class="tab-pane fade" id="notification" role="tabpanel" aria-labelledby="notification-tab">
 						<h3 class="mb-4">Notification Settings</h3>
 						<div class="form-group">
 							<div class="form-check">
 								<input class="form-check-input" type="checkbox" value="" id="text-notifications" v-model="textNotificationsEnabled" :checked="enableTextNotifications">
 								<label class="form-check-label" for="text-notifications">
-									Enable Text Notifications
+									Enable Text Notifications (Unfortunately you can't turn them off!)
 								</label>
 							</div>
-						</div>
-						<div class="form-group">
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" value="" id="email-notifications" v-model="emailNotificationsEnabled" :checked="enableEmailNotifications" >
-								<label class="form-check-label" for="email-notifications">
-									Enable E-mail Notifications
-								</label>
-							</div>
-						</div>
-						<div>
-							<button class="btn btn-custom">Update</button>
 						</div>
 					</div>
 				</div>
@@ -136,7 +135,9 @@
   <script>
   import profileImage from '../assets/icon.jpg';
   import store from '../store';
+  import sha256 from 'crypto-js/sha256';
   import axios from 'axios';
+import { fa } from '@formkit/i18n';
   export default{
     name: 'Edit',
     data() {
@@ -148,7 +149,9 @@
       lastName: '',
       phoneNumber: '',
       showMessage: false,
+      showMessage2: false,
       defaultprofileImage: profileImage,
+      password: ''
     };
   },
   methods: {
@@ -176,11 +179,51 @@ async getUserProfile(userID) {
       this.profileImage = data.profileImage;
 
       store.dispatch('updateProfileImage', data.profileImage);
+      localStorage.setItem('phone', this.phoneNumber)
+      localStorage.setItem('name', this.name)
+      
     })
     .catch(error => {
       console.log(error);
     });
 },
+
+async updatePassword(){
+  const hashedPassword = sha256(this.password).toString();
+  try {
+      const response = await axios.post('http://localhost:5000/updatePassword', {
+        userID: localStorage.getItem('userID'),
+        password: hashedPassword
+      });
+      this.showConfirmationBox = false;
+      this.showMessage2 = true;
+      setTimeout(() => {
+    window.location.reload();
+  }, 1000);
+      setTimeout(() => {
+        this.showMessage2 = false;
+      }, 3000);
+    } catch (error) {
+      console.error(error);
+    }
+},
+
+async sendText() {
+            const data = {
+              number: localStorage.getItem('phone') || this.phoneNumber,
+              message: 'Wow! You updated your account details, ' + this.name
+            }
+            axios.post('http://127.0.0.1:5000/send_sms', data)
+              .then(response => console.log(response))
+              .catch(error => console.log(error))
+          },
+
+sendFormsTogether(){
+  this.sendText();
+  this.updateUserProfile();
+},
+
+
 async updateUserProfile() {
     try {
       const response = await axios.post('http://localhost:5000/profile', {

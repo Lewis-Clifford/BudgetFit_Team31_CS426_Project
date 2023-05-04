@@ -73,7 +73,7 @@
 <template v-else>
             <div class="completed-form">
                 <span>Required form completed, click below to edit.</span>
-                <button @click="onEditClick()">Edit</button>
+                <button class="nextBtn" @click="onEditClick()">Edit</button>
             </div>
         </template>
 </div>
@@ -83,7 +83,7 @@
     
     <script>
 import axios from 'axios'
-
+import store from '../store';
 
 export default{
     name: 'Exercise1Page',
@@ -97,7 +97,8 @@ export default{
             weightplan: '',
           
           },
-          exerciseREQfilledout: 0
+          exerciseREQfilledout: 0,
+          profileImage: null,
 
         }
       },
@@ -115,6 +116,19 @@ export default{
           .catch(error => console.log(error))
 
         }, 
+        async getUserProfile(userID) {
+  axios.get(`http://localhost:5000/profile?userID=${userID}`)
+    .then(response => {
+      const data = response.data[0];
+      this.profileImage = data.profileImage;
+
+      store.dispatch('updateProfileImage', data.profileImage);
+
+    })
+    .catch(error => {
+      console.log(error);
+    });
+},
         async updateFormStatus(userID) {
              axios.post(`http://localhost:5000/updateStatus?userID=${userID}`)
                 .then(response => {
@@ -150,6 +164,7 @@ export default{
       },
       created(){
         this.getFormStatus(localStorage.getItem('userID'));
+        this.getUserProfile(localStorage.getItem('userID'));
      },
 }
     

@@ -20,10 +20,34 @@
 </template>
 
 <script>
-
+import store from '../store';
+import axios from 'axios';
 export default{
 
     name: 'AboutPage',
+    data(){
+        return{
+            profileImage: null,
+        }
+    },
+    created(){
+        this.getUserProfile(localStorage.getItem('userID'));
+    },
+    methods: {
+        async getUserProfile(userID) {
+  axios.get(`http://localhost:5000/profile?userID=${userID}`)
+    .then(response => {
+      const data = response.data[0];
+      this.profileImage = data.profileImage;
+
+      store.dispatch('updateProfileImage', data.profileImage);
+
+    })
+    .catch(error => {
+      console.log(error);
+    });
+},
+    }
 }
 </script>
 

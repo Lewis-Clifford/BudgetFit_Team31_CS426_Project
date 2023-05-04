@@ -57,6 +57,7 @@ const handleIconClick = (node, e) => {
     </template>
     
     <script>
+    import store from '../store';
     import axios from 'axios'
     import sha256 from 'crypto-js/sha256';
     
@@ -70,6 +71,7 @@ const handleIconClick = (node, e) => {
             email: '',
             password: '',
             errorMessage: null,
+            profileImage: null,
           
 
         }
@@ -78,6 +80,9 @@ const handleIconClick = (node, e) => {
         loggedIn() {
           return this.$store.state.isLoggedIn;
         },
+      },
+      created(){
+        this.getUserProfile(localStorage.getItem('userID'));
       },
       methods: {
         async createAccount() {
@@ -97,6 +102,7 @@ const handleIconClick = (node, e) => {
     this.errorMessage = error.response.data.error; // set error message to be displayed in frontend
   }
 },
+
         async handleLogout() {
       try {
         const response = await axios.get(
@@ -109,6 +115,7 @@ const handleIconClick = (node, e) => {
         );
         console.log(response);
         localStorage.removeItem("access_token");
+        localStorage.removeItem("phone");
         this.$store.commit("setLoggedIn", false);
         this.$router.push({ name: "login" });
         this.isMenuOpen = !this.isMenuOpen;
@@ -116,6 +123,19 @@ const handleIconClick = (node, e) => {
         console.log(error);
       }
     },
+    async getUserProfile(userID) {
+  axios.get(`http://localhost:5000/profile?userID=${userID}`)
+    .then(response => {
+      const data = response.data[0];
+      this.profileImage = data.profileImage;
+
+      store.dispatch('updateProfileImage', data.profileImage);
+
+    })
+    .catch(error => {
+      console.log(error);
+    });
+},
 
       }}
     </script>

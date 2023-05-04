@@ -109,10 +109,12 @@
 
   </template>
   <template v-else>
-            <div class="completed-form">
-                <span>Optional form completed, click below to edit.</span>
-                <button @click="onEditClick()">Edit</button>
-            </div>
+    <div class="completed-form" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    <span>Optional form completed, click below to edit or view your stats.</span>
+    <br>
+    <button class="nextBtn" @click="onEditClick()">Edit</button>
+    <button class="nextBtn" @click="goToStats()" style="margin: 10px;">View Stats</button>
+</div>
         </template>
 </template>
 
@@ -120,6 +122,7 @@
 <script>
 import axios from 'axios'
 import Exercise1Page from './Exercise1Page.vue'
+import store from '../store';
 
 
 export default{
@@ -142,6 +145,7 @@ export default{
 
           },
           exerciseOPTfilledout: 0,
+          profileImage: null,
 
         }
       },
@@ -161,10 +165,35 @@ export default{
           }
          axios.post('http://127.0.0.1:5000/exerciseOPT', data)
           .then(response => console.log(response))
+          localStorage.setItem('phone', this.formData.phone)
+          localStorage.setItem('name', this.formData.firstname)
           .catch(error => console.log(error))
           await new Promise((r) => setTimeout(r, 1500))
 
         },
+        async getUserProfile(userID) {
+  axios.get(`http://localhost:5000/profile?userID=${userID}`)
+    .then(response => {
+      const data = response.data[0];
+      this.profileImage = data.profileImage;
+
+      store.dispatch('updateProfileImage', data.profileImage);
+
+    })
+    .catch(error => {
+      console.log(error);
+    });
+},
+        async sendText() {
+            const data = {
+              number: this.formData.phone,
+              message: 'Thanks for filling out the optional form, ' + this.formData.firstname
+            }
+            axios.post('http://127.0.0.1:5000/send_sms', data)
+              .then(response => console.log(response))
+              .catch(error => console.log(error))
+            await new Promise((r) => setTimeout(r, 1500))
+          },
         async updateFormStatus(userID) {
              axios.post(`http://localhost:5000/updateStatus?userID=${userID}`)
                 .then(response => {
@@ -189,6 +218,7 @@ export default{
 
 
         async onFormSubmit() {
+            this.sendText();
             this.createExerciseData();
             this.updateFormStatus(localStorage.getItem('userID'));
             this.$router.push({ name: "exercise1" });
@@ -197,6 +227,10 @@ export default{
         onEditClick(){
         this.exerciseOPTfilledout = 0;
 
+        },
+
+        goToStats(){
+          this.$router.push({ name: "stats" });
         },
 
         async onFormSubmit2() {
@@ -209,6 +243,7 @@ export default{
       },
       created(){
         this.getFormStatus(localStorage.getItem('userID'));
+        this.getUserProfile(localStorage.getItem('userID'));
      },
 
       components: {
@@ -221,6 +256,17 @@ export default{
 
 
 <style>
+
+.nextBtn:hover{
+    background-color: #474b4f;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+
 
 [data-type=checkbox] .formkit-fieldset{
 border: none !important;

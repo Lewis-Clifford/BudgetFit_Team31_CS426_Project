@@ -5,7 +5,6 @@
       <div class="card h-100 border-0" style="max-width: 240px">
         <div class="card-img-top position-relative">
           <img :src="product.images_front_full_url" class="img-fluid mx-auto d-block" @click="showPopup(product)" style="cursor: pointer;">
-          <FavoriteComponent :item="product"/>
           <ButtonComponent :disabled="isActive" @click="toggleCart(product)" :item="product" />
 
         </div>

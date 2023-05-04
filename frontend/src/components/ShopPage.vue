@@ -42,6 +42,7 @@
   </template>
   
   <script>
+import store from '../store';
 import router from '@/router'
 import axios from 'axios'
   export default {
@@ -55,9 +56,13 @@ import axios from 'axios'
         description: '',
         listNames: [],
         listPriorities: [],
-        listDescriptions: []
+        listDescriptions: [],
+        profileImage: null,
         
       }
+    },
+    created() {
+      this.getUserProfile(localStorage.getItem('userID'));
     },
     methods: {
         async createGroceryList(){
@@ -90,6 +95,19 @@ import axios from 'axios'
                 console.log(error);
                 });
             },
+            async getUserProfile(userID) {
+  axios.get(`http://localhost:5000/profile?userID=${userID}`)
+    .then(response => {
+      const data = response.data[0];
+      this.profileImage = data.profileImage;
+
+      store.dispatch('updateProfileImage', data.profileImage);
+
+    })
+    .catch(error => {
+      console.log(error);
+    });
+},
           
             
 

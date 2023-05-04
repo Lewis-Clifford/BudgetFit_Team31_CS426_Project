@@ -26,14 +26,14 @@
                         </div>
                         
                         <div class="dropdown float-end">
-                          <router-link to="/cart" >
-                          <button type="button" class="btn btn-lg hvr-shrink me-4 btn-light">
+                          <a @click="delayRoute()">
+                          <button type="button" class="btn btn-lg hvr-shrink me-4 btn-light" @click="updateCart()">
                             <font-awesome-icon icon="fa-solid fa-shopping-cart"></font-awesome-icon>
 
                             <span class="badge bg-primary rounded-pill">{{ totalItems }}</span>
                           </button>
                           
-                        </router-link>
+                        </a>
                         <label class="me-2">View:</label>
                         <button class="btn btn-lg btn-light dropdown-toggle hvr-shrink" data-bs-toggle="dropdown" id="dropdownMenuButton2" type="button"  aria-expanded="false" :value="selectedView">{{ selectedView }}</button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" x-placement="bottom-end" style="will-change: transform; position: absolute; transform: translate3d(120px, 48px, 0px); top: 0px; left: 0px;">
@@ -110,6 +110,7 @@
 </template>
 
 <script>
+import store from '../store';
 import Products from './Buttons&Widgets/Products.vue'
 import { mapGetters } from 'vuex';
 import axios from 'axios';
@@ -121,17 +122,30 @@ export default {
     this.$store.commit('initializeCartFromStorage');
     this.fetchProducts();
     this.setView(9);
+    this.getUserProfile(localStorage.getItem('userID'));
    
   },
+  mutations: {
+  addToCart(state, product) {
+    const existingItem = state.cart.find(item => item.id === product.id);
+    if (existingItem) {
+      existingItem.quantity++;
+    } else {
+      state.cart.push({ ...product, quantity: 1 });
+    }
+  },
+
+},
   mounted(){
     this.names(localStorage.getItem('userID'));
+    this.ID = localStorage.getItem('userID')
+    this.listName = localStorage.getItem('activeList')
   },
   components: {
     Products,
   },
   data() {
     return {
-      cartItems: [],
       selectedView: '9',
       selectedSort: 'Default',
       selectedCategories: [],
@@ -142,7 +156,13 @@ export default {
       max: 500,
       search: '',
       listNames: [],
-      activeList: localStorage.getItem('activeList')
+      activeList: localStorage.getItem('activeList'),
+      listName: '',
+      description: '',
+      priority: '',
+      ID: '',
+      quantity: [], 
+      profileImage: null,
     }
   },
   computed: {
@@ -152,6 +172,15 @@ export default {
       const end = start + this.selectedView;
       return this.list.slice(start, end);
     },
+    ...mapGetters(['cart', 'subtotal']),
+  cartItems() {
+    return this.cart.map(item => ({
+      ...item,
+      name: item.item_name,
+      price: item.item_price,
+      quantity: item.quantity
+    }));
+  },
   },
   methods: {
     backPage(){
@@ -172,6 +201,19 @@ export default {
         rootElement.style.transition = "";
       }, scrollDuration);
     },
+    async getUserProfile(userID) {
+  axios.get(`http://localhost:5000/profile?userID=${userID}`)
+    .then(response => {
+      const data = response.data[0];
+      this.profileImage = data.profileImage;
+
+      store.dispatch('updateProfileImage', data.profileImage);
+
+    })
+    .catch(error => {
+      console.log(error);
+    });
+},
     setView(viewnum, page = 1, sortOrder) {
       var temp = {query:{page:page, limit:viewnum, sort:sortOrder}};
       this.selectedView = viewnum;
@@ -190,6 +232,11 @@ export default {
         this.fetchProducts(this.selectedView, 1, 'asc');
       }
     },
+    delayRoute() {
+    setTimeout(() => {
+      this.$router.push('cart');
+    }, 1500); // Delay the route navigation for 1 second (1000 milliseconds)
+  },
     fetchProducts(limit = this.selectedView, page = 1, sort = this.sort, categories = this.selectedCategories.join(','), search = this.search) {
       axios.get(`http://localhost:5000/products?page=${page}&limit=${limit}&sort=${sort}&min=${this.min}&max=${this.max}&categories=${categories}&search=${search}`)
         .then(response => {
@@ -203,6 +250,7 @@ export default {
       console.log(error);
     });
 },
+
 async names(userID) {
         axios.get(`http://localhost:5000/newList?userID=${userID}`)
                 .then(response => {
@@ -217,12 +265,42 @@ async names(userID) {
                 });
             await new Promise((r) => setTimeout(r, 1500));
             },
-    setActiveList(name, priority, description) {
-      localStorage.setItem('activeList', name);
-      localStorage.setItem('activePriority', priority);
-      localStorage.setItem('activeDescription', description);
-      this.activeList = name;
+  async updateCart() {
 
+                let data = [];
+                console.log(this.cartItems)
+                this.cartItems.forEach(product => {
+                const item = {
+                userID: localStorage.getItem('userID'),
+                productID: product.productsID,
+                listname: localStorage.getItem('activeList'),
+                priority: localStorage.getItem('activePriority'),
+                description: localStorage.getItem('activeDescription'),
+                quantity: product.quantity
+                };
+                data.push(item);
+                });
+
+            axios.post('http://127.0.0.1:5000/lists', data)
+                .then(response => {
+                console.log(response);
+                })
+                .catch(error => {
+                console.log(error);
+                });
+                      },
+setActiveList(name, priority, description) {
+  if (this.activeList && this.activeList !== name) {
+    this.emptyCart();
+  }
+  localStorage.setItem('activeList', name);
+  localStorage.setItem('activePriority', priority);
+  localStorage.setItem('activeDescription', description);
+  this.activeList = name;
+},
+    emptyCart() {
+      this.$store.commit('clearCart');
+      this.cart = [];
     },
     updateResults() {
       this.fetchProducts(this.selectedView, 1, this.sort, this.selectedCategories.join(","), this.search);

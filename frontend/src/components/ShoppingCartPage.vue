@@ -29,7 +29,7 @@
                 </tr>
               </thead>
                 <tbody>
-                    <tr v-for="product in cart" :key="product.item_name">
+                  <tr v-for="product in items" :key="product.item_name" >
                       <td data-th="Product">
                           <div class="row">
                               <div class="col-md-3 text-start">
@@ -38,7 +38,12 @@
                               <div class="col-md-9 text-start mt-sm-1">
                                   <h4>{{product.item_name}}</h4>
                                   <p class="font-weight-light">{{product.brand_name}}</p>
-                                  <p class="alert alert-danger" role="alert">Hazard: Remove item, contains ingredient(s) that will cause you an allergic reaction.</p>
+                                  <p v-if="product.allergy === 1" class="alert alert-danger" role="alert">
+                                    Hazard: Remove item, contains ingredient(s) that will cause you an allergic reaction.
+                                  </p>
+                                  <p v-if="product.diet === 1" class="alert alert-warning" role="alert">
+                                    Warning: Remove item, contains ingredient(s) that do not fit your current diet.
+                                  </p>
                                   <button class="btn Expand"  @click="product.showInfo = !product.showInfo"><font-awesome-icon :icon="product.showInfo ? 'fa-solid fa-angles-up' : 'fa-solid fa-angles-down'"></font-awesome-icon></button>
                                   <div v-if="product.showInfo">
                                     
@@ -69,29 +74,35 @@
                         <td data-th="Calories">{{product.nf_calories}}</td>
                         <td data-th="Price">{{product.item_price}}</td>
                         <td data-th="Quantity">
-                        <input type="number" min="1" max="16" class="form-control form-control-lg text-center" v-model="product.quantity" @change="updateQuantity(product, product.quantity); updateSubtotal()">
+                        <input type="number" min="1" max="16" class="form-control form-control-lg text-center" v-model="product.quantity" @change="updateQuantity(product, product.quantity); updateSubtotal(), updateSubtotalCals()">
                     </td>
                         <td class="actions" data-th="">
                             <div class="text-end">
-                                <button @click="removeItem(product), removeProduct(product.productsID)" class="btn btn-lg btn-light hvr-shrink">
-                                    <font-awesome-icon icon="fa-solid fa-trash"></font-awesome-icon>
-                                </button>
+                              <button class="btn btn-lg btn-light hvr-shrink" @click="removeProductAndItemAndGetList(product, product.productsID, this.ID, this.listName)">
+                                <font-awesome-icon icon="fa-solid fa-trash"></font-awesome-icon>
+                              </button>
 
                             </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <div class="float-end text-end">
-                <h4>Subtotal:</h4>
-                <h1>${{ $store.getters.subtotal }}</h1>
-            </div>
+            <div class="row">
+  <div class="col-9 text-end">
+    <h4>Total Price:</h4>
+    <h1>${{ $store.getters.subtotal }}</h1>
+  </div>
+  <div class="col-3 text-end">
+    <h4>Total Calories:</h4>
+    <h1>{{ $store.getters.subtotalCals }}</h1>
+  </div>
+</div>
         </div>
     </div>
     <div class="row mt-4 d-flex align-items-center">
         <div class="col-sm-6 order-md-2 text-end">
           <a @click="delayRoute">
-            <button class="btn btn-primary btn-block custom-button mb-4 btn-lg px-5" @click="updateCart()">Finalize List</button>
+            <button class="btn btn-primary btn-block custom-button mb-4 btn-lg px-5" @click="updateCart(), sendText()">Finalize List</button>
           </a>
           </div>
         <div class="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-start">
@@ -104,7 +115,7 @@
 </section>
 </template>
 <script>
-
+import store from '../store';
 import { mapGetters} from 'vuex';
 import axios from 'axios';
 import FinalList from './FinalList.vue';
@@ -118,21 +129,48 @@ export default {
             listName: '',
             description: '',
             priority: '',
-            ID: [],
-            quantity: []
+            ID: '',
+            quantity: [], 
+            items: [],
+            profileImage: null,
             
         }
+    },
+    mounted(){
+      this.ID = localStorage.getItem('userID')
+      this.listName = localStorage.getItem('activeList')
+      this.getList(this.ID, this.listName);
     },
     methods: {
     goBack() {
       this.$router.back()
     },
+    async removeProductAndItemAndGetList(product, productId, userId, listName) {
+        this.removeItem(product)
+        this.removeProduct(productId);
+        await this.getList(userId, listName);
+        await this.reloadPage();
+
+},
     delayRoute() {
     setTimeout(() => {
       this.$router.push('finallist');
     }, 1500); // Delay the route navigation for 1 second (1000 milliseconds)
   },
-    async removeProduct(productsID) {
+  async reloadPage(){
+    location.reload();
+    await new Promise((r) => setTimeout(r, 2000));
+  },
+  async sendText() {
+            const data = {
+              number: localStorage.getItem('phone'),
+              message: 'Nice list, ' + localStorage.getItem('name')
+            }
+            axios.post('http://127.0.0.1:5000/send_sms', data)
+              .then(response => console.log(response))
+              .catch(error => console.log(error))
+          },
+       removeProduct(productsID) {
             const userID = localStorage.getItem('userID');
             const listName = localStorage.getItem('activeList');
              axios.delete(`http://localhost:5000/newList?userID=${userID}&productsID=${productsID}&listName=${listName}`)
@@ -140,9 +178,32 @@ export default {
 
                 })
                 .catch(error => {console.log(error);
-                }) 
-                await new Promise((r) => setTimeout(r, 1500));
+                });
+
         },
+        async getList(userID, listName) {
+        axios.get(`http://localhost:5000/lists?userID=${userID}&listName=${listName}`)
+                .then(response => {
+                  this.items = response.data;
+                })
+                .catch(error => {
+                console.log(error);
+                });
+                await new Promise((r) => setTimeout(r, 500));
+            },
+            async getUserProfile(userID) {
+  axios.get(`http://localhost:5000/profile?userID=${userID}`)
+    .then(response => {
+      const data = response.data[0];
+      this.profileImage = data.profileImage;
+
+      store.dispatch('updateProfileImage', data.profileImage);
+
+    })
+    .catch(error => {
+      console.log(error);
+    });
+},
     async updateCart() {
 
 
@@ -173,10 +234,17 @@ axios.post('http://127.0.0.1:5000/lists', data)
       this.cart = [];
     },
     updateQuantity(product, quantity) {
-    product.quantity = parseInt(quantity);
-    product.price = product.item_price * product.quantity;
-  },
-    updateSubtotal() {
+
+  
+  const cartItemIndex = this.cart.findIndex(item => item.id === product.productID);
+  if (cartItemIndex !== -1) {
+    this.cart[cartItemIndex].quantity = quantity;
+  }
+  
+  this.updateSubtotal();
+  this.updateSubtotalCals();
+},
+  updateSubtotal() {
     let subtotal = 0;
     this.cartItems.forEach(product => {
     if (product.quantity > 1) {
@@ -187,14 +255,26 @@ axios.post('http://127.0.0.1:5000/lists', data)
   });
     this.$store.commit('setSubtotal', subtotal);
 },
+updateSubtotalCals() {
+    let subtotalCals = 0;
+    this.cartItems.forEach(product => {
+    if (product.quantity > 1) {
+      subtotalCals += product.calories * product.quantity;
+    } else {
+      subtotalCals += product.calories;
+    }
+  });
+    this.$store.commit('setSubtotalCals', subtotalCals);
+},
         removeItem(product) {
   this.$store.commit('removeFromCart', product);
   this.updateSubtotal();
+  this.updateSubtotalCals();
 }
   }, 
         
   mutations: {
-  addToCart(state, product) {
+    addToCart(state, product) {
     const existingItem = state.cart.find(item => item.id === product.id);
     if (existingItem) {
       existingItem.quantity++;
@@ -202,15 +282,15 @@ axios.post('http://127.0.0.1:5000/lists', data)
       state.cart.push({ ...product, quantity: 1 });
     }
   },
-
 },
 computed: {
-  ...mapGetters(['cart', 'subtotal']),
+  ...mapGetters(['cart', 'subtotal', 'subtotalCals']),
   cartItems() {
     return this.cart.map(item => ({
       ...item,
       name: item.item_name,
       price: item.item_price,
+      calories: item.nf_calories,
       quantity: item.quantity
     }));
   }
@@ -219,6 +299,7 @@ created(){
   this.listName = localStorage.getItem('activeList')
   this.description = localStorage.getItem('activeDescription')
   this.priority = localStorage.getItem('activePriority')
+  this.getUserProfile(localStorage.getItem('userID'));
 
   
 }
