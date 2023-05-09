@@ -1,3 +1,7 @@
+<!-- Author: Kaden Nesch -->
+<!-- This template will display the products from the backend onto the frontend. -->
+<!-- The products displayed will have a card look where users can click on them or just add them to their cart -->
+
 <template>
   <div>
     <div class="row">
@@ -31,6 +35,8 @@ import FavoriteComponent from './AddFavoriteShop.vue';
 import PopupComponent from './ProductPopUp.vue';
 import { mapMutations, mapState } from 'vuex';
 
+
+// This code will add items to the cart/remove them based on the state of the cart
 export default {
   name: 'Products',
   props: ['cartItems', 'products', 'list'],

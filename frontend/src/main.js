@@ -1,3 +1,7 @@
+// Author: Kaden Nesch
+// This is the page that deals with all the imports throughout the website
+// I have also utilized this page to use certain fontawesome icons and to set the screen size on certain resolutions
+
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -5,7 +9,6 @@ import { plugin, defaultConfig } from '@formkit/vue'
 import '@formkit/themes/genesis' 
 import { createAutoAnimatePlugin, createFloatingLabelsPlugin } from '@formkit/addons'
 import '@formkit/addons/css/floatingLabels'
-// Import Bootstrap and BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.js'
 import { createPopper } from '@popperjs/core'

@@ -1,3 +1,7 @@
+
+<!-- Author: Kaden Nesch -->
+<!-- This template will display the add button that allows users to add products to their cart -->
+
 <template>
   <button class="btn btn-primary btn-circle position-absolute top-100 start-50 translate-middle"
           :class="{ active : isActive }"
@@ -11,6 +15,7 @@
 <script>
 import { mapState, mapMutations } from 'vuex';
 
+// The script will add products to the cart if they are not already added, and based on the state of the button, remove the item from the cart if pressed again.
 export default {
   name: 'ButtonComponent',
   props: ['item'],

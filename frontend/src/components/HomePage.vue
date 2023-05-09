@@ -1,3 +1,7 @@
+<!-- Author: Kaden Nesch -->
+<!-- This template will display the home page that users will see when first entering the website -->
+<!-- It will contain a button to continue and a navigation bar on top that can take users to other pages, such as login -->
+
 <template>
   <div v-if="showBanner" class="banner" :style="{ display: bannerDisplay }" @click="hideBanner">
     You're in {{ username }}. Let's get to work!
@@ -17,6 +21,11 @@
 </template>
 
 <script>
+
+// This script will send get requests to the backend to obtain form status initially when on the website as well as the user's already created lists
+// Once users have logged in, this home page will display a banner telling the person they have logged in successfully with their name
+// Contains code to obtain the user's profile picture opon arrival on webpage
+
 import axios from 'axios';
 import store from '../store';
 export default {

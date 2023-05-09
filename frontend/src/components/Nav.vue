@@ -1,3 +1,10 @@
+<!-- Author: Kaden Nesch -->
+<!-- This template will display the nav menu that users will see on the top of every webpage in the website -->
+<!-- The nav menu will contain options of going to the home, diet, exercise, shop, login/dropdown pages  -->
+<!-- Once a user is logged in, the login button will be replaced with the user's profile picture that will allow a dropdown menu -->
+<!-- The dropdown menu will allow users to go to the editprofile page or they can logout -->
+
+
 <template>
     <nav class="navbar">
       <router-link class="iconlink" to="/">
@@ -35,7 +42,11 @@
     </nav>
     <router-view/>
   </template>
-  
+
+  // This script will send post requests to the backend when a user presses logout, destroying their session token and logging them out of their accounts
+  // Contains code to obtain the user's profile picture opon arrival on webpage
+
+
   <script>
   import profileImage from '../assets/icon.jpg';
   import axios from 'axios';

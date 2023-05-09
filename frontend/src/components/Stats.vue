@@ -1,3 +1,7 @@
+<!-- Author: Kaden Nesch -->
+<!-- This template will display the user's calculated health statistics based on what they filled out in the exercise forms -->
+<!-- Users can then generate this page onto a pdf or go back to the homepage once they have seen it all -->
+
 <template>
     <div class="containerz"  id="pdf-content" style="max-width: 540px">
       <div class="header">
@@ -34,6 +38,11 @@
   </template>
 
 <script>
+
+// This script will send a get request to obtain the information of the person's health stats from the backend and display it
+// Also contians the function to generate the whole page into a pdf that users will be able to see
+// Contains code to obtain the user's profile picture opon arrival on webpage
+
 import store from '../store';
 import html2pdf from 'html2pdf.js'
 import axios from 'axios';

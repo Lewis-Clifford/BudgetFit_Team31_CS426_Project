@@ -1,3 +1,8 @@
+<!-- Author: Kaden Nesch -->
+<!-- This template will display the optional exercise form that users will have to fill out. They can skip this form if they feel like doing so -->
+<!-- Here they can enter personal information such as height, weight, age, and exercise experience -->
+<!-- This template will display another screen saying Form completed click to edit if the user has already completed the form, they can edit it once again -->
+
 <template>
   <template v-if="exerciseOPTfilledout === 0">
 <div class="containere" style="max-width: 540px">
@@ -120,6 +125,11 @@
 
 
 <script>
+
+// The script code will send axios requests to the backend with the user inputs to send the data to the personform table in the database.
+// It will also obtain the status of the form to see if it's completed and based off of that information it will either show the form or the edit form screen.
+// Contains code to obtain the user's profile picture opon arrival on webpage
+
 import axios from 'axios'
 import Exercise1Page from './Exercise1Page.vue'
 import store from '../store';

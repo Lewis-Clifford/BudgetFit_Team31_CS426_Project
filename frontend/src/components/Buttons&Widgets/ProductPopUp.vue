@@ -1,3 +1,6 @@
+<!-- Author: Kaden Nesch -->
+<!-- This template allows for the popup to show when a user clicks on the product's name or picture to display data about the product such as ingredients and calories. -->
+
 <template >
 <div class="popup-overlay" @click.self="$emit('close')">
 <div class="popup-container">
@@ -49,6 +52,8 @@
 
 </template>
 <script>
+
+// This code also allows the item to be added to the cart from here, or to be closed and go back to the regular viewshop screen.
 import { mapState, mapMutations } from 'vuex';
 import FavoriteComponent from './AddFavoriteShop.vue';
 export default {

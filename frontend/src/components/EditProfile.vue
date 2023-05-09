@@ -1,3 +1,8 @@
+<!-- Author: Kaden Nesch -->
+<!-- This template will display the user dashboard page that will give users the chance to update and personalize their profile -->
+<!-- Users can change their profile picture, names, email, phone number, and password -->
+
+
 <template>
   <div class="overlay"  v-if="showConfirmationBox"></div>
  <section class="py-5 my-5">
@@ -133,11 +138,15 @@
   </template>
   
   <script>
+
+// The script will send post requests of either changing the persoform data such as profile picture, names, number, email, and password.
+// Contains code to obtain the user's profile picture opon arrival on webpage
+// This script also contains code that will send a text message to the user once they save the changes to their account and also input their phone number.
+
   import profileImage from '../assets/icon.jpg';
   import store from '../store';
   import sha256 from 'crypto-js/sha256';
   import axios from 'axios';
-import { fa } from '@formkit/i18n';
   export default{
     name: 'Edit',
     data() {

@@ -1,3 +1,7 @@
+<!-- Author: Kaden Nesch -->
+<!-- This template will lead users to the page after they press finalize list where they can display their finished list with all the relevant data -->
+<!-- Once on this page, they can create a pdf of this page or they can go back and edit their list or create a new list altogether -->
+
 <template>
    <section  class="pt-5 pb-5">
   <div class="container p-5">
@@ -114,6 +118,11 @@
 </section>
 </template>
 <script>
+
+// The script will send get requests to retrieve the stored list that the user has sent to the backend and display it. 
+// Contains code that allows users to generate a pdf of the page so that their entire list is visible.
+// Contains code to obtain the user's profile picture opon arrival on webpage
+
 import html2pdf from 'html2pdf.js'
 import store from '../store';
 import axios from 'axios';

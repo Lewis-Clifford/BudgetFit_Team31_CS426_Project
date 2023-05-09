@@ -1,3 +1,6 @@
+<!-- Author: Kaden Nesch -->
+<!-- This page deals with the pagination inside of the website to allow pages to be traversed forward and back. -->
+
 <template>
     <nav>
       <ul class="pagination">
@@ -26,6 +29,8 @@
         required: true
       }
     },
+
+    // Changes pages based on what page we are on
     computed: {
       pages() {
         const pages = [];

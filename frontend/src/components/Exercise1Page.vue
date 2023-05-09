@@ -1,3 +1,8 @@
+<!-- Author: Kaden Nesch -->
+<!-- This template will display the required exercise form that users will have to fill out -->
+<!-- Here they can enter goals for weight and exercise that they will want to accomplish -->
+<!-- This template will display another screen saying Form completed click to edit if the user has already completed the form, they can edit it once again -->
+
 <template>
 <div class="cont">
     <template v-if="exerciseREQfilledout === 0">
@@ -7,7 +12,7 @@
         <FormKit  message-class="message" type="form" :actions="false" style="min-height: 550px;" @submit="onFormSubmit" >
             <div class="form first">
                 
-              <span class="title">This form is required to move forward towards your specialized workout plans.
+              <span class="title">This form is required to move forward towards your health information!
    
                       </span>
                 <div class="detailspersonal">
@@ -82,6 +87,11 @@
     
     
     <script>
+
+// The script code will send axios requests to the backend with the user inputs to send the data to the personform table in the database.
+// It will also obtain the status of the form to see if it's completed and based off of that information it will either show the form or the edit form screen.
+// Contains code to obtain the user's profile picture opon arrival on webpage
+
 import axios from 'axios'
 import store from '../store';
 

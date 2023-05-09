@@ -1,3 +1,8 @@
+<!-- Author: Kaden Nesch -->
+<!-- This template will display the register page where users will be able to enter their desired username, email, and password to create their accounts -->
+<!-- If a user enters already taken or invalid credentials, errors will begin to appear -->
+<!-- If a user already has an account they would like to login to, they can press the login button at the bottom to take them to the login page -->
+
 <script setup>
 
 const handleIconClick = (node, e) => {
@@ -57,6 +62,12 @@ const handleIconClick = (node, e) => {
     </template>
     
     <script>
+
+    //This script will send post requests to the backend once a user has filled out valid credentials towards creating a new account
+    //It utilizes a library called crypto-js that will send a hashed version of the password to the backend
+    // Once a user enters this page while they are logged in, they will be greeted by a page displaying their name and a button to logout
+    // Contains code to obtain the user's profile picture opon arrival on webpage
+
     import store from '../store';
     import axios from 'axios'
     import sha256 from 'crypto-js/sha256';

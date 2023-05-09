@@ -1,3 +1,10 @@
+// Author: Kaden Nesch
+// This page is my VueX store that will deal with the storing of local data in the frontend on a session basis
+// Most things on here are a mix of local storage and VueX properties
+// It contains actions and mutations regarding the shopping cart, profile picture, name, banner, and itemlists
+// Every code on here will affect only the session of a person's experience and once they log out all of this will be cleared
+// This page also allows me to set a store of a person's session to actually enable this to work. It will detect when a person has logged in and set their name, profile pictures, and item lists according to their session
+
 import { createStore } from 'vuex'
 
 const store = createStore({

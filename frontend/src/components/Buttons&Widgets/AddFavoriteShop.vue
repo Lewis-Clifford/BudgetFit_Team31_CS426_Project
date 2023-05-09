@@ -1,3 +1,6 @@
+
+<!-- Author: Kaden Nesch -->
+<!-- This template was supposed to allow users to favorite items, but we ran out of time and decided this feature was not important for the project -->
 <template>
   <div class="position-absolute top-0 end-0 mt-3 me-3">
     <button class="btn fav-button"

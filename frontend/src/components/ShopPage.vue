@@ -1,3 +1,8 @@
+<!-- Author: Kaden Nesch -->
+<!-- This template will display a page that will allow users to create a new grocery list -->
+<!-- They are required to fill out the input of List Name, but they can also include the optional description and priority -->
+<!-- If they already have list(s) that they would like to look at instead, they can press to skip this page -->
+
 <template>
     <div class="containergrocery">
       <h1 class="groceryTitle">Grocery List</h1>
@@ -42,6 +47,11 @@
   </template>
   
   <script>
+
+// This script will send post requests to the backend once a user has filled out the user inputs to create a grocery list
+// It will also obtain the names of lists already made by the user so they can be preloaded once going to the next page
+// Contains code to obtain the user's profile picture opon arrival on webpage
+
 import store from '../store';
 import router from '@/router'
 import axios from 'axios'

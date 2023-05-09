@@ -1,3 +1,8 @@
+<!-- Author: Kaden Nesch -->
+<!-- This template will show the products stored in the database. Here all of them will be displayed on multiple pages that users can go back and forth to view -->
+<!-- Users will be able to use the master search functionality to search for items using asc/desc price, max/min price, categories, custom search, and items per page -->
+<!-- Users will be able to see all of their created lists, as well as change to them whenever they want. They can also create a whole new list altogether when pressing a button -->
+<!-- Once users have added the items to their cart, they can press the cart button to go to the CartPage -->
 
 <template>
 <div class="container p-5" >
@@ -110,6 +115,15 @@
 </template>
 
 <script>
+
+// This script uses get and post requests in multiple ways
+// The page utilizes get requests to obtain the master search queries for the master search and to be able to view all of the items from the backend
+// The page utilizes post requests to be able to add the user's items to their cart once they are finished
+// The page also includes functions such as goToTop that will take the user to the top of the page using a smooth scroll
+// The local storage gets affected here as items can be added and removed from the cart
+// Once users select a list on the side, it will toggle which list is the active list and thus send a post request to the back depending on which list the user has selected
+// Contains code to obtain the user's profile picture opon arrival on webpage
+
 import store from '../store';
 import Products from './Buttons&Widgets/Products.vue'
 import { mapGetters } from 'vuex';

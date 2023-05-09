@@ -1,3 +1,7 @@
+<!-- Author: Kaden Nesch -->
+<!-- This is the data that will be present on every webpage throughout the website, so the navbar is placed here -->
+<!-- Intializers for the vueX and local storage are enabled here to be present on every page -->
+
 <template>
  <Navbar></Navbar>
 </template>

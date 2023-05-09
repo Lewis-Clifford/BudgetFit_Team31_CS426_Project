@@ -1,3 +1,6 @@
+<!-- Author: Kaden Nesch -->
+<!-- This template shows a basic about page of the website's functionality and use case -->
+
 <template>
 <div class="Wrapper">
 <div class="green">
@@ -20,6 +23,8 @@
 </template>
 
 <script>
+
+// Contains code to obtain the user's profile picture opon arrival on webpage
 import store from '../store';
 import axios from 'axios';
 export default{

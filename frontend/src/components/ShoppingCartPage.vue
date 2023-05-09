@@ -1,3 +1,9 @@
+<!-- Author: Kaden Nesch -->
+<!-- This template will display the initial cart page that users will be able to see what items they added to their cart -->
+<!-- Users will be able to edit the quantities of these items, or remove them entirely from their list -->
+<!-- They will be able to view their listname, priority, and description -->
+<!-- Users will finally be able to see their diet form be put into use in this page, if a user has a product in this cart that directly goes against their diet or allergy, a warning and hazard message will pop up -->
+
 <template >
     <section class="pt-5 pb-5">
   <div class="container p-5">
@@ -115,6 +121,14 @@
 </section>
 </template>
 <script>
+
+//This script will have a combination of post, delete, and get requests. The post request will be send once a person finalizes the list, which will send them a text
+// The get request will retrieve those products that users added to their list and display them on their page, allowing for users to view their cart
+// A delete request will delete a row of a user's item if the quantity is set to 0, which means that they removed the item entirely from their cart
+// This page will also use local storage math to be able to display the total amount of calories and price of their grocery list
+// Contains code to obtain the user's profile picture opon arrival on webpage
+
+
 import store from '../store';
 import { mapGetters} from 'vuex';
 import axios from 'axios';

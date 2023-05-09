@@ -1,3 +1,7 @@
+<!-- Author: Kaden Nesch -->
+<!-- This template displays the diet form that users can fill out and enter information about their diet preference or allergies with food -->
+<!-- This template will display another screen saying Form completed click to edit if the user has already completed the form, they can edit it once again -->
+
 <template>
     
 <div class="cont" >
@@ -28,7 +32,7 @@
                             food products that your diet prohibits" validation="required"
                             :options="['Keto Diet (Low-no carbohydrates)', 'Vegetarian Diet (No meat)', 
                             'Vegan Diet (No meat or dairy)', 'Pescatarian (Vegetarian but can consume fish)'
-                            ,'Low-Sodium Diet']"></FormKit>
+                            ,'Low-Sodium Diet', 'None']"></FormKit>
                         </div>
                       </div>
                       <span class="dietTitleReq">
@@ -38,9 +42,8 @@
                         <div class="input-fieldReq">
                             <FormKit type="checkbox" label="Allergy" placeholder="Dietary Allergies"
                             v-model="formData.allergy" validation="required"
-                            help="Based on your selection, indicate from a scale of 1-5 how serious your allergy is, 1 being very mild and 5 being deadly.
-                            We will provide hazard warnings if food contain an allergy item."
-                            :options="['Peanut', 'Dairy', 'Gluten', 'Eggs', 'Crustaceans', 'Soy', 'Fish' ]"></FormKit>
+                            help="Based on your selection, we will provide hazard warnings if food contain an allergy item."
+                            :options="['Peanut', 'Dairy', 'Gluten', 'Eggs', 'Crustaceans', 'Soy', 'Fish', 'None' ]"></FormKit>
                             <div class="form-group">
                               <help>Custom allergy:</help>
                               <input type="text" class="form-control" v-model="formData.customAllergy" name="customAllergy">
@@ -74,6 +77,11 @@
 </template>
 
 <script>
+
+// The script code will send axios requests to the backend with the user inputs to send the data to the personform table in the database.
+// It will also obtain the status of the form to see if it's completed and based off of that information it will either show the form or the edit form screen.
+// Contains code to obtain the user's profile picture opon arrival on webpage
+
 import axios from 'axios'
 import store from '../store';
 export default{

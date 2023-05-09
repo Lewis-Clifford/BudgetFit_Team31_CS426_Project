@@ -1,3 +1,7 @@
+<!-- Author: Kaden Nesch -->
+<!-- This template will display the login page where users can enter their username and password to login -->
+<!-- If users do not have an account, they can enter the button to go to the register page instead where they can create ana account, then come back to this one to login -->
+
 <script setup>
 
 const handleIconClick = (node, e) => {
@@ -48,6 +52,12 @@ const handleIconClick = (node, e) => {
 </template>
 
 <script>
+
+// This script will send a post request to the backend once a user has filled out a correct username or password
+// If that is not the case, they will be greeted with an error that either the username or password is incorrect
+// Once users enter this page while logged in, a page will display that will display their name and the ability to logout
+// Contains code to obtain the user's profile picture opon arrival on webpage
+
 import store from '../store';
 import axios from "axios";
 export default {

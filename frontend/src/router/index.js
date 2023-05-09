@@ -1,3 +1,6 @@
+// Author: Kaden Nesch
+// This page allows me to set the routes for each page as well as enable history so users can use the back arrow to go back to previous pages
+
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import About from '../views/AboutView.vue'
