@@ -1,3 +1,7 @@
+-- Author: Kaden Nesch
+-- This stored procedure will go in the database and update the status of the personform based on if they filled out the diet form, the req exercise form, and the optional exercise form.
+
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `updatePersonFormStatus`(IN _USERID INT)
 BEGIN
     DECLARE dietFilledOut INT DEFAULT 0;

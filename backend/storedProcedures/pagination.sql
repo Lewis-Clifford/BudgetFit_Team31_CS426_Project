@@ -1,3 +1,8 @@
+--Author: Kaden Nesch
+-- This stored procedure deals with the master search as well as pagination in the program.
+-- The master search includes sorting things by asc/desc price, min/max price, categories, user search, and items dislayed per page.
+-- This also allows the pagination to work properly do display every item in seperate pages.
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `pagination`(
     IN sort_order VARCHAR(10), 
     IN records_per_page INT, 
