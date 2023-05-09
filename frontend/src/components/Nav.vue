@@ -43,11 +43,14 @@
     <router-view/>
   </template>
 
-  // This script will send post requests to the backend when a user presses logout, destroying their session token and logging them out of their accounts
-  // Contains code to obtain the user's profile picture opon arrival on webpage
+
 
 
   <script>
+
+  // This script will send post requests to the backend when a user presses logout, destroying their session token and logging them out of their accounts
+  // Contains code to obtain the user's profile picture opon arrival on webpage
+  
   import profileImage from '../assets/icon.jpg';
   import axios from 'axios';
   import { mapState } from 'vuex';
