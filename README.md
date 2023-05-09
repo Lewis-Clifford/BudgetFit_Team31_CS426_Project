@@ -32,6 +32,29 @@ The project is intended to decrease user food spending and improve user dietary 
 
 Dependency List
 
+Javascript Packages use "npm install" followed by these package names(versions listed also):
+formkit/addons                            1.0.0-beta.15
+formkit/vue                               1.0.0-beta.15
+fortawesome/fontawesome-svg-core          6.3.0
+fortawesome/free-regular-svg-icons        6.3.0
+fortawesome/free-solid-svg-icons          6.3.0
+fortawesome/vue-fontawesome               3.0.3
+popperjs/core                             2.11.6
+vue/cli-plugin-router                     5.0.8
+vue/cli-plugin-vuex                       5.0.8
+vue/cli-service                           5.0.8
+axios                                     1.3.4
+bootstrap                                 5.2.3
+crypto-js                                 4.1.1
+formkit                                   1.0.0-beta.15
+hover.css                                 2.3.2
+html2pdf.js                               0.10.1
+i                                         0.3.7
+npm                                       9.6.0
+vue-router                                4.1.6
+vue                                       3.2.47
+vuex                                      4.1.0
+
 Python Packages use "$pip3 install" followed by these package names(versions listed also):
 click                  8.1.3
 colorama               0.4.6
