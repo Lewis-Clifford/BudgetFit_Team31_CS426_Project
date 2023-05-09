@@ -6,8 +6,12 @@ import hashlib
 import math
 from twilio.rest import Client
 
+# Author: Kaden Nesch
+# This page consists of all of the endpoints used during the final demo. 
+# I will only comment endpoints that have not already been commented by Cliff.
+
 account_sid = 'AC81f423bcf59f27ca20c14cbd6f94301e'
-auth_token = '433f0b941281d0059a1e6cd2a71381a4'
+auth_token = 'c738d9d80933af32f45777423e59b32e'
 client = Client(account_sid, auth_token)
 
 app = Flask(__name__)
@@ -28,6 +32,8 @@ blacklist = set()
 
 @cross_origin()
 
+
+# Endpoint to deal with logging out, destroying the token once a user logs out must use protected routes.
 @app.route('/logout', methods=['GET'])
 @jwt_required()
 def logout():
@@ -134,7 +140,9 @@ def registerDelete():
 
 
 
-    
+# Endpoint for obtaining all of the products stored in the database.
+# Endpoint will also take in arguments for the mastersearch to work properly.
+# User inputted arguments will let them search for products using prices, categories, search, and sort by.
 @app.route('/products', methods=['GET'])
 def get_products():
     limit = request.args.get('limit', type=int)
@@ -489,7 +497,7 @@ def exerciseOPTPost():
 
 
 
-
+# Endpoint for the required form in the exercise page, sends data to backend table.
 @app.route('/exerciseREQ', methods=['POST'])
 
 def exerciseREQPost():
@@ -584,7 +592,7 @@ def getProfile():
         con.close()                                                #Close database connection
         return jsonify(profileForm)
     
-
+# Endpoint for retrieving the status of the forms for the user so they can be marked as complete or incomplete.
 @app.route('/status', methods=['GET'])
 def getFormStatus():
     
@@ -622,7 +630,7 @@ def getFormStatus():
         con.close()                                                #Close database connection
         return jsonify(formStatus)
     
-
+# Endpoint to update that status of the forms upon completion.
 @app.route('/updateStatus', methods=['POST'])
 def updateStatus():
     
@@ -727,6 +735,8 @@ def getExercise():
         con.close()                                                #Close database connection
         return jsonify(form)
     
+
+# Endpoint for sending text messages to users who fill out their phone number in the personform table.
 @app.route('/send_sms', methods=['POST'])
 def send_sms():
     
