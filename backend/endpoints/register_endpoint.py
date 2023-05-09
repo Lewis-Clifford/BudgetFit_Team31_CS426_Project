@@ -1,4 +1,5 @@
-#endpoint to receive json data from register page
+#Author: Cliff Lewis
+#Purpose: Endpoint to process requests to create a new user account
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin

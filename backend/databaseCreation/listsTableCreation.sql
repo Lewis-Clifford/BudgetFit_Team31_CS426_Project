@@ -1,3 +1,8 @@
+
+#Author: Cliff Lewis
+#Purpose: This table is a join table combining product numbers with the list they are assigned to.
+#   It has a many-to-one relationship from the lists table to the products table and 
+#   a many-to-one relationship from the lists table to the user table
 CREATE TABLE
     db_budgetfit.lists (
         listID INT NOT NULL AUTO_INCREMENT,

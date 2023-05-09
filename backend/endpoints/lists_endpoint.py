@@ -1,3 +1,6 @@
+#Author: Cliff Lewis
+#Purpose: Endpoint to process requests pertaining to lists and the 'shop' page
+
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 from sqlalchemy import URL

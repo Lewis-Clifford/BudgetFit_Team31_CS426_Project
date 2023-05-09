@@ -1,3 +1,6 @@
+#Author: Cliff Lewis
+#Purpose: Endpoint to update the user's password
+
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 from sqlalchemy import URL

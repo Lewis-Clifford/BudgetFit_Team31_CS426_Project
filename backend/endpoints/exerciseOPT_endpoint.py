@@ -1,4 +1,5 @@
-#endpoint to receive json data from exercise page
+#Author: Cliff Lewis
+#Purpose: Endpoint to receive json data from exercise page
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin

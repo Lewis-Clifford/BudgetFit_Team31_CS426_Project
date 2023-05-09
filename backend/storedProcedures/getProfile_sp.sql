@@ -1,3 +1,7 @@
+#Author: Cliff Lewis
+#Purpose: Queries profile data to display in the front end
+
+
 CREATE DEFINER =`CLIFF`@`%` PROCEDURE `GETPROFILE`(
 IN _USERID INT) BEGIN 
 	START TRANSACTION;

@@ -1,3 +1,7 @@
+#Author: Cliff Lewis
+#Purpose: Endpoint processes user data to produce usable information for the user
+#         derived from the user's data
+
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 from sqlalchemy import URL
@@ -47,6 +51,7 @@ def getListNames():
         
             name, lastName, gender, birthday, heightFeet, heightInches, weight, fitnessLevel = row_dict['name'], row_dict['lastName'], row_dict['gender'], row_dict['birthday'],\
                   row_dict['heightFeet'], row_dict['heightInches'], row_dict['weight'], row_dict['fitnessLevel']
+
 
             data = {'name': name, 'lastName': lastName, 'gender': gender, 'birthday': birthday, 'heightFeet': heightFeet, 'heightInches': heightInches,\
                     'weight': weight, 'fitnessLevel': fitnessLevel}

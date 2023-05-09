@@ -1,3 +1,6 @@
+#Author: Cliff Lewis
+#Purpose: Queries exercise related data to generate derived data in the backend
+
 CREATE DEFINER=`cliff`@`%` PROCEDURE `getExercise`(IN _userID INT)
 BEGIN
   START TRANSACTION;

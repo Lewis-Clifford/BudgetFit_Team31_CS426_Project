@@ -1,3 +1,6 @@
+#Author: Cliff Lewis
+#Purpose: Updates user profile data in the personform table
+
 CREATE DEFINER =`CLIFF`@`%` PROCEDURE `UPDATEPROFILE`
 (IN _USERID INT, IN _NAME VARCHAR(100), IN _LASTNAME 
 VARCHAR(100), IN _EMAIL VARCHAR(255), IN _PHONENUMBER 

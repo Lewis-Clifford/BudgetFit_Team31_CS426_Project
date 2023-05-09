@@ -1,3 +1,7 @@
+#Author: Cliff Lewis
+#Purpose: Procedure compares user data to products to determine allergy/diet compatibility
+#         Called within insertToUserList procedure
+
 CREATE DEFINER=`cliff`@`%` PROCEDURE `allergyQuery`(IN _userID INT, IN _productsID INT)
 BEGIN
   DECLARE allergy VARCHAR(255);

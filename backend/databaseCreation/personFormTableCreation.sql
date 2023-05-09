@@ -1,3 +1,7 @@
+#Author: Cliff Lewis
+#Purpose: This table contains personal data for each user.
+#         It has a one-to-one relationship with the user table
+
 CREATE TABLE
     db_budgetfit.personform (
         personFormID INT NOT NULL AUTO_INCREMENT,

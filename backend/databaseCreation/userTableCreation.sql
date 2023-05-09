@@ -1,3 +1,7 @@
+#Author: Cliff Lewis
+#Purpose: This table contains data pertaining to logins and authorization.
+#         The userID assigned by auto incrementing is used as a unique 
+#         identifier for each user throughout the application.
 CREATE TABLE
     db_budgetfit.user (
         userID int NOT NULL AUTO_INCREMENT,

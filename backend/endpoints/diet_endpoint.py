@@ -1,4 +1,6 @@
-#endpoint to receive json data from diet page
+#Author: Cliff Lewis
+#Purpose: Endpoint to receive json data from diet page
+#         
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
@@ -29,6 +31,7 @@ def dietPost():
     values = list(dietForm.values())                  #Open database connection
     allergyList = []
     dietList = []
+    # Parses allergies specified in frontend and processes a list to be used by the database.
     if 'Peanut' in values[2]:
         allergyList.append('Peanut')
     if 'Dairy' in values[2]:
@@ -44,7 +47,7 @@ def dietPost():
     if 'Crustaceans' in values[2]:
         allergyList.append('Crustaceans')
 
-
+    # Parses diet information sent by the front end and processes a list for use in the database
     if 'Keto' in values[1]:
         dietList.append('Keto')
     if 'Vegetarian' in values[1]:
@@ -67,7 +70,8 @@ def dietPost():
     if userAllergy[0] == '':
         userAllergy = userAllergy[1:]
     
-    print(userAllergy)
+    #print(userAllergy) #debug use
+    
     if userAllergy == '':
         userAllergy = None;
 

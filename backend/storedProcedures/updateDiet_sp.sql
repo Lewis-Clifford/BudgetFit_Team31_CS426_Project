@@ -1,3 +1,6 @@
+#Author: Cliff Lewis
+#Purpose: Updates user diet information in the personform table.
+
 CREATE DEFINER=`cliff`@`%` PROCEDURE `updateDiet`(IN _userID INT, IN _diet VARCHAR(255), IN _allergy VARCHAR(255), IN _userAllergy VARCHAR(100))
 BEGIN
   START TRANSACTION;

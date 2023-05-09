@@ -1,3 +1,6 @@
+#Author: Cliff Lewis
+#Purpose: Queries lists join table to get names of all lists made by the user
+
 CREATE DEFINER =`CLIFF`@`%` PROCEDURE `GETLISTNAMES`
 (IN _USERID INT) BEGIN 
 	Start transaction;

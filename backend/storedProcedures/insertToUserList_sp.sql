@@ -1,3 +1,7 @@
+#Author: Cliff Lewis
+#Purpose: Inserts a product into the lists join table. Calls the allergyQuery procedure.
+
+
 CREATE DEFINER =`CLIFF`@`%` PROCEDURE `INSERTTOUSERLIST`
 (IN _USERID INT, IN _PRODUCTSID INT, IN _LISTNAME 
 VARCHAR(100), IN _PRIORITY VARCHAR(20), IN _DESCRIPTION 

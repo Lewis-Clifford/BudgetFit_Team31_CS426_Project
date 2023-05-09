@@ -1,3 +1,6 @@
+#Author: Cliff Lewis
+#Purpose: Creates records in user and personform tables when a new user is registered
+
 CREATE DEFINER =`CLIFF`@`%` PROCEDURE `CREATEUSER2`
 (IN USERNAME VARCHAR(100), IN EMAIL VARCHAR(100), 
 IN PASSWORD VARBINARY(255)) BEGIN 

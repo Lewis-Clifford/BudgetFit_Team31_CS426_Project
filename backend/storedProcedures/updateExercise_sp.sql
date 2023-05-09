@@ -1,3 +1,6 @@
+#Author: Cliff Lewis
+#Purpose: Updates user exercise data in the personform table
+
 CREATE DEFINER =`CLIFF`@`%` PROCEDURE `UPDATEEXERCISE`
 (IN USERID INT, IN NAME VARCHAR(100), IN GENDER VARCHAR
 (100), IN PHONENUMBER VARCHAR(20), IN WEIGHT DECIMAL

@@ -1,3 +1,6 @@
+#Author: Cliff Lewis
+#Purpose: Returns all products from a specified user and list name
+
 CREATE DEFINER =`CLIFF`@`%` PROCEDURE `GETUSERLIST`
 (IN _USERID INT, IN _LISTNAME VARCHAR(100)) BEGIN 
 	START TRANSACTION;
